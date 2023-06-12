@@ -1,0 +1,21 @@
+---
+title: "Andy Pickering Portfolio"
+image: profile.jpg
+about:
+  template: jolla
+  image-width: 20em
+  image-shape: round
+  links: 
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/andypicke/
+    - icon: github
+      text: Github
+      href: https://github.com/andypicke
+    - icon: envelope
+      text: Contact Me
+      href: mailto:andypicke@gmail.com
+---
+  
+Hi! I'm a data scientist!
+---
