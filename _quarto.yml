@@ -2,7 +2,8 @@ project:
   type: website
 
 website:
-  title: "Andy Pickering"
+  title: "Portfolio"
+  favicon: "profile.jpg"
   navbar:
     left:
       - text: Home
@@ -15,12 +16,18 @@ website:
       - about.qmd
       - icon: github
         href: https://github.com/andypicke/
-      - icon: twitter
-        href: https://twitter.com/andypicke
+      - icon: linkedin
+        href: https://www.linkedin.com/in/andypicke/
+  search: 
+    location: navbar
+    type: overlay
 format:
   html:
     theme: cosmo
     css: styles.css
-
+    code-link: true
+    code-fold: show
+    code-tools: true
+    highlight-style: github
 editor: visual
 

@@ -1,5 +1,5 @@
 ---
-title: "Andy Pickering Portfolio"
+title: "Andy Pickering"
 image: profile.jpg
 about:
   template: jolla
@@ -16,6 +16,5 @@ about:
       text: Contact Me
       href: mailto:andypicke@gmail.com
 ---
-  
-Hi! I'm a data scientist!
----
+
+## Hi! I'm a data scientist!
