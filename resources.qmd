@@ -1,0 +1,17 @@
+---
+title: "Resources"
+about:
+  template: jolla
+  links: 
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/andypicke/
+    - icon: github
+      text: Github
+      href: https://github.com/andypicke
+    - icon: envelope
+      text: Contact Me
+      href: mailto:andypicke@gmail.com
+---
+
+## Data Science Resources
