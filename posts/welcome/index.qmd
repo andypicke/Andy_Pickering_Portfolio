@@ -1,12 +1,12 @@
 ---
 title: "Welcome To My Blog"
-author: "Tristan O'Malley"
-date: "2023-06-09"
+author: "Andy Pickering"
+date: "2023-06-14"
 categories: [news]
 ---
 
-This is the first post in a Quarto blog. Welcome!
+Welcome to my (new) data science portfolio and blog, made with [Quarto](https://quarto.org/) and [RStudio](https://posit.co/products/open-source/rstudio/).
 
-![](thumbnail.jpg)
+If you're interested in setting up your own Quarto website or blog, I highly recommend watching this [tutorial](https://www.youtube.com/watch?v=xtSFXtDf4cM) by [Deepsha Menghan](https://deepshamenghani.quarto.pub/dmenghani/)i.
 
-Since this post doesn't specify an explicit `image`, the first image in the post will be used in the listing page of posts.
+You can still view my previous [blog](https://andypicke.github.io/); I am in the process of figuring out how/if I will move that content here.

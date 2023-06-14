@@ -2,9 +2,17 @@
   {
     "listing": "/projects.html",
     "items": [
+      "/posts/welcome/index.html",
       "/posts/post-with-code/index.html",
-      "/posts/post-with-plot/index.html",
-      "/posts/welcome/index.html"
+      "/posts/post-with-plot/index.html"
+    ]
+  },
+  {
+    "listing": "/blog.html",
+    "items": [
+      "/posts/welcome/index.html",
+      "/posts/post-with-code/index.html",
+      "/posts/post-with-plot/index.html"
     ]
   }
 ]
