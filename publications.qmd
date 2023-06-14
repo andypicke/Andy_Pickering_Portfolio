@@ -1,0 +1,21 @@
+---
+title: "Publications"
+about:
+  template: jolla
+  links:
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/andypicke/
+    - icon: github
+      text: Github
+      href: https://github.com/andypicke
+bibliography: references.bib
+---
+
+## Selected scientific publications
+
+-   @pickering2015
+
+-   @pickering2012
+
+-   @alford2015
