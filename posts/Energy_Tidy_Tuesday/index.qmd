@@ -1,0 +1,180 @@
+---
+title: "Tidy Tuesday Energy Analysis"
+bibliography: references.bib
+date: "2023-06-17"
+categories: [energy, TidyTuesday]
+format: 
+  html:
+    code-link: true
+    code-fold: show
+---
+
+# Tidy Tuesday: Energy (2023 - Week 23)
+
+## Introduction
+
+In this document I'll analyze and visualize some energy data that were the focus of *T[idy Tuesday](https://github.com/rfordatascience/tidytuesday/tree/master/data/2023/2023-06-06)*[2023 week 23](https://github.com/rfordatascience/tidytuesday/tree/master/data/2023/2023-06-06). The data comes from [Our World In Data](https://ourworldindata.org/about) and the full data set is available [here](https://github.com/owid/energy-data). Data Source Citation: @owidenergy.
+
+## Analysis and Visualization
+
+I'll start by loading libraries (tidyverse) and the data set. The result is a dataframe with a row for each country and year, from 1900-2002.
+
+```{r Load Data}
+
+suppressPackageStartupMessages(library(tidyverse))
+
+owid_energy <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-06-06/owid-energy.csv',show_col_types = FALSE)
+
+head(owid_energy)
+
+```
+
+-   How many countries are in the dataset?
+
+```{r}
+length(unique(owid_energy$country))
+```
+
+That's a lot! I'll focus on just the United States for now.
+
+-   I also noticed that the data set goes back to 1900 but a a lot of the data for earlier years are missing/NA so I'll filter those out as well.
+-   It looks like we have data for the USA from 2000-2021.
+
+Make a new dataframe for just the USA data and remove years without data.
+
+```{r}
+usa <- owid_energy %>% 
+  filter(country=="United States") %>% 
+  filter(!is.na(electricity_demand))
+
+head(usa)
+```
+
+### Share of electricity generation by fuel type
+
+For this analysis, I've chosen to investigate how the mix of fuel types used to generate electricity has changed over time. We need to reduce carbon emissionsIn order to prevent or mitigate the effects of climate change, and electricity generation is a large component of these emissions. I'm interested to see what progress has been made in transitioning to more renewable/low-carbon fuels for electricity generation.
+
+Conveniently, the data already contain fields for the share of total electricity generation for each fuel type! I'll make a new data frame with just these fields. I can select these columns (all ending in *share_elec*), using the *ends_with* function from the @dplyr package.
+
+```{r}
+
+usa %>% select(year,dplyr::ends_with('share_elec')) %>% 
+  head()
+
+```
+
+Now I have a dataframe with just the variables I want to plot, but the format isn't ideal; I would have to specify/plot each variable separately. What I want to do is give a single plot command and group/color the lines by the variable (fuel type). To achieve this, I am going to pivot the data frame from wide to long format. I believe this was previously referred to as *gather* or *melt*.
+
+```{r}
+
+usa_share <- usa %>% select(year,ends_with('share_elec')) %>% 
+  tidyr::pivot_longer(cols=ends_with('share_elec'),
+                      names_to='FuelType',
+                      values_to = 'Percentage')
+head(usa_share)
+```
+
+Now my dataframe has a row for each year, fuel type, and value, and I can simply group or color by the fuel type when I plot.
+
+```{r}
+usa_share %>% 
+  ggplot(aes(year,Percentage))+
+  geom_line(aes(color=FuelType),linewidth=1.5)+
+  ggtitle("Percent of US electricity Generation By Fuel type")+
+  xlab("Year")+
+  ylab("Percent")
+```
+
+Here we finally have a plot of the share of electricity generation by fuel type. We can see that the share of fossil fuels and coal has decreased, and renewable have increased. But there's a lot on this plot and it's hard to read, so I'll focus down on some more specific subsets of the data.
+
+### Total Fossil, renewables, and nuclear shares
+
+First we can look at the total shares of fossil (oil,coal, gas), renewable (wind, solar, hydro), and nuclear generation. Grouping into these categories de-clutters the plot and makes it easier to interpret.
+
+-   Fossil fuel share has been decreasing steadily since about 2007
+
+-   Renewable share has been increasing steadily since about 2007
+
+-   Hydro has remained relatively constant at around 20%.
+
+-   Fossil share remains the majority of generation, but is decreasing. Renewables became approximately equal to nuclear around 2020 and are continuing to increase.
+
+```{r}
+
+usa %>% select(year,fossil_share_elec,renewables_share_elec,nuclear_share_elec) %>% 
+  tidyr::pivot_longer(cols=dplyr::ends_with('share_elec'),
+               names_to='FuelType',
+               values_to = 'Percentage') %>% 
+  ggplot(aes(year,Percentage))+
+  geom_line(aes(color=FuelType),linewidth=1.5)+
+  ggtitle("Percent of US electricity Generation")+
+  xlab("Year")+
+  ylab("Percent")
+  
+
+
+
+```
+
+### Breakdown of fossil fuel shares
+
+-   In this dataset, fossil fuels include coal, gas, and oil.
+
+Observations from this plot:
+
+-   We can see that the fossil fuel share of electricity generation has been decreasing, starting around 2008.
+
+-   Coal and gas make up the majority of the fossil fuel generation.
+
+-   Coal share has been decreasing while the gas share has increased. Coal was much higher than gas previously, but their shares became equal around 2015 and gas now makes up a larger share of the fossil fuel generation.
+
+```{r Plot fossil fuel shares}
+usa %>% select(year,fossil_share_elec,oil_share_elec,gas_share_elec,coal_share_elec) %>% 
+  tidyr::pivot_longer(cols=dplyr::ends_with('share_elec'),
+               names_to='FuelType',
+               values_to = 'Percentage') %>% 
+  ggplot(aes(year,Percentage))+
+  geom_line(aes(color=FuelType),linewidth=1.5)+
+  ggtitle("Percent of US electricity Generation: Fossil Fuels")+
+  xlab("Year")+
+  ylab("Percent")
+  
+
+```
+
+### Renewables breakdown
+
+-   In this dataset, renewables include wind, solar, and hydro.
+
+Observations from this plot:
+
+-   The share of renewable electricity production has increased sharply, approximately doubling from 2008 to 2020.
+
+-   The share of hydro generation has remained relatively constant.
+
+-   Solar and wind shares have increased significantly.
+
+    -   Wind started to increase earlier, around 2005.
+
+    -   Solar started increasing around 2012
+
+```{r Plot Renewables Shares}
+usa %>% select(year,renewables_share_elec,solar_share_elec,
+               hydro_share_elec,wind_share_elec) %>% 
+  tidyr::pivot_longer(cols=dplyr::ends_with('share_elec'),
+               names_to='FuelType',
+               values_to = 'Percentage') %>% 
+  ggplot(aes(year,Percentage))+
+  geom_line(aes(color=FuelType),linewidth=1.5)+
+  ggtitle("Percent of US electricity Generation: Renewables")+
+  xlab("Year")+
+  ylab("Percent")
+
+
+
+
+```
+
+## 
+
+## References
