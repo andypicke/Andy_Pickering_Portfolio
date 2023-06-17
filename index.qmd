@@ -17,4 +17,4 @@ about:
       href: mailto:andypicke@gmail.com
 ---
 
-## Hi! I'm a data scientist!
+## 

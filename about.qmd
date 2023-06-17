@@ -12,4 +12,4 @@ about:
       href: https://github.com/andypicke
 ---
 
-About this blog
+Welcome! I am a data scientist interested in energy and the environment (among many other topics). On this website you can find my portfolio and resume, as well as blog posts about interesting analyses I am working on. I've also created a list of resources that I've found helpful in learning data science or finding data sets. Enjoy!

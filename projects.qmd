@@ -1,12 +1,11 @@
 ---
 title: "Projects"
-listing:
-  contents: posts
-  sort: "date desc"
-  type: default
-  categories: true 
-  sort-ui: true
-  filter-ui: true
 page-layout: full
 title-block-banner: true
 ---
+
+## A list of some of my data science projects
+
+-   [Predicting Trailhead Parking Fullness at JeffCo Open Space Trailheads](https://github.com/andypicke/JeffCo-OpenSpace-LotSpot-Analysis) : Using a model to predict parking lot usage at [Jefferson County Open Space](https://www.jeffco.us/open-space) trailheads in Colorado.
+
+-   [Journalists Under Fire](https://github.com/andypicke/Journalists-Under-Fire) : An analysis of global threats to journalists and press freedom.
