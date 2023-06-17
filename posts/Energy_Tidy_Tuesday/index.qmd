@@ -1,6 +1,7 @@
 ---
 title: "Tidy Tuesday Energy Analysis"
 bibliography: references.bib
+image: image.jpg
 date: "2023-06-17"
 categories: [energy, TidyTuesday]
 format: 
