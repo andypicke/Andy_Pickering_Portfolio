@@ -3,7 +3,7 @@ title: "Tidy Tuesday Energy Analysis"
 bibliography: references.bib
 image: image.jpg
 date: "2023-06-17"
-categories: [energy, TidyTuesday]
+categories: [energy, TidyTuesday, R, visualization]
 format: 
   html:
     code-link: true
@@ -78,6 +78,9 @@ head(usa_share)
 Now my dataframe has a row for each year, fuel type, and value, and I can simply group or color by the fuel type when I plot.
 
 ```{r}
+#| label: share-all
+#| fig-alt: Timeseries of the percent of total US electricty generation by fuel type.
+#| fig-width: 8
 usa_share %>% 
   ggplot(aes(year,Percentage))+
   geom_line(aes(color=FuelType),linewidth=1.5)+
@@ -92,15 +95,10 @@ Here we finally have a plot of the share of electricity generation by fuel type.
 
 First we can look at the total shares of fossil (oil,coal, gas), renewable (wind, solar, hydro), and nuclear generation. Grouping into these categories de-clutters the plot and makes it easier to interpret.
 
--   Fossil fuel share has been decreasing steadily since about 2007
-
--   Renewable share has been increasing steadily since about 2007
-
--   Hydro has remained relatively constant at around 20%.
-
--   Fossil share remains the majority of generation, but is decreasing. Renewables became approximately equal to nuclear around 2020 and are continuing to increase.
-
 ```{r}
+#| label: share-fossil-renewable-nuclear
+#| fig-alt: Timeseries of the percent of total US electricty generation by fuel types.
+#| fig-width: 8
 
 usa %>% select(year,fossil_share_elec,renewables_share_elec,nuclear_share_elec) %>% 
   tidyr::pivot_longer(cols=dplyr::ends_with('share_elec'),
@@ -113,23 +111,27 @@ usa %>% select(year,fossil_share_elec,renewables_share_elec,nuclear_share_elec) 
   ylab("Percent")
   
 
-
-
 ```
+
+Observations from this plot:
+
+-   Fossil fuel share has been decreasing steadily since about 2007
+
+-   Renewable share has been increasing steadily since about 2007
+
+-   Nuclear has remained relatively constant at around 20%.
+
+-   Fossil share remains the majority of generation, but is decreasing. Renewables became approximately equal to nuclear around 2020 and are continuing to increase.
 
 ### Breakdown of fossil fuel shares
 
 -   In this dataset, fossil fuels include coal, gas, and oil.
 
-Observations from this plot:
-
--   We can see that the fossil fuel share of electricity generation has been decreasing, starting around 2008.
-
--   Coal and gas make up the majority of the fossil fuel generation.
-
--   Coal share has been decreasing while the gas share has increased. Coal was much higher than gas previously, but their shares became equal around 2015 and gas now makes up a larger share of the fossil fuel generation.
-
 ```{r Plot fossil fuel shares}
+#| label: share-fossil
+#| fig-alt: Timeseries of the percent of total US electricty generation by fossil fuels.
+#| fig-width: 8
+
 usa %>% select(year,fossil_share_elec,oil_share_elec,gas_share_elec,coal_share_elec) %>% 
   tidyr::pivot_longer(cols=dplyr::ends_with('share_elec'),
                names_to='FuelType',
@@ -143,23 +145,23 @@ usa %>% select(year,fossil_share_elec,oil_share_elec,gas_share_elec,coal_share_e
 
 ```
 
+Observations from this plot:
+
+-   We can see that the fossil fuel share of electricity generation has been decreasing, starting around 2008.
+
+-   Coal and gas make up the majority of the fossil fuel generation.
+
+-   Coal share has been decreasing while the gas share has increased. Coal was much higher than gas previously, but their shares became equal around 2015 and gas now makes up a larger share of the fossil fuel generation.
+
 ### Renewables breakdown
 
 -   In this dataset, renewables include wind, solar, and hydro.
 
-Observations from this plot:
-
--   The share of renewable electricity production has increased sharply, approximately doubling from 2008 to 2020.
-
--   The share of hydro generation has remained relatively constant.
-
--   Solar and wind shares have increased significantly.
-
-    -   Wind started to increase earlier, around 2005.
-
-    -   Solar started increasing around 2012
-
 ```{r Plot Renewables Shares}
+#| label: share-renewable
+#| fig-alt: Timeseries of the percent of total US electricty generation renewable fuels.
+#| fig-width: 8
+
 usa %>% select(year,renewables_share_elec,solar_share_elec,
                hydro_share_elec,wind_share_elec) %>% 
   tidyr::pivot_longer(cols=dplyr::ends_with('share_elec'),
@@ -176,6 +178,16 @@ usa %>% select(year,renewables_share_elec,solar_share_elec,
 
 ```
 
-## 
+Observations from this plot:
+
+-   The share of renewable electricity production has increased sharply, approximately doubling from 2008 to 2020.
+
+-   The share of hydro generation has remained relatively constant.
+
+-   Solar and wind shares have increased significantly.
+
+    -   Wind started to increase earlier, around 2005.
+
+    -   Solar started increasing around 2012
 
 ## References
