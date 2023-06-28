@@ -1,5 +1,5 @@
 ---
-title: "Resources"
+title: "Data Science Resources"
 about:
   template: jolla
   links: 
@@ -12,6 +12,17 @@ about:
     - icon: envelope
       text: Contact Me
       href: mailto:andypicke@gmail.com
+    - icon: twitter
+      text: Twitter
+      href: twitter.com/andypicke
 ---
 
-## Data Science Resources
+Here are some resources that I've found helpful.
+
+## R
+
+## Python
+
+## Data
+
+-   A guide to [HTTP Status Codes](https://restfulapi.net/http-status-codes/) that may be returned when requesting data from an API.

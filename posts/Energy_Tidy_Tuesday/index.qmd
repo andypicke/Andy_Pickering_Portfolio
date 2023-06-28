@@ -81,6 +81,7 @@ Now my dataframe has a row for each year, fuel type, and value, and I can simply
 #| label: share-all
 #| fig-alt: Timeseries of the percent of total US electricty generation by fuel type.
 #| fig-width: 8
+#| fig-cap: Timeseries of the percent of total US electricty generation by fuel type.
 usa_share %>% 
   ggplot(aes(year,Percentage))+
   geom_line(aes(color=FuelType),linewidth=1.5)+

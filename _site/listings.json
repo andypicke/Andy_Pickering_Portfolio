@@ -1,18 +1,10 @@
 [
   {
-    "listing": "/projects.html",
-    "items": [
-      "/posts/welcome/index.html",
-      "/posts/post-with-code/index.html",
-      "/posts/post-with-plot/index.html"
-    ]
-  },
-  {
     "listing": "/blog.html",
     "items": [
-      "/posts/welcome/index.html",
-      "/posts/post-with-code/index.html",
-      "/posts/post-with-plot/index.html"
+      "/posts/EV_Stations/index.html",
+      "/posts/Energy_Tidy_Tuesday/index.html",
+      "/posts/welcome/index.html"
     ]
   }
 ]

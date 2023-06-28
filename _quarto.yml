@@ -24,6 +24,8 @@ website:
         href: https://github.com/andypicke/
       - icon: linkedin
         href: https://www.linkedin.com/in/andypicke/
+      - icon: twitter
+        href: https://twitter.com/andypicke
   search: 
     location: navbar
     type: overlay
@@ -36,4 +38,5 @@ format:
     code-tools: true
     highlight-style: github
 editor: visual
-
+execute:
+  freeze: auto  # re-render only when source changes

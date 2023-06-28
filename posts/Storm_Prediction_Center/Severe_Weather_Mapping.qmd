@@ -1,0 +1,40 @@
+---
+title: "Severe Weather Mapping"
+#bibliography: references.bib
+#image: image.jpg
+date: "2023-06-28"
+categories: [weather, R, visualization, leaflet]
+format: 
+  html:
+    code-link: true
+    code-fold: show
+draft: true
+---
+
+# Introduction
+
+
+
+```{r}
+
+library(sf)
+library(leaflet)
+
+# url to download day-1 severe weather outlook shapefiles
+#dat_url <- "https://www.spc.noaa.gov/products/outlook/archive/2023/day1otlk_20230628_1300-shp.zip"
+
+# url for day 2 outlook
+#https://www.spc.noaa.gov/products/outlook/archive/2023/day2otlk_20230628_0600-shp.zip
+
+dat <- sf::st_read('./data/day1otlk_20230628_1300-shp/day1otlk_20230628_1300_cat.shp')
+
+
+leaflet() %>% 
+  addTiles() %>% 
+  addPolygons(data = dat$geometry[1],color=dat$fill[1],label = dat$LABEL2[1]) %>% 
+  addPolygons(data = dat$geometry[2],color=dat$fill[2],label = dat$LABEL2[2]) %>% 
+  addPolygons(data = dat$geometry[3],color=dat$fill[3],label = dat$LABEL2[3]) %>% 
+  addLegend(labels=dat$LABEL2,colors = dat$fill)
+
+```
+
