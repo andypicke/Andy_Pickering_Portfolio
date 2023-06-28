@@ -13,28 +13,106 @@ draft: true
 
 # Introduction
 
+```{r Load Libraries}
 
-
-```{r}
-
-library(sf)
+suppressPackageStartupMessages(library(sf))
 library(leaflet)
 
+```
+
+Download the data
+```{r}
+
+
 # url to download day-1 severe weather outlook shapefiles
-#dat_url <- "https://www.spc.noaa.gov/products/outlook/archive/2023/day1otlk_20230628_1300-shp.zip"
+dat_url <- "https://www.spc.noaa.gov/products/outlook/archive/2023/day1otlk_20230628_1300-shp.zip"
+
+dest_file <- paste0('./data/',basename(dat_url))
+
+download.file(url=dat_url,destfile = dest_file, method="curl",quiet = TRUE)
+
+unzip(dest_file,exdir = './data')
 
 # url for day 2 outlook
 #https://www.spc.noaa.gov/products/outlook/archive/2023/day2otlk_20230628_0600-shp.zip
 
-dat <- sf::st_read('./data/day1otlk_20230628_1300-shp/day1otlk_20230628_1300_cat.shp')
+#dat <- sf::st_read('./data/day1otlk_20230628_1300-shp/day1otlk_20230628_1300_cat.shp')
+dat <- sf::st_read('./data/day1otlk_20230628_1300_cat.shp')
 
 
+```
+
+Examine the object extracted from the shapefile
+```{r}
+dat
+```
+
+Map the data
+```{r}
+#| fig-cap: Map Showing Severe Weather Prediction Risk
+
+# extract bounding box values from shapefile to set map bounds
+bb <- as.list(st_bbox(dat))
+
+# --- this section of code to make title for map
+library(htmlwidgets)
+library(htmltools)
+
+tag.map.title <- tags$style(HTML("
+  .leaflet-control.map-title { 
+    transform: translate(-50%,20%);
+    position: fixed !important;
+    left: 20%;
+    text-align: center;
+    padding-left: 10px; 
+    padding-right: 10px; 
+    background: rgba(255,255,255,0.75);
+    font-weight: bold;
+    font-size: 20px;
+  }
+"))
+
+title <- tags$div(
+  tag.map.title, HTML("SPC Forecast")
+)  
+
+# ---
+
+# note will not always be 3 zones... right now this is hard-coded
+
+# make map
 leaflet() %>% 
-  addTiles() %>% 
+  addTiles() %>%
   addPolygons(data = dat$geometry[1],color=dat$fill[1],label = dat$LABEL2[1]) %>% 
   addPolygons(data = dat$geometry[2],color=dat$fill[2],label = dat$LABEL2[2]) %>% 
   addPolygons(data = dat$geometry[3],color=dat$fill[3],label = dat$LABEL2[3]) %>% 
+  setMaxBounds(lng1 = bb$xmin,lng2 = bb$xmax,lat1 = bb$ymin, lat2=bb$ymax) %>% 
+  addLegend(labels=dat$LABEL2,colors = dat$fill) %>% 
+  addControl(title, position = "topleft", className="map-title")
+
+```
+Version that can handle different number of storm categories
+```{r}
+
+# make map
+m <- leaflet() %>% 
+      addTiles()
+
+for (i in 1:length(dat$geometry)){
+m <- addPolygons(map = m, data = dat$geometry[i],
+                 color=dat$fill[i],
+                 label = dat$LABEL2[i])  
+}
+
+m <- m %>% setMaxBounds(lng1 = bb$xmin,lng2 = bb$xmax,lat1 = bb$ymin, lat2=bb$ymax) %>% 
   addLegend(labels=dat$LABEL2,colors = dat$fill)
 
+m
+```
+
+
+# SessionInfo
+```{r}
+sessionInfo()
 ```
 
