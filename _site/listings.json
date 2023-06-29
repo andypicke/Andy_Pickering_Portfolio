@@ -2,6 +2,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/Storm_Prediction_Center/Severe_Weather_Mapping.html",
       "/posts/EV_Stations/index.html",
       "/posts/Energy_Tidy_Tuesday/index.html",
       "/posts/welcome/index.html"

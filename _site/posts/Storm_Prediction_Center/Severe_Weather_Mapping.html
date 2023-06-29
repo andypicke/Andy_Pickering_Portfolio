@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.361">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="dcterms.date" content="2023-06-28">
+<title>Portfolio - Mapping Severe Thunderstorm Outlook in R using Leaflet</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../profile.jpg" rel="icon" type="image/jpeg">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><script src="../../site_libs/htmlwidgets-1.6.2/htmlwidgets.js"></script><script src="../../site_libs/jquery-1.12.4/jquery.min.js"></script><link href="../../site_libs/leaflet-1.3.1/leaflet.css" rel="stylesheet">
+<script src="../../site_libs/leaflet-1.3.1/leaflet.js"></script><link href="../../site_libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet">
+<script src="../../site_libs/proj4-2.6.2/proj4.min.js"></script><script src="../../site_libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script><link href="../../site_libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
+<script src="../../site_libs/leaflet-binding-2.1.2/leaflet.js"></script><link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Portfolio</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+<li class="nav-item">
+    <a class="nav-link" href="../../index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html" rel="" target="">
+ <span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html" rel="" target="">
+ <span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../resume.html" rel="" target="">
+ <span class="menu-text">Resume</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../resources.html" rel="" target="">
+ <span class="menu-text">Resources</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../publications.html" rel="" target="">
+ <span class="menu-text">Publications</span></a>
+  </li>  
+</ul>
+<ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item">
+    <a class="nav-link" href="../../about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/andypicke/" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/andypicke/" rel="" target=""><i class="bi bi-linkedin" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/andypicke" rel="" target=""><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+<div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav></header><!-- content --><header id="title-block-header" class="quarto-title-block default page-columns page-full"><div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <div class="quarto-title-block"><div><h1 class="title">Mapping Severe Thunderstorm Outlook in R using Leaflet</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+                                <div class="quarto-categories">
+                <div class="quarto-category">weather</div>
+                <div class="quarto-category">R</div>
+                <div class="quarto-category">visualization</div>
+                <div class="quarto-category">mapping</div>
+                <div class="quarto-category">geospatial</div>
+                <div class="quarto-category">leaflet</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">June 28, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content"><section id="introduction" class="level1"><h1>Introduction</h1>
+<p>Living on the Colorado front range in summer means dealing with a chance of thunderstorms almost every afternoon, some of which can become severe.</p>
+<p>In this post I’ll go over how I mapped the severe thunderstorm risk outlook from the <a href="https://www.spc.noaa.gov/products/outlook/day1otlk.html">NOAA Storm Prediction Center</a> , using R and leaflet.</p>
+<div class="cell">
+<details open=""><summary>Code</summary><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/leaflet/">leaflet</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rvest.tidyverse.org/">rvest</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://stringr.tidyverse.org">stringr</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section><section id="data" class="level1"><h1>Data</h1>
+<p>The severe thunderstorm risk (<em>Convective Outlook</em>) can be found at the website: <a href="https://www.spc.noaa.gov/products/outlook/day1otlk.html">NOAA Storm Prediction Center</a> . This website provides a map where you can toggle a bunch of layers on/off, but you cannot zoom in/out to get a more detailed view of where the warning areas fall relative to other non-major cities. Depending on where the risk falls, it can sometimes be difficult to tell exactly where the boundaries are, or what category your city is in. My goal was to try to view the data in an interactive map where I can zoom in/out and see more detail. There are 2 ways of doing this:</p>
+<ol type="1">
+<li><p>View the data in Google Earth: Above the map there is an icon you can click to download a kml file that can be opened in Google Earth.</p></li>
+<li><p>Download the data as shapefiles (a link is provided above the map next to the kml download) and process them into a map.</p></li>
+</ol>
+<p>In this post I am focusing on working with the shapefiles and creating an interactive map using R and leaflet.</p>
+<section id="downloading-the-data" class="level2"><h2 class="anchored" data-anchor-id="downloading-the-data">Downloading the data</h2>
+<p>The shapefiles can be downloaded manually by clicking the link on the website, but the link changes whenever the forecast is updated. I wanted to do this in a more programmatic way and be able to automatically find the link for the latest forecast without having to manually copy and paste the link each time I run it. I experimented with using the <a href="https://rvest.tidyverse.org/articles/selectorgadget.html">SelectorGadget</a> to isolate the link, but found it easier to create a list of all the links in the page using the <em>rvest</em> <span class="citation" data-cites="rvest">Wickham (<a href="#ref-rvest" role="doc-biblioref">2022</a>)</span> package and find the one containing the shapefile.</p>
+<div class="cell">
+<details open=""><summary>Code</summary><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">base_url</span> <span class="op">&lt;-</span> <span class="st">"https://www.spc.noaa.gov"</span></span>
+<span></span>
+<span><span class="co"># read the html from the website</span></span>
+<span><span class="va">html</span> <span class="op">&lt;-</span> <span class="fu">rvest</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html</a></span><span class="op">(</span><span class="st">"https://www.spc.noaa.gov/products/outlook/day1otlk.html"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># create a list of all the hyperlinks on the website</span></span>
+<span><span class="va">links</span> <span class="op">&lt;-</span> <span class="fu">rvest</span><span class="fu">::</span><span class="fu"><a href="https://rvest.tidyverse.org/reference/html_attr.html">html_attr</a></span><span class="op">(</span><span class="fu"><a href="https://rvest.tidyverse.org/reference/rename.html">html_nodes</a></span><span class="op">(</span><span class="va">html</span>, <span class="st">"a"</span><span class="op">)</span>, <span class="st">"href"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># find the link for the shapefile (they only one that ends in 'shp.zip') </span></span>
+<span><span class="va">shp_link</span> <span class="op">&lt;-</span> <span class="va">links</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_starts.html">str_ends</a></span><span class="op">(</span><span class="va">links</span>,<span class="st">'shp.zip'</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="va">shp_url</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">base_url</span>,<span class="va">shp_link</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">'The latest shapefile as of '</span>,<span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span>,<span class="st">' is '</span>,<span class="va">shp_url</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] "The latest shapefile as of  2023-06-29 10:07:20  is  https://www.spc.noaa.gov/products/outlook/archive/2023/day1otlk_20230629_1300-shp.zip"</code></pre>
+</div>
+</div>
+<p><br>
+Now that we have the link for the latest forecast, we can download the file (zip file) and unzip.</p>
+<ul>
+<li><p>Note there are some specific files for tornado,wind, hail etc. in addition to severe thunderstorm risk. I’ll just look at the shapefile with severe thunderstorm risk categories for now, which ends in <em>cat.shp</em></p></li>
+<li><p>Then we can use the <em>sf</em> <span class="citation" data-cites="sf">(<a href="#ref-sf" role="doc-biblioref">Pebesma 2018</a>)</span> package to read the shapefile into R</p></li>
+</ul>
+<div class="cell">
+<details open=""><summary>Code</summary><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_url</span> <span class="op">&lt;-</span> <span class="va">shp_url</span></span>
+<span></span>
+<span><span class="co"># download the zip file containing shapefiles</span></span>
+<span><span class="va">dest_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">'./data/'</span>,<span class="fu"><a href="https://rdrr.io/r/base/basename.html">basename</a></span><span class="op">(</span><span class="va">dat_url</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/download.file.html">download.file</a></span><span class="op">(</span>url<span class="op">=</span><span class="va">dat_url</span>,destfile <span class="op">=</span> <span class="va">dest_file</span>, method<span class="op">=</span><span class="st">"curl"</span>,quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># unzip</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/unzip.html">unzip</a></span><span class="op">(</span><span class="va">dest_file</span>,exdir <span class="op">=</span> <span class="st">'./data'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># read shapefile into R w/ sf package</span></span>
+<span><span class="va">cat_file</span> <span class="op">&lt;-</span> <span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_remove.html">str_remove</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/basename.html">basename</a></span><span class="op">(</span><span class="va">dat_url</span><span class="op">)</span>,<span class="st">"-shp.zip"</span><span class="op">)</span></span>
+<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">'./data/'</span>,<span class="va">cat_file</span>,<span class="st">'_cat.shp'</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>Reading layer `day1otlk_20230629_1300_cat' from data source 
+  `/Users/andy/Projects/Andy_Pickering_Portfolio/posts/Storm_Prediction_Center/data/day1otlk_20230629_1300_cat.shp' 
+  using driver `ESRI Shapefile'
+Simple feature collection with 4 features and 8 fields
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: -119.0906 ymin: 24.169 xmax: -66.669 ymax: 49.561
+Geodetic CRS:  WGS 84</code></pre>
+</div>
+</div>
+<p>Examine the object extracted from the shapefile:</p>
+<div class="cell">
+<details open=""><summary>Code</summary><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] "sf"         "data.frame"</code></pre>
+</div>
+<details open=""><summary>Code</summary><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>Simple feature collection with 4 features and 8 fields
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: -119.0906 ymin: 24.169 xmax: -66.669 ymax: 49.561
+Geodetic CRS:  WGS 84
+  DN        VALID       EXPIRE        ISSUE LABEL                     LABEL2
+1  2 202306291630 202306301200 202306291448  TSTM General Thunderstorms Risk
+2  3 202306291630 202306301200 202306291448  MRGL              Marginal Risk
+3  4 202306291630 202306301200 202306291448  SLGT                Slight Risk
+4  5 202306291630 202306301200 202306291448   ENH              Enhanced Risk
+   stroke    fill                       geometry
+1 #55BB55 #C1E9C1 MULTIPOLYGON (((-107.4667 4...
+2 #005500 #66A366 MULTIPOLYGON (((-82.61 38.0...
+3 #DDAA00 #FFE066 MULTIPOLYGON (((-83.86 38.4...
+4 #FF6600 #FFA366 MULTIPOLYGON (((-92.72 39.1...</code></pre>
+</div>
+</div>
+</section></section><section id="mapping-the-data" class="level1"><h1>Mapping the data</h1>
+<p>Now that we have the shapefile converted into a R object, we can make our map. I’ll be using the <em>leaflet</em> <span class="citation" data-cites="leaflet">Cheng, Karambelkar, and Xie (<a href="#ref-leaflet" role="doc-biblioref">2023</a>)</span> package to create a nice interactive map.</p>
+<ul>
+<li>One caveat is that the number of categories is not constant; it can vary depending on the forecast. So we need to use a <em>for</em> loop to plot whichever categories are present (there is a row in the sf object for each risk category present in the forecast.</li>
+</ul>
+<div class="cell">
+<details open=""><summary>Code</summary><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#| fig-cap: Map Showing Severe Weather Prediction Risk</span></span>
+<span></span>
+<span><span class="co"># extract bounding box values from shapefile to set map bounds</span></span>
+<span><span class="va">bb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">as.list</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html">st_bbox</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># make map</span></span>
+<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/leaflet.html">leaflet</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>      <span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/map-layers.html">addTiles</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">geometry</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
+<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/map-layers.html">addPolygons</a></span><span class="op">(</span>map <span class="op">=</span> <span class="va">m</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">geometry</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>,</span>
+<span>                 color<span class="op">=</span><span class="va">dat</span><span class="op">$</span><span class="va">fill</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>,</span>
+<span>                 label <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">LABEL2</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span>  </span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="va">m</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/map-methods.html">setMaxBounds</a></span><span class="op">(</span>lng1 <span class="op">=</span> <span class="va">bb</span><span class="op">$</span><span class="va">xmin</span>,lng2 <span class="op">=</span> <span class="va">bb</span><span class="op">$</span><span class="va">xmax</span>,lat1 <span class="op">=</span> <span class="va">bb</span><span class="op">$</span><span class="va">ymin</span>, lat2<span class="op">=</span><span class="va">bb</span><span class="op">$</span><span class="va">ymax</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/addLegend.html">addLegend</a></span><span class="op">(</span>labels<span class="op">=</span><span class="va">dat</span><span class="op">$</span><span class="va">LABEL2</span>,colors <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">fill</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">m</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div class="leaflet html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-39a56fa2def9fda52bdc" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-39a56fa2def9fda52bdc">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addPolygons","args":[[[[{"lng":[-107.4666956768131,-107.48,-106.29,-101.54,-99.66,-98.53,-98.8,-98.48,-99.06032015878766,-98.264,-96.747,-95.911,-95.453,-95.48999999999999,-94.57899999999999,-94.395,-93.80500000000001,-93.51300000000001,-93.223,-92.5,-91.94,-91.477,-90.777,-90.51300000000001,-90.011,-89.521,-88.425,-87.08,-85.67700000000001,-84.65300000000001,-84.444,-84.03400000000001,-83.88,-83.81399999999999,-83.74299999999999,-83.601,-83.414,-83.251,-83.288,-83.292,-82.232,-81.965,-81.902,-82.087,-82.07299999999999,-82.196,-82.304,-82.518,-82.69,-82.863,-82.90300000000001,-82.863,-82.80800000000001,-82.68899999999999,-82.459,-81.764,-81.262,-80.316,-79.514,-79.30920713989207,-80.53,-81.37,-81.83,-82.02,-81.37,-81.40000000000001,-81.81999999999999,-83.08,-84.92,-85.88,-86.95999999999999,-88.36,-89.43000000000001,-89.70379539793619,-89.712,-89.828,-90.102,-90.54000000000001,-90.745,-91.083,-91.315,-91.556,-91.655,-91.742,-92.06538583138173,-92.11089666893267,-92.164,-92.18415350877193,-92.76000000000001,-92.83,-92.04000000000001,-90.45999999999999,-89.75,-89.68000000000001,-90.31999999999999,-92.8,-95.06,-97.5,-98.81,-100.31,-101.59,-102.41,-103.42,-104.02,-104.93,-105.0973900261324,-105.115,-105.605,-106.064,-106.509,-106.568,-107.183,-107.745,-108.002,-108.044,-109.094,-109.962,-110.773,-110.786068,-110.76,-110.58,-109.39,-108.42,-108.3,-107.35,-106.59,-107.13,-108.05,-109.43,-111.23,-113.22,-114.86,-116.03,-116.07,-115.44,-115.27,-115.7,-116.55,-116.56,-116.89,-117.1,-118.14,-119.0906052058297,-117.702,-116.063,-114.53,-113.003,-111.288,-109.98,-109.426,-108.987,-107.4666956768131],"lat":[49.19482452236844,48.35,47.29,47.34,46.52,46.61,47.75,48.82,49.18170640034026,49.18,49.197,49.174,49.167,49.561,49.541,48.962,48.857,48.786,48.834,48.697,48.521,48.338,48.453,48.262,48.266,48.207,48.56,48.027,47.453,46.989,46.699,46.687,46.326,46.264,46.252,46.229,46.232,46.093,45.851,45.799,45.499,44.144,43.586,43.18,43.025,42.879,42.546,42.326,42.224,42.181,42.063,41.98,41.911,41.863,41.878,42.178,42.421,42.6,42.795,42.92866251556662,41.59,40.84,39.69,38.5,36.36,34.93,33.98,33.17,32.67,31.64,30.71,30.14,28.76,28.68995931680702,28.693,28.916,28.755,28.711,28.711,28.732,28.893,28.983,29.121,29.058,29.11173770491803,29.13914208021752,29.181,29.18325372571213,29.53,30.1,31.39,32.73,33.58,34.72,36.28,37.53,38.22,38.13,37.74,36.94,35.15,34.05,32.82,32.04,31.03,30.45130876679941,30.476,30.822,31.194,31.409,31.573,31.602,31.62,31.623,31.186,31.123,31.131,31.148,31.149518,31.17,31.56,32.86,34.69,36.03,37.36,38.29,38.93,38.74,37.88,37,36.39,36.54,37.67,39.06,40.55,42.29,43.33,44.9,46.16,47.06,47.72,48.36,49.20424378419842,49.217,49.223,49.22,49.227,49.211,49.207,49.192,49.202,49.19482452236844]},{"lng":[-82.61,-83.56999999999999,-84.06999999999999,-85.33,-86.70999999999999,-88.79000000000001,-90.76000000000001,-96.34999999999999,-98.98999999999999,-100.8,-102.32,-103.44,-104.64,-105.64,-105.98,-105.66,-105.06,-103.66,-101.91,-99.89,-98.39,-94.67,-91.44,-89.7,-89.04000000000001,-88.22,-84.66,-83.51000000000001,-83.13,-82.61],"lat":[38.04,43.28,43.82,44.39,44.47,43.93,42.65,41.74,41.95,42.75,43.82,44.11,43.92,43.48,42.53,40.85,38.93,36.83,36.94,38.02,38.77,38.82,38.2,36.48,34.53,33.26,33.56,33.87,34.91,38.04]}],[{"lng":[-69.81692208998805,-70.70999999999999,-71.94,-71.87,-71.8205399135544,-71.70999999999999,-71.571,-70.99299999999999,-70.611,-70.553,-70.214,-69.33799999999999,-68.819,-68.687,-68.509,-68.217,-67.636,-67.471,-67.502,-67.236,-67.178,-66.953,-66.83799999999999,-66.773,-66.76000000000001,-66.669,-67.20399999999999,-67.279,-67.925,-68.184,-68.352,-68.538,-68.681,-68.902,-69.149,-69.38800000000001,-69.557,-69.738,-69.962,-70.09399999999999,-70.041,-69.908,-69.81692208998805],"lat":[42.34511414414015,42.38,43.34,44.71,45.17162747349226,45.171,45.456,45.547,45.956,46.207,46.804,47.646,47.584,47.517,47.491,47.605,47.183,46.578,45.792,45.629,45.432,45.389,45.131,45.027,44.945,44.792,44.381,44.152,43.906,43.802,43.817,43.761,43.688,43.581,43.51,43.422,43.333,43.3,43.13,42.939,42.768,42.491,42.34511414414015]}],[{"lng":[-83.12637994806012,-82.38,-80.33706592257788,-80.197,-80.271,-79.788,-79.7,-79.76600000000001,-79.812,-79.965,-80.143,-80.331,-80.63500000000001,-81.054,-81.782,-82.816,-83.288,-83.28,-83.238,-83.163,-82.313,-82.36799999999999,-82.51000000000001,-82.63200000000001,-81.934,-82.143,-82.324,-82.535,-82.71899999999999,-83.105,-83.06999999999999,-83.12637994806012],"lat":[27.6978236405131,28.28,28.80817320050426,28.552,28.232,27.148,26.777,26.228,25.576,25.158,24.859,24.705,24.487,24.361,24.208,24.169,24.221,24.513,24.798,25.012,25.017,25.134,25.288,25.453,25.61,26.09,26.171,26.48,26.892,27.532,27.615,27.6978236405131]}],[{"lng":[-78.90357518910113,-79.08,-79.25626933323112,-79.373,-78.90357518910113],"lat":[43.70567392635172,43.18,42.98671155873279,43.553,43.70567392635172]}]]],null,null,{"interactive":true,"className":"","stroke":true,"color":"#C1E9C1","weight":5,"opacity":0.5,"fill":true,"fillColor":"#C1E9C1","fillOpacity":0.2,"smoothFactor":1,"noClip":false},null,null,"General Thunderstorms Risk",{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addPolygons","args":[[[[{"lng":[-82.61,-83.13,-83.51000000000001,-84.66,-88.22,-89.04000000000001,-89.7,-91.44,-94.67,-98.39,-99.89,-101.91,-103.66,-105.06,-105.66,-105.98,-105.64,-104.64,-103.44,-102.32,-100.8,-98.98999999999999,-96.34999999999999,-90.76000000000001,-88.79000000000001,-86.70999999999999,-85.33,-84.06999999999999,-83.56999999999999,-82.61],"lat":[38.04,34.91,33.87,33.56,33.26,34.53,36.48,38.2,38.82,38.77,38.02,36.94,36.83,38.93,40.85,42.53,43.48,43.92,44.11,43.82,42.75,41.95,41.74,42.65,43.93,44.47,44.39,43.82,43.28,38.04]},{"lng":[-83.86,-86.88,-87.81999999999999,-90.51000000000001,-96.06,-100.2,-102.66,-104.29,-105.39,-104.77,-103.43,-102,-98.69,-94.75,-90.73999999999999,-89.47,-88.58,-86.87,-85.31,-84.3,-84.13,-83.86],"lat":[38.49,42.18,42.56,42.01,41.26,41.31,42.07,42.12,41.36,39.27,37.7,37.73,39.09,39.18,38.37,36.83,35.07,35.03,35.6,36.45,37.08,38.49]}]]],null,null,{"interactive":true,"className":"","stroke":true,"color":"#66A366","weight":5,"opacity":0.5,"fill":true,"fillColor":"#66A366","fillOpacity":0.2,"smoothFactor":1,"noClip":false},null,null,"Marginal Risk",{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addPolygons","args":[[[[{"lng":[-83.86,-84.13,-84.3,-85.31,-86.87,-88.58,-89.47,-90.73999999999999,-94.75,-98.69,-102,-103.43,-104.77,-105.39,-104.29,-102.66,-100.2,-96.06,-90.51000000000001,-87.81999999999999,-86.88,-83.86],"lat":[38.49,37.08,36.45,35.6,35.03,35.07,36.83,38.37,39.18,39.09,37.73,37.7,39.27,41.36,42.12,42.07,41.31,41.26,42.01,42.56,42.18,38.49]},{"lng":[-92.72,-90.34999999999999,-88.03,-86.58,-85.47,-86.42,-87.86,-89.15000000000001,-90.08,-91.05,-92.48,-94.78,-95.04000000000001,-94.84999999999999,-92.72],"lat":[39.1,38.62,37.21,37.25,38.26,39.69,40.75,41.66,41.64,41.32,41.02,40.49,40.15,39.44,39.1]}]]],null,null,{"interactive":true,"className":"","stroke":true,"color":"#FFE066","weight":5,"opacity":0.5,"fill":true,"fillColor":"#FFE066","fillOpacity":0.2,"smoothFactor":1,"noClip":false},null,null,"Slight Risk",{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addPolygons","args":[[[[{"lng":[-92.72,-94.84999999999999,-95.04000000000001,-94.78,-92.48,-91.05,-90.08,-89.15000000000001,-87.86,-86.42,-85.47,-86.58,-88.03,-90.34999999999999,-92.72],"lat":[39.1,39.44,40.15,40.49,41.02,41.32,41.64,41.66,40.75,39.69,38.26,37.25,37.21,38.62,39.1]}]]],null,null,{"interactive":true,"className":"","stroke":true,"color":"#FFA366","weight":5,"opacity":0.5,"fill":true,"fillColor":"#FFA366","fillOpacity":0.2,"smoothFactor":1,"noClip":false},null,null,"Enhanced Risk",{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"setMaxBounds","args":[24.169,-119.0906052058297,49.561,-66.669]},{"method":"addLegend","args":[{"colors":["#C1E9C1","#66A366","#FFE066","#FFA366"],"labels":["General Thunderstorms Risk","Marginal Risk","Slight Risk","Enhanced Risk"],"na_color":null,"na_label":"NA","opacity":0.5,"position":"topright","type":"unknown","title":null,"extra":null,"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[24.169,49.561],"lng":[-119.0906052058297,-66.669]}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section><section id="sessioninfo" class="level1"><h1>SessionInfo</h1>
+<div class="cell">
+<details open=""><summary>Code</summary><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>R version 4.2.3 (2023-03-15)
+Platform: x86_64-apple-darwin17.0 (64-bit)
+Running under: macOS Big Sur ... 10.16
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices datasets  utils     methods   base     
+
+other attached packages:
+[1] stringr_1.5.0 rvest_1.0.3   leaflet_2.1.2 sf_1.0-13    
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.10        compiler_4.2.3     pillar_1.9.0       class_7.3-22      
+ [5] tools_4.2.3        digest_0.6.31      jsonlite_1.8.5     evaluate_0.21     
+ [9] lifecycle_1.0.3    tibble_3.2.1       pkgconfig_2.0.3    rlang_1.1.1       
+[13] DBI_1.1.3          cli_3.6.1          rstudioapi_0.14    crosstalk_1.2.0   
+[17] curl_5.0.1         yaml_2.3.7         xfun_0.39          fastmap_1.1.1     
+[21] e1071_1.7-13       xml2_1.3.4         httr_1.4.6         dplyr_1.1.2       
+[25] knitr_1.43         generics_0.1.3     vctrs_0.6.2        htmlwidgets_1.6.2 
+[29] classInt_0.4-9     grid_4.2.3         tidyselect_1.2.0   glue_1.6.2        
+[33] R6_2.5.1           fansi_1.0.4        rmarkdown_2.22     selectr_0.4-2     
+[37] magrittr_2.0.3     ellipsis_0.3.2     htmltools_0.5.5    units_0.8-2       
+[41] renv_0.17.3        KernSmooth_2.23-21 utf8_1.2.3         stringi_1.7.12    
+[45] proxy_0.4-27      </code></pre>
+</div>
+</div>
+
+
+<!-- -->
+
+
+</section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-leaflet" class="csl-entry" role="listitem">
+Cheng, Joe, Bhaskar Karambelkar, and Yihui Xie. 2023. <span>“Leaflet: Create Interactive Web Maps with the JavaScript ’Leaflet’ Library.”</span> <a href="https://CRAN.R-project.org/package=leaflet">https://CRAN.R-project.org/package=leaflet</a>.
+</div>
+<div id="ref-sf" class="csl-entry" role="listitem">
+Pebesma, Edzer. 2018. <span>“<span></span>Simple Features for r: Standardized Support for Spatial Vector Data<span></span>”</span> 10. <a href="https://doi.org/10.32614/RJ-2018-009">https://doi.org/10.32614/RJ-2018-009</a>.
+</div>
+<div id="ref-rvest" class="csl-entry" role="listitem">
+Wickham, Hadley. 2022. <span>“Rvest: Easily Harvest (Scrape) Web Pages.”</span> <a href="https://CRAN.R-project.org/package=rvest">https://CRAN.R-project.org/package=rvest</a>.
+</div>
+</div></section></div></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb13" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Mapping Severe Thunderstorm Outlook in R using Leaflet"</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="an">image:</span><span class="co"> image.jpg</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "2023-06-29"</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span><span class="co"> [weather, R, visualization, mapping, geospatial, leaflet]</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> </span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co">    code-link: true</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: show</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="an">draft:</span><span class="co"> false</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> references.bib</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="fu"># Introduction</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>Living on the Colorado front range in summer means dealing with a chance of thunderstorms almost every afternoon, some of which can become severe.</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>In this post I'll go over how I mapped the severe thunderstorm risk outlook from the <span class="co">[</span><span class="ot">NOAA Storm Prediction Center</span><span class="co">](https://www.spc.noaa.gov/products/outlook/day1otlk.html)</span> , using R and leaflet.</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="in">```{r Load Libraries}</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(sf))</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a><span class="fu"># Data</span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>The severe thunderstorm risk (Convective Outlook) can be found at the website: <span class="co">[</span><span class="ot">NOAA Storm Prediction Center</span><span class="co">](https://www.spc.noaa.gov/products/outlook/day1otlk.html)</span> . This website provides a map where you can toggle a bunch of layers on/off, but you cannot zoom in/out to get a more detailed view of where the warning areas fall relative to other non-major cities. Depending on where the risk falls, it can sometimes be difficult to tell exactly where the boundaries are, or what category your city is in. My goal was to try to view the data in an interactive map where I can zoom in/out and see more detail. There are 2 ways of doing this:</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>View the data in Google Earth: Above the map there is an icon you can click to download a kml file that can be opened in Google Earth.</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Download the data as shapefiles (a link is provided above the map next to the kml download) and process them into a map.</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>In this post I am focusing on working with the shapefiles and creating an interactive map using R and leaflet.</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a><span class="fu">## Downloading the data</span></span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>The shapefiles can be downloaded manually by clicking the link on the website, but the link changes whenever the forecast is updated. I wanted to do this in a more programmatic way and be able to automatically find the link for the latest forecast without having to manually copy and paste the link each time I run it. I experimented with using the <span class="co">[</span><span class="ot">SelectorGadget</span><span class="co">](https://rvest.tidyverse.org/articles/selectorgadget.html)</span> to isolate the link, but found it easier to create a list of all the links in the page using the rvest @rvest package and find the one containing the shapefile.</span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>base_url <span class="ot">&lt;-</span> <span class="st">"https://www.spc.noaa.gov"</span></span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a><span class="co"># read the html from the website</span></span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>html <span class="ot">&lt;-</span> rvest<span class="sc">::</span><span class="fu">read_html</span>(<span class="st">"https://www.spc.noaa.gov/products/outlook/day1otlk.html"</span>)</span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a><span class="co"># create a list of all the hyperlinks on the website</span></span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a>links <span class="ot">&lt;-</span> rvest<span class="sc">::</span><span class="fu">html_attr</span>(<span class="fu">html_nodes</span>(html, <span class="st">"a"</span>), <span class="st">"href"</span>)</span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a><span class="co"># find the link for the shapefile (they only one that ends in 'shp.zip') </span></span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a>shp_link <span class="ot">&lt;-</span> links[<span class="fu">which</span>(stringr<span class="sc">::</span><span class="fu">str_ends</span>(links,<span class="st">'shp.zip'</span>))]</span>
+<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a>shp_url <span class="ot">&lt;-</span> <span class="fu">paste0</span>(base_url,shp_link)</span>
+<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">'The latest shapefile as of '</span>,<span class="fu">Sys.time</span>(),<span class="st">' is '</span>,shp_url))</span>
+<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a>\</span>
+<span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a>Now that we have the link for the latest forecast, we can download the file (zip file) and unzip.</span>
+<span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-63"><a href="#cb13-63" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Note there are some specific files for tornado,wind, hail etc. in addition to severe thunderstorm risk. I'll just look at the shapefile with severe thunderstorm risk categories for now, which ends in cat.shp</span>
+<span id="cb13-64"><a href="#cb13-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Then we can use the sf <span class="co">[</span><span class="ot">@sf</span><span class="co">]</span> package to read the shapefile into R</span>
+<span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-69"><a href="#cb13-69" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-70"><a href="#cb13-70" aria-hidden="true" tabindex="-1"></a>dat_url <span class="ot">&lt;-</span> shp_url</span>
+<span id="cb13-71"><a href="#cb13-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-72"><a href="#cb13-72" aria-hidden="true" tabindex="-1"></a><span class="co"># download the zip file containing shapefiles</span></span>
+<span id="cb13-73"><a href="#cb13-73" aria-hidden="true" tabindex="-1"></a>dest_file <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">'./data/'</span>,<span class="fu">basename</span>(dat_url))</span>
+<span id="cb13-74"><a href="#cb13-74" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="at">url=</span>dat_url,<span class="at">destfile =</span> dest_file, <span class="at">method=</span><span class="st">"curl"</span>,<span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-75"><a href="#cb13-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-76"><a href="#cb13-76" aria-hidden="true" tabindex="-1"></a><span class="co"># unzip</span></span>
+<span id="cb13-77"><a href="#cb13-77" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span>(dest_file,<span class="at">exdir =</span> <span class="st">'./data'</span>)</span>
+<span id="cb13-78"><a href="#cb13-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-79"><a href="#cb13-79" aria-hidden="true" tabindex="-1"></a><span class="co"># read shapefile into R w/ sf package</span></span>
+<span id="cb13-80"><a href="#cb13-80" aria-hidden="true" tabindex="-1"></a>cat_file <span class="ot">&lt;-</span> stringr<span class="sc">::</span><span class="fu">str_remove</span>(<span class="fu">basename</span>(dat_url),<span class="st">"-shp.zip"</span>)</span>
+<span id="cb13-81"><a href="#cb13-81" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_read</span>(<span class="fu">paste0</span>(<span class="st">'./data/'</span>,cat_file,<span class="st">'_cat.shp'</span>))</span>
+<span id="cb13-82"><a href="#cb13-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-83"><a href="#cb13-83" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-84"><a href="#cb13-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-85"><a href="#cb13-85" aria-hidden="true" tabindex="-1"></a>Examine the object extracted from the shapefile:</span>
+<span id="cb13-86"><a href="#cb13-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-89"><a href="#cb13-89" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-90"><a href="#cb13-90" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(dat)</span>
+<span id="cb13-91"><a href="#cb13-91" aria-hidden="true" tabindex="-1"></a>dat</span>
+<span id="cb13-92"><a href="#cb13-92" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-93"><a href="#cb13-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-94"><a href="#cb13-94" aria-hidden="true" tabindex="-1"></a><span class="fu"># Mapping the data</span></span>
+<span id="cb13-95"><a href="#cb13-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-96"><a href="#cb13-96" aria-hidden="true" tabindex="-1"></a>Now that we have the shapefile converted into a R object, we can make our map. I'll be using the leaflet @leaflet package to create a nice interactive map.</span>
+<span id="cb13-97"><a href="#cb13-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-98"><a href="#cb13-98" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>One caveat is that the number of categories is not constant; it can vary depending on the forecast. So we need to use a for loop to plot whichever categories are present (there is a row in the sf object for each risk category present in the forecast.</span>
+<span id="cb13-99"><a href="#cb13-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-102"><a href="#cb13-102" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-103"><a href="#cb13-103" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: Map Showing Severe Weather Prediction Risk</span></span>
+<span id="cb13-104"><a href="#cb13-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-105"><a href="#cb13-105" aria-hidden="true" tabindex="-1"></a><span class="co"># extract bounding box values from shapefile to set map bounds</span></span>
+<span id="cb13-106"><a href="#cb13-106" aria-hidden="true" tabindex="-1"></a>bb <span class="ot">&lt;-</span> <span class="fu">as.list</span>(<span class="fu">st_bbox</span>(dat))</span>
+<span id="cb13-107"><a href="#cb13-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-108"><a href="#cb13-108" aria-hidden="true" tabindex="-1"></a><span class="co"># make base map</span></span>
+<span id="cb13-109"><a href="#cb13-109" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb13-110"><a href="#cb13-110" aria-hidden="true" tabindex="-1"></a>      <span class="fu">addTiles</span>()</span>
+<span id="cb13-111"><a href="#cb13-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-112"><a href="#cb13-112" aria-hidden="true" tabindex="-1"></a><span class="co"># add layers (1 for each risk category present in forecast)</span></span>
+<span id="cb13-113"><a href="#cb13-113" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(dat<span class="sc">$</span>geometry)){</span>
+<span id="cb13-114"><a href="#cb13-114" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">addPolygons</span>(<span class="at">map =</span> m, <span class="at">data =</span> dat<span class="sc">$</span>geometry[i],</span>
+<span id="cb13-115"><a href="#cb13-115" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color=</span>dat<span class="sc">$</span>fill[i],</span>
+<span id="cb13-116"><a href="#cb13-116" aria-hidden="true" tabindex="-1"></a>                 <span class="at">label =</span> dat<span class="sc">$</span>LABEL2[i])  </span>
+<span id="cb13-117"><a href="#cb13-117" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-118"><a href="#cb13-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-119"><a href="#cb13-119" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> m <span class="sc">%&gt;%</span> </span>
+<span id="cb13-120"><a href="#cb13-120" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setMaxBounds</span>(<span class="at">lng1 =</span> bb<span class="sc">$</span>xmin,<span class="at">lng2 =</span> bb<span class="sc">$</span>xmax,<span class="at">lat1 =</span> bb<span class="sc">$</span>ymin, <span class="at">lat2=</span>bb<span class="sc">$</span>ymax) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-121"><a href="#cb13-121" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addLegend</span>(<span class="at">labels=</span>dat<span class="sc">$</span>LABEL2,<span class="at">colors =</span> dat<span class="sc">$</span>fill)</span>
+<span id="cb13-122"><a href="#cb13-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-123"><a href="#cb13-123" aria-hidden="true" tabindex="-1"></a>m</span>
+<span id="cb13-124"><a href="#cb13-124" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-125"><a href="#cb13-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-126"><a href="#cb13-126" aria-hidden="true" tabindex="-1"></a><span class="fu"># SessionInfo</span></span>
+<span id="cb13-127"><a href="#cb13-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-130"><a href="#cb13-130" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-131"><a href="#cb13-131" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
+<span id="cb13-132"><a href="#cb13-132" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+</body></html>
