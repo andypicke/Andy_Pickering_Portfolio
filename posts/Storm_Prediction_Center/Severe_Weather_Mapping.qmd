@@ -8,6 +8,7 @@ format:
     code-link: true
     code-fold: show
 draft: false
+date-modified: "2023-07-06"
 bibliography: references.bib
 ---
 
@@ -15,7 +16,7 @@ bibliography: references.bib
 
 Living on the Colorado front range in summer means dealing with a chance of thunderstorms almost every afternoon, some of which can become severe.
 
-In this post I'll go over how I mapped the severe thunderstorm risk outlook from the [NOAA Storm Prediction Center](https://www.spc.noaa.gov/products/outlook/day1otlk.html) , using R and leaflet.
+In this post I'll go over how I mapped the severe thunderstorm risk outlook from the [NOAA Storm Prediction Center](https://www.spc.noaa.gov/misc/aboutus.html) , using R and leaflet.
 
 ```{r Load Libraries}
 
@@ -23,14 +24,15 @@ suppressPackageStartupMessages(library(sf))
 library(leaflet)
 library(rvest)
 library(stringr)
+library(htmltools)
 
 ```
 
 # Data
 
-The severe thunderstorm risk (Convective Outlook) can be found at the website: [NOAA Storm Prediction Center](https://www.spc.noaa.gov/products/outlook/day1otlk.html) . This website provides a map where you can toggle a bunch of layers on/off, but you cannot zoom in/out to get a more detailed view of where the warning areas fall relative to other non-major cities. Depending on where the risk falls, it can sometimes be difficult to tell exactly where the boundaries are, or what category your city is in. My goal was to try to view the data in an interactive map where I can zoom in/out and see more detail. There are 2 ways of doing this:
+The day 1 (ie today) severe thunderstorm risk ([Convective Outlook](https://www.spc.noaa.gov/misc/about.html)) can be found at the website: [NOAA Storm Prediction Center](https://www.spc.noaa.gov/products/outlook/day1otlk.html) . This website provides a map where you can toggle a bunch of layers on/off, but you cannot zoom in/out to get a more detailed view of where the warning areas fall relative to other non-major cities. Depending on where the risk falls, it can sometimes be difficult to tell exactly where the boundaries are, or what category your home town is in. My goal was to try to view the data in an interactive map where I can zoom in/out and see more detail. There are 2 ways of doing this:
 
-1.  View the data in Google Earth: Above the map there is an icon you can click to download a kml file that can be opened in Google Earth.
+1.  View the data in Google Earth: Above the map there is an icon you can click to download a kmz file that can be opened in Google Earth.
 
 2.  Download the data as shapefiles (a link is provided above the map next to the kml download) and process them into a map.
 
@@ -38,45 +40,62 @@ In this post I am focusing on working with the shapefiles and creating an intera
 
 ## Downloading the data
 
-The shapefiles can be downloaded manually by clicking the link on the website, but the link changes whenever the forecast is updated. I wanted to do this in a more programmatic way and be able to automatically find the link for the latest forecast without having to manually copy and paste the link each time I run it. I experimented with using the [SelectorGadget](https://rvest.tidyverse.org/articles/selectorgadget.html) to isolate the link, but found it easier to create a list of all the links in the page using the rvest @rvest package and find the one containing the shapefile.
+The shapefiles can be downloaded manually by clicking the link on the website, but the link changes whenever the forecast is updated. I wanted to do this in a more programmatic way and be able to automatically find the link for the latest forecast without having to manually copy and paste the link each time I run it. I experimented with using the [SelectorGadget](https://rvest.tidyverse.org/articles/selectorgadget.html) to isolate the link, but found it easier to create a list of all the links in the page using the *rvest* [@rvest] package and then find the link containing the shapefile (ends in *.shp.zip*).
 
 ```{r}
 
 base_url <- "https://www.spc.noaa.gov"
 
-# read the html from the website
-html <- rvest::read_html("https://www.spc.noaa.gov/products/outlook/day1otlk.html")
 
-# create a list of all the hyperlinks on the website
-links <- rvest::html_attr(html_nodes(html, "a"), "href")
+# Define a function to make a list of all links on a webpage
+get_all_links <- function(page_url){
+  
+  # read the html from the website for day 1 outlook
+  html <- rvest::read_html(page_url)
+  
+  # create a list of all the hyperlinks on the website
+  links <- rvest::html_attr(html_nodes(html, "a"), "href")
+  
+}
+
+links <- get_all_links(page_url=paste0(base_url,"/products/outlook/day1otlk.html"))
 
 # find the link for the shapefile (they only one that ends in 'shp.zip') 
 shp_link <- links[which(stringr::str_ends(links,'shp.zip'))]
 shp_url <- paste0(base_url,shp_link)
 print(paste('The latest shapefile as of ',Sys.time(),' is ',shp_url))
+
+
+# filename of shapefile
+shp_fname <- basename(shp_url)
+#print(shp_fname)
+
+# base filename (remove *-shp.zip*) to use to load files later
+basefname <- stringr::str_remove(shp_fname,"-shp.zip")
+#print(basefname)
 ```
 
 \
 Now that we have the link for the latest forecast, we can download the file (zip file) and unzip.
 
--   Note there are some specific files for tornado,wind, hail etc. in addition to severe thunderstorm risk. I'll just look at the shapefile with severe thunderstorm risk categories for now, which ends in cat.shp
+-   The unzipped folder contains shapefiles files for tornado,wind, and hail threat, but I will focus on just the categorical risk for severe thunderstorms (this is what you have probably seen on the weather forecast on the news). The shapfile I am interested in ends in *cat.shp*
 
--   Then we can use the sf [@sf] package to read the shapefile into R
+-   Then we can use the *sf* [@sf] package to read the shapefile into R
 
 ```{r}
 
-dat_url <- shp_url
 
+# destination to save downloaded file to
+dest_file <- file.path('.','data',shp_fname)
 # download the zip file containing shapefiles
-dest_file <- paste0('./data/',basename(dat_url))
-download.file(url=dat_url,destfile = dest_file, method="curl",quiet = TRUE)
+download.file(url=shp_url,destfile = dest_file, method="curl",quiet = TRUE)
 
-# unzip
-unzip(dest_file,exdir = './data')
+# unzip into a separate folder using base filename
+unzip(dest_file,exdir = file.path('.','data',basefname) )
 
 # read shapefile into R w/ sf package
-cat_file <- stringr::str_remove(basename(dat_url),"-shp.zip")
-dat <- sf::st_read(paste0('./data/',cat_file,'_cat.shp'))
+cat_file <- stringr::str_remove(basename(shp_url),"-shp.zip")
+dat <- sf::st_read(file.path('.','data',basefname,paste0(basefname,'_cat.shp')))
 
 ```
 
@@ -89,9 +108,11 @@ dat
 
 # Mapping the data
 
-Now that we have the shapefile converted into a R object, we can make our map. I'll be using the leaflet @leaflet package to create a nice interactive map.
+Now that we have the shapefile converted into a R object, we can make our map. I'll be using the *Leaflet* [@leaflet] package to create a nice interactive map.
 
--   One caveat is that the number of categories is not constant; it can vary depending on the forecast. So we need to use a for loop to plot whichever categories are present (there is a row in the sf object for each risk category present in the forecast.
+-   One caveat is that the number of categories is not constant; it can vary (up to 5 categorgies) depending on the forecast. So we need to use a for loop to plot whichever categories are present (there is a row in the sf object for each risk category present in the forecast.
+-   We now have an interactive map (try zooming in/out and hovering over the different areas with the cursor!).
+-   *NOTE this map is for the forecast at the time this post was rendered, not when you are reading it*
 
 ```{r}
 
