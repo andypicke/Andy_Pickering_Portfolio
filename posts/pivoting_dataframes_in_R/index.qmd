@@ -1,0 +1,16 @@
+---
+title: "Pivoting Dataframes in R Using tidyr"
+#image: image.jpg
+date: "2023-07-11"
+categories: [R]
+format: 
+  html:
+    code-link: true
+    code-fold: show
+draft: true
+bibliography: references.bib
+---
+
+# Introduction
+
+*tidyr* [@tidyr]
