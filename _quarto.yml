@@ -3,7 +3,7 @@ project:
 
 website:
   title: "Portfolio"
-  favicon: "profile.jpg"
+  favicon: "profile2.jpg"
   navbar:
     left:
       - text: Home

@@ -1,6 +1,9 @@
 ---
 title: "About"
-image: profile.jpg
+image: profile2.jpg
+image-width: 25em
+image-shape: round
+
 about:
   template: jolla
   links:
@@ -10,6 +13,8 @@ about:
     - icon: github
       text: Github
       href: https://github.com/andypicke
+    - icon: twitter
+      href: https://twitter.com/andypicke
 ---
 
 Welcome! I am a data scientist interested in energy and the environment (among many other topics). On this website you can find my portfolio and resume, as well as blog posts about interesting analyses I am working on. I've also created a list of resources that I've found helpful in learning data science or finding data sets. Enjoy!
