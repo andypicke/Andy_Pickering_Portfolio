@@ -1,5 +1,5 @@
 ---
-title: "State Electricity Generation By Fuel Type"
+title: "Calculating State Electricity Generation By Fuel Type using R"
 author: "Andy Pickering"
 image: image.png
 format: 
@@ -7,6 +7,7 @@ format:
     code-link: true
     code-fold: show
 date: "2023-07-14"
+date-modified: "2023-07-18"
 categories: [energy, EIA, R, visualization, API]
 draft: false
 bibliography: references.bib
@@ -18,13 +19,13 @@ Electricity generation is a major source of carbon emissions, and transitioning 
 
 In general electric vehicles produce less net emissions than traditional gas-powered vehicles, but the savings depends on several factors including how the electricity used to charge an EV is produced. The [Alternative Fuels Data Center](https://afdc.energy.gov/) has a nice [tool](https://afdc.energy.gov/vehicles/electric_emissions.html) showing the breakdown of electricity generation fuel sources by state and the resulting effects on emissions.
 
-I am interested in analyzing trends in electricity generation fuel sources, and this post outlines the first step: Using data from the [EIA](https://www.eia.gov/opendata/) to calculate and reproduce the state-level breakdown in the [AFDC tool](https://afdc.energy.gov/vehicles/electric_emissions.html).
+I am interested in analyzing trends in electricity generation fuel sources, and this post outlines the first step: Using data from the [U.S. Energy Information Administration (EIA)](https://www.eia.gov/opendata/) to calculate and reproduce the state-level breakdown in the [AFDC tool](https://afdc.energy.gov/vehicles/electric_emissions.html).
 
 Some of the technical methods/topics involved in this include:
 
--   Retrieving data from an API
+-   Retrieving data from an API using the *httr* [@httr] package
 
--   Pivoting data between *long* and *wide* formats
+-   Pivoting data between *long* and *wide* formats using the *tidyr* [@tidyr] package
 
 -   Plotting data using the ggplot2 [@ggplot2] and plotly [@plotly] packages
 
@@ -33,7 +34,7 @@ Some of the technical methods/topics involved in this include:
 library(httr)
 library(jsonlite)
 library(ggplot2)
-theme_set(theme_grey(base_size = 15))
+theme_set(theme_grey(base_size = 15)) # make the default font sizes etc a little bigger
 suppressPackageStartupMessages(library(dplyr))
 library(forcats)
 suppressPackageStartupMessages(library(plotly))
@@ -85,12 +86,16 @@ complete_api_path <- paste0(api_base,route,'/',subroute,'/','data/',
                             '&facets[location][]=',state,
                             '&api_key=',api_key)
 
+# get the data from the API
 response_raw <- retrieve_api_data(complete_api_path)
 
+# convert from JSON
 dat <- jsonlite::fromJSON(httr::content(response_raw,"text"))
 
+# extract the dataframe 
 df <- dat$response$data
 
+# rename a column and drop some extra unecessary columns
 df <- df %>% rename(year=period) %>% 
   select(-c(location,sectorid,sectorDescription,stateDescription))
 
@@ -113,9 +118,11 @@ Note that some of the *fueltype* categories are subsets of, or overlap with, oth
 
 -   BIO: Biomass
 
-Note that Colroado currently has no nuclear production but other states may include this.
+::: callout-note
+Note that depending on the state not all fuel type fields are returned. For example Colorado currently has no nuclear production, but data for other states may include this.
+:::
 
-```{r}
+```{r Select fuel types}
 #| code-fold: true
 
 df <- df %>% 
@@ -126,11 +133,13 @@ df <- df %>%
 
 # Plot total electricity generation by fuel type
 
-```{r}
+```{r Plot total generation timeseries}
+#| fig-cap: Timeseries of total electricity generation by fuel type
 
 df %>% 
   filter(fueltypeid %in% c('ALL','COW','NG','SUN','WND','HYC')) %>% 
-  ggplot(aes(year,generation,group=fuelTypeDescription))+
+  ggplot(aes(year,generation,
+             group=fuelTypeDescription))+
   geom_line(aes(color=fuelTypeDescription),linewidth=1.5)+
   xlab("Year")+
   ylab(paste0('Generation [',df$`generation-units`[1],']'))+
@@ -146,7 +155,7 @@ Now I want to compute the percent of total generation that each fuel type makes 
 You may be familiar with the *pivot* functions under different names. In the *tidyr* package, *pivot_wider* and *pivot_longer* are newer versions of *spread* and *gather*, respectively.
 :::
 
-Pivot to wider format:
+After pivoting to a wider format, the dataframe has one row for each year and a column for each fuel type:
 
 ```{r}
 
@@ -157,7 +166,7 @@ df_wide <- df %>%
 head(df_wide)
 ```
 
-Compute percent of total for fuel types:
+Now I can compute the percent of total generation for each fuel type:
 
 ```{r}
 
@@ -175,7 +184,7 @@ head(df_perc)
 
 ```
 
-Now that I've computed the percent for each fuel type, I want to pivot back to a long format that will make plotting easier:
+Now that I've computed the percent for each fuel type, I will pivot back to a long format that will make plotting easier. In this format there is a row for each year and fueltype, and when I plot the data I can simply specify the FuelType column as the color or fill:
 
 ```{r}
 
@@ -193,9 +202,11 @@ head(df_perc_long)
 
 First I want to see if I can re-create the values and pie chart from the [AFDC tool](https://afdc.energy.gov/vehicles/electric_emissions.html) for Colorado, which uses [2021 data from EIA](https://afdc.energy.gov/vehicles/electric_emissions_sources.html) :
 
-![Breakdown of electricity generation by fuel type for Colorado 2021 from AFDC tool](Screenshot%202023-07-14%20at%2010.07.45%20AM.png)
+![Breakdown of electricity generation by fuel type for Colorado 2021 from AFDC tool (screenshot)](Screenshot%202023-07-14%20at%2010.07.45%20AM.png)
 
-```{r}
+Below is a table comparing the values I calculated to the values from the AFDC tool:
+
+```{r Compare to AFDC}
 #| code-fold: true
 
 afdc_co_2021 <- tibble(FuelType=c('Solar','Wind','Coal','NaturalGas',
@@ -214,6 +225,7 @@ The results are not exactly the same, but are very close. I'm not sure if this i
 ## Pie chart using ggplot2
 
 ```{r}
+#| fig-cap: Pie chart of the perecent of total electricity generation by fuel type
 
 df_perc_long %>% 
   filter(year=="2021") %>% 
@@ -226,7 +238,6 @@ df_perc_long %>%
   labs(x = NULL, y = NULL, fill = NULL)
 
 
-
 ```
 
 ## Pie chart using Plotly
@@ -234,6 +245,9 @@ df_perc_long %>%
 I found that I was able to easily make a little bit nicer-looking and interactive chart with plotly :
 
 ```{r}
+
+#| fig-cap: Pie chart of the perecent of total electricity generation by fuel type
+
 
 data <- df_perc_long %>% 
   filter(year=="2021") 
@@ -257,6 +271,8 @@ If you want the bars to plot in order by their values, you can use the *fct_reor
 
 ```{r}
 
+#| fig-cap: Bar chart of the perecent of total electricity generation by fuel type
+
 df_perc_long %>% 
   filter(year=="2021") %>% 
   mutate(FuelType=forcats::fct_reorder(FuelType,percent)) %>% 
@@ -278,6 +294,7 @@ After verifying that my calculations look reasonable for 2021, we can start to l
 -   At the same time, natural gas and wind have been increasing.
 
 ```{r}
+#| fig-cap: Timeseries plot of the perecent of total electricity generation by fuel type
 
 df_perc_long %>% 
   ggplot(aes(year,percent,group=FuelType))+
