@@ -135,6 +135,7 @@ df <- df %>%
 
 ```{r Plot total generation timeseries}
 #| fig-cap: Timeseries of total electricity generation by fuel type
+#| fig-width: 10
 
 df %>% 
   filter(fueltypeid %in% c('ALL','COW','NG','SUN','WND','HYC')) %>% 
@@ -157,7 +158,7 @@ You may be familiar with the *pivot* functions under different names. In the *ti
 
 After pivoting to a wider format, the dataframe has one row for each year and a column for each fuel type:
 
-```{r}
+```{r Pivot wider}
 
 df_wide <- df %>% 
   select(year,generation,fueltypeid) %>% 
@@ -168,7 +169,7 @@ head(df_wide)
 
 Now I can compute the percent of total generation for each fuel type:
 
-```{r}
+```{r Calculate Percentages}
 
 df_perc <- df_wide %>% 
   mutate(perc_Solar=round(SUN/ALL*100,2),
@@ -186,7 +187,7 @@ head(df_perc)
 
 Now that I've computed the percent for each fuel type, I will pivot back to a long format that will make plotting easier. In this format there is a row for each year and fueltype, and when I plot the data I can simply specify the FuelType column as the color or fill:
 
-```{r}
+```{r Pivot longer}
 
 df_perc_long <- df_perc %>% 
   tidyr::pivot_longer(cols = starts_with('perc_'),
@@ -224,8 +225,9 @@ The results are not exactly the same, but are very close. I'm not sure if this i
 
 ## Pie chart using ggplot2
 
-```{r}
+```{r Pie chart ggplot}
 #| fig-cap: Pie chart of the perecent of total electricity generation by fuel type
+#| 
 
 df_perc_long %>% 
   filter(year=="2021") %>% 
@@ -244,8 +246,7 @@ df_perc_long %>%
 
 I found that I was able to easily make a little bit nicer-looking and interactive chart with plotly :
 
-```{r}
-
+```{r Pie chart plotly}
 #| fig-cap: Pie chart of the perecent of total electricity generation by fuel type
 
 
@@ -269,8 +270,7 @@ In general, I'm not a huge fan of piecharts; it can be difficult to judge the re
 If you want the bars to plot in order by their values, you can use the *fct_reorder* function from the *forcats* library [@forcats] to re-order the factor levels.
 :::
 
-```{r}
-
+```{r Bar Chart}
 #| fig-cap: Bar chart of the perecent of total electricity generation by fuel type
 
 df_perc_long %>% 
@@ -293,7 +293,7 @@ After verifying that my calculations look reasonable for 2021, we can start to l
 
 -   At the same time, natural gas and wind have been increasing.
 
-```{r}
+```{r Timeseries percents, echo=FALSE}
 #| fig-cap: Timeseries plot of the perecent of total electricity generation by fuel type
 
 df_perc_long %>% 
@@ -314,6 +314,8 @@ Some of the next steps I am interested in looking at include:
 
 # Session Info
 
-```{r}
+To improve reproducibility, below is the \*sessionInfo\* output at the time this post was rendered, showing which packages and versions were loaded.
+
+```{r sessionInfo}
 sessionInfo()
 ```
