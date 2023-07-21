@@ -140,20 +140,6 @@
     "text": "Welcome! I am a data scientist interested in energy and the environment (among many other topics). On this website you can find my portfolio and resume, as well as blog posts about interesting analyses I am working on. I’ve also created a list of resources that I’ve found helpful in learning data science or finding data sets. Enjoy!"
   },
   {
-    "objectID": "resources.html",
-    "href": "resources.html",
-    "title": "Data Science Resources",
-    "section": "",
-    "text": "Here are some resources that I’ve found helpful."
-  },
-  {
-    "objectID": "resources.html#r",
-    "href": "resources.html#r",
-    "title": "Data Science Resources",
-    "section": "R",
-    "text": "R"
-  },
-  {
     "objectID": "resources.html#python",
     "href": "resources.html#python",
     "title": "Data Science Resources",
@@ -161,11 +147,25 @@
     "text": "Python"
   },
   {
+    "objectID": "resources.html#quarto",
+    "href": "resources.html#quarto",
+    "title": "Data Science Resources",
+    "section": "Quarto",
+    "text": "Quarto\n\nhttps://quarto.org/\nTutorial on Creating a Data Science Portfolio with Quarto\nMarkdown basics"
+  },
+  {
     "objectID": "resources.html#data",
     "href": "resources.html#data",
     "title": "Data Science Resources",
     "section": "Data",
-    "text": "Data\n\nA guide to HTTP Status Codes that may be returned when requesting data from an API."
+    "text": "Data\n\nEnergy\n\nAlternative Fuels Data Center\nU.S. Energy Information Administration (EIA)\n\n\n\nOther\n\nData Is Plural"
+  },
+  {
+    "objectID": "resources.html#miscellaneous",
+    "href": "resources.html#miscellaneous",
+    "title": "Data Science Resources",
+    "section": "Miscellaneous",
+    "text": "Miscellaneous\n\nA guide to standard HTTP Status Codes that may be returned when requesting data from an API."
   },
   {
     "objectID": "blog.html",
