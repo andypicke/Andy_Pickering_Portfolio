@@ -1,7 +1,7 @@
 ---
 title: "Data Science Resources"
 about:
-  template: jolla
+  template: trestles
   links: 
     - icon: linkedin
       text: LinkedIn
@@ -17,12 +17,30 @@ about:
       href: twitter.com/andypicke
 ---
 
-Here are some resources that I've found helpful.
-
 ## R
 
 ## Python
 
+## Quarto
+
+-   <https://quarto.org/>
+
+-   [Tutorial on Creating a Data Science Portfolio with Quarto](https://www.youtube.com/watch?v=xtSFXtDf4cM)
+
+-   [Markdown basics](https://quarto.org/docs/authoring/markdown-basics.html)
+
 ## Data
 
--   A guide to [HTTP Status Codes](https://restfulapi.net/http-status-codes/) that may be returned when requesting data from an API.
+### Energy
+
+-   [Alternative Fuels Data Center](https://afdc.energy.gov/)
+
+-   [U.S. Energy Information Administration (EIA)](https://www.eia.gov/opendata/)
+
+### Other
+
+-   [Data Is Plural](https://www.data-is-plural.com/)
+
+## Miscellaneous
+
+-   A guide to standard [HTTP Status Codes](https://restfulapi.net/http-status-codes/) that may be returned when requesting data from an API.
