@@ -19,6 +19,8 @@ about:
 
 ## R
 
+-   [R-bloggers](https://www.r-bloggers.com/)
+
 ## Python
 
 ## Quarto
