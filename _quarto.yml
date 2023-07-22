@@ -4,6 +4,8 @@ project:
 website:
   title: "Andy Pickering"
   favicon: "profile2.jpg"
+  site-url: https://andypicke.quarto.pub/portfolio.html
+  description: "Andy Pickering's Data Science Blog"
   navbar:
     left:
       - text: Home
@@ -26,6 +28,8 @@ website:
         href: https://www.linkedin.com/in/andypicke/
       - icon: twitter
         href: https://twitter.com/andypicke
+      - icon: rss
+        href: blog.xml
   search: 
     location: navbar
     type: overlay
