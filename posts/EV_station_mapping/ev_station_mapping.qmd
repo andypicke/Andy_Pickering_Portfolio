@@ -1,0 +1,124 @@
+---
+title: "Calculating State Electricity Generation By Fuel Type using R" 
+author: "Andy Pickering" 
+#image: image.png 
+format: 
+  html:
+    code-link: true
+    code-fold: show
+date: "2023-07-27"
+categories: [energy, EV, R, visualization, mapping, API]
+draft: true
+bibliography: references.bib
+toc: true
+---
+
+# Introduction
+
+recently took LinkedIn course *Creating Maps with R*
+
+wanted to create maps of ev station data for Colorado.
+
+```{r Load libraries}
+
+library(tidyverse)
+library(httr)
+library(jsonlite)
+ggplot2::theme_set(theme_grey(base_size = 15))
+library(leaflet)
+library(tigris)
+
+```
+
+# Data
+
+## EV Stations data
+
+Data on EV stations is obtained from the [Alternative Fuels Data Center](https://afdc.energy.gov/)'s Alternative Fuel Stations [database](https://developer.nrel.gov/docs/transportation/alt-fuel-stations-v1/). See my previous post <https://andypicke.quarto.pub/portfolio/posts/EV_Stations/> for more details on getting the data from the [API](https://developer.nrel.gov/docs/transportation/alt-fuel-stations-v1/all/)
+
+```{r}
+
+# API key is stored in my .Renviron file
+api_key <- Sys.getenv("AFDC_KEY")
+
+# base url for AFDC alternative fuel stations API
+target <- "https://developer.nrel.gov/api/alt-fuel-stations/v1"
+
+# Return data for all electric stations in Colorado
+api_path <- ".json?&fuel_type=ELEC&state=CO&limit=all"
+
+complete_api_path <- paste0(target,api_path,'&api_key=',api_key)
+
+response <- httr::GET(url = complete_api_path)
+
+if (response$status_code != 200){
+ print(paste('Warning, API call returned error code',response$status_code))
+}
+
+response$status_code
+
+ev_dat <- jsonlite::fromJSON(httr::content(response,"text"))
+ev <- ev_dat$fuel_stations
+
+# filter out non-EV related fields
+ev <- ev %>% select(-dplyr::starts_with("lng")) %>% 
+  select(-starts_with("cng")) %>%
+  select(-starts_with("lpg")) %>%
+  select(-starts_with("hy")) %>% 
+  select(-starts_with("ng")) %>% 
+  select(-starts_with("e85")) %>% 
+  select(-starts_with("bd")) %>% 
+  select(-starts_with("rd")) %>% 
+  filter(status_code == 'E')
+
+
+# change date field to date type and add a year opened variable
+ev$open_date <- lubridate::ymd(ev$open_date)
+ev$open_year <- lubridate::year(ev$open_date)
+
+```
+
+## County data 
+
+The shapefiles for the counties are obtained from the [*tigris*](https://github.com/walkerke/tigris) package
+
+```{r}
+
+options(tigris_use_cache = TRUE)
+co_counties <- tigris::counties("CO",cb = TRUE)
+head(co_counties)
+
+```
+
+## Combining data
+
+```{r}
+
+co_ev <- co_counties %>% 
+  left_join()
+
+```
+
+# Mapping
+
+## ggplot
+
+```{r}
+
+```
+
+## Leaflet
+
+```{r}
+
+```
+
+# SessionInfo
+
+```{r}
+sessionInfo()
+```
+
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
