@@ -1,5 +1,5 @@
 ---
-title: "Calculating State Electricity Generation By Fuel Type using R" 
+title: "Mapping the Number of EV Charging Statings by Couunty in Colorado Using R" 
 author: "Andy Pickering" 
 #image: image.png 
 format: 
@@ -7,43 +7,45 @@ format:
     code-link: true
     code-fold: show
 date: "2023-07-27"
-categories: [energy, EV, R, visualization, mapping, API]
+categories: [EV, R, visualization, mapping, API]
 draft: true
-bibliography: references.bib
+#bibliography: references.bib
 toc: true
 ---
 
 # Introduction
 
-recently took LinkedIn course *Creating Maps with R*
+recently took LinkedIn course Creating Maps with R
 
 wanted to create maps of ev station data for Colorado.
 
+## Goal
+
+-   Create choropleth map(s) showing the number of EV charging stations per county in Colorado.
+
+# Data & Analysis
+
 ```{r Load libraries}
 
-library(tidyverse)
+suppressPackageStartupMessages(library(tidyverse))
 library(httr)
-library(jsonlite)
+suppressPackageStartupMessages(library(jsonlite))
 ggplot2::theme_set(theme_grey(base_size = 15))
 library(leaflet)
-library(tigris)
+suppressPackageStartupMessages(library(tigris))
 
 ```
-
-# Data
 
 ## EV Stations data
 
 Data on EV stations is obtained from the [Alternative Fuels Data Center](https://afdc.energy.gov/)'s Alternative Fuel Stations [database](https://developer.nrel.gov/docs/transportation/alt-fuel-stations-v1/). See my previous post <https://andypicke.quarto.pub/portfolio/posts/EV_Stations/> for more details on getting the data from the [API](https://developer.nrel.gov/docs/transportation/alt-fuel-stations-v1/all/)
 
-```{r}
+```{r Get EV Stations Data}
 
 # API key is stored in my .Renviron file
 api_key <- Sys.getenv("AFDC_KEY")
 
-# base url for AFDC alternative fuel stations API
 target <- "https://developer.nrel.gov/api/alt-fuel-stations/v1"
-
 # Return data for all electric stations in Colorado
 api_path <- ".json?&fuel_type=ELEC&state=CO&limit=all"
 
@@ -51,13 +53,13 @@ complete_api_path <- paste0(target,api_path,'&api_key=',api_key)
 
 response <- httr::GET(url = complete_api_path)
 
-if (response$status_code != 200){
- print(paste('Warning, API call returned error code',response$status_code))
+if (response$status_code != 200) {
+ print(paste('Warning, API call returned error code', response$status_code))
 }
 
-response$status_code
 
 ev_dat <- jsonlite::fromJSON(httr::content(response,"text"))
+
 ev <- ev_dat$fuel_stations
 
 # filter out non-EV related fields
@@ -71,18 +73,17 @@ ev <- ev %>% select(-dplyr::starts_with("lng")) %>%
   select(-starts_with("rd")) %>% 
   filter(status_code == 'E')
 
-
 # change date field to date type and add a year opened variable
 ev$open_date <- lubridate::ymd(ev$open_date)
 ev$open_year <- lubridate::year(ev$open_date)
 
 ```
 
-## County data 
+## County data
 
-The shapefiles for the counties are obtained from the [*tigris*](https://github.com/walkerke/tigris) package
+The shapefiles for the counties are obtained from the [tigris](https://github.com/walkerke/tigris) package
 
-```{r}
+```{r Get County Data}
 
 options(tigris_use_cache = TRUE)
 co_counties <- tigris::counties("CO",cb = TRUE)
@@ -90,12 +91,39 @@ head(co_counties)
 
 ```
 
-## Combining data
+## Zip codes
+
+I want to eventually plot the ev stations data by county, so I will need to join the county spatial data with the ev data; however the ev data does not contain the county. <https://www.unitedstateszipcodes.org/zip-code-database/>
 
 ```{r}
 
-co_ev <- co_counties %>% 
-  left_join()
+zips <- readr::read_csv("data/zip_code_database.csv") %>% 
+  filter(state == "CO") %>% 
+  select(zip, primary_city, county)
+
+head(zips)
+```
+
+```{r}
+
+
+ev_county_counts <- ev %>% 
+  select(id,zip,city) %>% 
+  left_join(zips, by = "zip") %>% 
+  count(county) %>% 
+  arrange(desc(n))
+
+head(ev_county_counts)
+```
+
+## Combining data
+
+Before we can plot our map, we need to add the data we want to plot (# Ev stations per county) in \*ev_county_counts\* to our sf object (\*co_counties\*) with the county spatial data.
+
+```{r Combine Data}
+
+co_ev_counts <- co_counties %>% 
+  left_join(ev_county_counts, by = c("NAMELSAD"="county"))
 
 ```
 
@@ -103,22 +131,64 @@ co_ev <- co_counties %>%
 
 ## ggplot
 
-```{r}
+```{r ggplot choropleth}
+#| fig-cap: Choropleth map of number of EV charging stations by county
 
+ggplot() +
+  geom_sf(data = co_ev_counts,
+          aes(fill = n)) +
+  scale_fill_viridis_c(labels = scales::number_format(big.mark = ","),
+                       name = '# Ev Stations') +
+  ggtitle("Number of EV Stations by Colorado County") +
+  theme_void()
 ```
 
 ## Leaflet
 
-```{r}
+```{r Leaflet choropleth}
+#| fig-cap: Choropleth map of number of EV charging stations by county
 
+# create color palette
+pal_ev <- leaflet::colorNumeric(palette = "viridis",
+                                 domain = co_ev_counts$n)
+
+co_ev_map <- leaflet() %>% 
+  addPolygons(data = co_ev_counts,
+              weight = 1,
+              color = "black",
+              popup = paste(co_ev_counts$NAME, "<br>",
+                            " EV Stations: ", co_ev_counts$n, "<br>"),
+              fillColor = ~pal_ev(n),
+              fillOpacity = 0.8) %>% 
+  addLegend(data = co_ev_counts,
+            pal = pal_ev,
+            values = ~n,
+            opacity = 1,
+            title = "# of EV Stations <br> Per County"
+            )
+
+# legend fix --------------------------------------------------------------
+# for issue with na in legend
+html_fix <- htmltools::tags$style(type = "text/css", "div.info.legend.leaflet-control br {clear: both;}") 
+
+co_ev_map %>% 
+  htmlwidgets::prependContent(html_fix)
 ```
+
+# Future Analysis
+
+Now that I have the framework set up, there are a lot of other interesting questions I would like to investigate.
+
+-   Extend to other states or similar analysis at state level.
+
+-   Look at breakdown by charger level/type/network etc.
+
+-   Look at trends over time
+
+-   Look at relationship between demographics (population, income etc. ) and chargers. *tidycensus* package would probably be useful for this.
 
 # SessionInfo
 
 ```{r}
 sessionInfo()
 ```
-
-------------------------------------------------------------------------
-
-------------------------------------------------------------------------
