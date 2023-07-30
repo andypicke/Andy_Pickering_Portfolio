@@ -1703,6 +1703,25 @@
       ],
       "Hash": "c328568cd14ea89a83bd4ca7f54ae07e"
     },
+    "tigris": {
+      "Package": "tigris",
+      "Version": "2.0.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "dplyr",
+        "httr",
+        "magrittr",
+        "methods",
+        "rappdirs",
+        "sf",
+        "stringr",
+        "utils",
+        "uuid"
+      ],
+      "Hash": "6dd14cb88733b84d2b9af9fb8f64dbc5"
+    },
     "timechange": {
       "Package": "timechange",
       "Version": "0.2.0",
