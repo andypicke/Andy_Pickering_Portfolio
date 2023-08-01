@@ -1,5 +1,5 @@
 ---
-title: "Mapping the Number of EV Charging Statings by Couunty in Colorado Using R" 
+title: "Mapping the Number of EV Charging Stations by County in Colorado Using R" 
 author: "Andy Pickering" 
 image: image.png 
 format: 
@@ -8,14 +8,13 @@ format:
     code-fold: show
 date: "2023-08-01"
 categories: [EV, R, visualization, mapping, API]
-draft: false
 toc: true
 bibliography: references.bib
 ---
 
 # Introduction
 
-As you may know from a [previous post](https://andypicke.quarto.pub/portfolio/posts/EV_Stations/) I am interested in electric-vehicle (EV) trends and the transition to a more electrified transportation fleet. I wanted to do some mapping and spatial analysis, and I recently too the [Creating Maps with R](https://www.linkedin.com/learning-login/share?forceAccount=false&redirect=https%3A%2F%2Fwww.linkedin.com%2Flearning%2Fcreating-maps-with-r%3Ftrk%3Dshare_ent_url%26shareId%3DQgGBGCunSQyanayy1A%252Fffg%253D%253D) course by [Charlie Joey Hadley](https://www.linkedin.com/learning/instructors/charlie-joey-hadley), so I decided to use some of the skills I learned to create some maps of EV charging station data for Colorado.
+As you may know from a [previous post](https://andypicke.quarto.pub/portfolio/posts/EV_Stations/) I am interested in electric-vehicle (EV) trends and the transition to a more electrified transportation fleet. I wanted to do some mapping and spatial analysis, and I recently took the [Creating Maps with R](https://www.linkedin.com/learning-login/share?forceAccount=false&redirect=https%3A%2F%2Fwww.linkedin.com%2Flearning%2Fcreating-maps-with-r%3Ftrk%3Dshare_ent_url%26shareId%3DQgGBGCunSQyanayy1A%252Fffg%253D%253D) course by [Charlie Joey Hadley](https://www.linkedin.com/learning/instructors/charlie-joey-hadley), so I decided to use some of the skills I learned to create some maps of EV charging station data for Colorado.
 
 ## Goal
 
@@ -126,7 +125,7 @@ head(co_ev_counts)
 
 # Mapping
 
-I'm going to make choropleth maps using two of the more popular mapping packages: *ggplot2 \[*@ggplot2\] and *leaflet* [@leaflet]. I think they both make good-looking maps; the main advantage to leaflet is that the map is interactive.
+I'm going to make choropleth maps using two of the more popular mapping packages: *ggplot2 \[*\@ggplot2\] and *leaflet* [@leaflet]. I think they both make good-looking maps; the main advantage to leaflet is that the map is interactive.
 
 ## ggplot
 
@@ -148,7 +147,7 @@ ggplot() +
 
 ## Leaflet
 
-Using leaflet requires a little more code but allows you to create an interactive map that can be more useful to the reader. \
+Using leaflet requires a little more code but allows you to create an interactive map that can be more useful to the reader.\
 
 -   In the map below I've set the *popup* to display the county name and number of stations when you **click on the map**.
 
