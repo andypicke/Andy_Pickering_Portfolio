@@ -1,27 +1,25 @@
 ---
 title: "Mapping the Number of EV Charging Statings by Couunty in Colorado Using R" 
 author: "Andy Pickering" 
-#image: image.png 
+image: image.png 
 format: 
   html:
     code-link: true
     code-fold: show
-date: "2023-07-27"
+date: "2023-08-01"
 categories: [EV, R, visualization, mapping, API]
-draft: true
-#bibliography: references.bib
+draft: false
 toc: true
+bibliography: references.bib
 ---
 
 # Introduction
 
-recently took LinkedIn course Creating Maps with R
-
-wanted to create maps of ev station data for Colorado.
+As you may know from a [previous post](https://andypicke.quarto.pub/portfolio/posts/EV_Stations/) I am interested in electric-vehicle (EV) trends and the transition to a more electrified transportation fleet. I wanted to do some mapping and spatial analysis, and I recently too the [Creating Maps with R](https://www.linkedin.com/learning-login/share?forceAccount=false&redirect=https%3A%2F%2Fwww.linkedin.com%2Flearning%2Fcreating-maps-with-r%3Ftrk%3Dshare_ent_url%26shareId%3DQgGBGCunSQyanayy1A%252Fffg%253D%253D) course by [Charlie Joey Hadley](https://www.linkedin.com/learning/instructors/charlie-joey-hadley), so I decided to use some of the skills I learned to create some maps of EV charging station data for Colorado.
 
 ## Goal
 
--   Create choropleth map(s) showing the number of EV charging stations per county in Colorado.
+-   My goal in this post is to create [choropleth](https://en.wikipedia.org/wiki/Choropleth_map) map(s) showing the number of EV charging stations per county in Colorado.
 
 # Data & Analysis
 
@@ -38,7 +36,7 @@ suppressPackageStartupMessages(library(tigris))
 
 ## EV Stations data
 
-Data on EV stations is obtained from the [Alternative Fuels Data Center](https://afdc.energy.gov/)'s Alternative Fuel Stations [database](https://developer.nrel.gov/docs/transportation/alt-fuel-stations-v1/). See my previous post <https://andypicke.quarto.pub/portfolio/posts/EV_Stations/> for more details on getting the data from the [API](https://developer.nrel.gov/docs/transportation/alt-fuel-stations-v1/all/)
+Data on EV stations is obtained from the [Alternative Fuels Data Center](https://afdc.energy.gov/)'s Alternative Fuel Stations [database](https://developer.nrel.gov/docs/transportation/alt-fuel-stations-v1/). See my [previous post](https://andypicke.quarto.pub/portfolio/posts/EV_Stations/){.uri} for more details on getting the data from the [API](https://developer.nrel.gov/docs/transportation/alt-fuel-stations-v1/all/).
 
 ```{r Get EV Stations Data}
 
@@ -73,15 +71,11 @@ ev <- ev %>% select(-dplyr::starts_with("lng")) %>%
   select(-starts_with("rd")) %>% 
   filter(status_code == 'E')
 
-# change date field to date type and add a year opened variable
-ev$open_date <- lubridate::ymd(ev$open_date)
-ev$open_year <- lubridate::year(ev$open_date)
-
 ```
 
 ## County data
 
-The shapefiles for the counties are obtained from the [tigris](https://github.com/walkerke/tigris) package
+Next I need shape files for the Colorado counties to make the map; these are obtained from the [tigris](https://github.com/walkerke/tigris) package.
 
 ```{r Get County Data}
 
@@ -93,24 +87,26 @@ head(co_counties)
 
 ## Zip codes
 
-I want to eventually plot the ev stations data by county, so I will need to join the county spatial data with the ev data; however the ev data does not contain the county. <https://www.unitedstateszipcodes.org/zip-code-database/>
+I have the EV station data and the county shape files, so the next step is to join them together. However, I have a **problem**: the EV stations data does not contain the county name or code, so I can't join them yet without a common column. There are probably a lot of different solutions to this problem (for example the EV data contains addresses so I could geocode these to get the county. In this case, I decided the easiest solution was to download the [zip code database](https://www.unitedstateszipcodes.org/zip-code-database/){.uri} from the USPS (free for personal use), which contains both zip code and their corresponding county.
 
-```{r}
+```{r Load zip code database}
 
-zips <- readr::read_csv("data/zip_code_database.csv") %>% 
+zips <- readr::read_csv("data/zip_code_database.csv",
+                        show_col_types = FALSE) %>% 
   filter(state == "CO") %>% 
   select(zip, primary_city, county)
 
 head(zips)
 ```
 
-```{r}
+Next I compute the number of stations per zip code in the EV data, and join to the zip code database to add the county column.
 
+```{r EV counts by county}
 
 ev_county_counts <- ev %>% 
   select(id,zip,city) %>% 
   left_join(zips, by = "zip") %>% 
-  count(county) %>% 
+  dplyr::count(county) %>% 
   arrange(desc(n))
 
 head(ev_county_counts)
@@ -118,18 +114,25 @@ head(ev_county_counts)
 
 ## Combining data
 
-Before we can plot our map, we need to add the data we want to plot (# Ev stations per county) in \*ev_county_counts\* to our sf object (\*co_counties\*) with the county spatial data.
+Now we can finally join the data we want to plot (# EV stations per county) in \*ev_county_counts\* to our sf object (\*co_counties\*) with the county spatial data, and we are ready to make some maps.
 
 ```{r Combine Data}
 
 co_ev_counts <- co_counties %>% 
-  left_join(ev_county_counts, by = c("NAMELSAD"="county"))
+  left_join(ev_county_counts, by = c("NAMELSAD" = "county"))
 
+head(co_ev_counts)
 ```
 
 # Mapping
 
+I'm going to make choropleth maps using two of the more popular mapping packages: *ggplot2 \[*@ggplot2\] and *leaflet* [@leaflet]. I think they both make good-looking maps; the main advantage to leaflet is that the map is interactive.
+
 ## ggplot
+
+-   ggplot2 makes it relatively easy to plot spatial data in an sf object with *geom_sf*
+
+-   I'm also use the *scales* [@scales] package to format the numbers in the legend
 
 ```{r ggplot choropleth}
 #| fig-cap: Choropleth map of number of EV charging stations by county
@@ -145,6 +148,16 @@ ggplot() +
 
 ## Leaflet
 
+Using leaflet requires a little more code but allows you to create an interactive map that can be more useful to the reader. \
+
+-   In the map below I've set the *popup* to display the county name and number of stations when you **click on the map**.
+
+-   You can also **drag the map around and zoom in/out**.
+
+-   It's also very easy with Leaflet to add a basemap (OpenStreetMap in this case) layer under the choropleth. I decided to add this here because to give readers a better sense of context, and also because I wanted to highlight that the counties close to major highways (I-70 east-west and I-25 north-south) appear to have higher numbers of chargers.
+
+-   Note I've also included some code using from the [Creating Maps in R](https://www.linkedin.com/learning-login/share?forceAccount=false&redirect=https%3A%2F%2Fwww.linkedin.com%2Flearning%2Fcreating-maps-with-r%3Ftrk%3Dshare_ent_url%26shareId%3DQgGBGCunSQyanayy1A%252Fffg%253D%253D) course to fix an issue in the legend where the NA entry overlaps with the other entries.
+
 ```{r Leaflet choropleth}
 #| fig-cap: Choropleth map of number of EV charging stations by county
 
@@ -153,18 +166,20 @@ pal_ev <- leaflet::colorNumeric(palette = "viridis",
                                  domain = co_ev_counts$n)
 
 co_ev_map <- leaflet() %>% 
+  addTiles() %>% # adds OpenStretMap basemap
   addPolygons(data = co_ev_counts,
               weight = 1,
               color = "black",
               popup = paste(co_ev_counts$NAME, "<br>",
                             " EV Stations: ", co_ev_counts$n, "<br>"),
               fillColor = ~pal_ev(n),
-              fillOpacity = 0.8) %>% 
+              fillOpacity = 0.6) %>% 
   addLegend(data = co_ev_counts,
             pal = pal_ev,
             values = ~n,
             opacity = 1,
-            title = "# of EV Stations <br> Per County"
+            title = "# of EV Stations <br>
+            Per County"
             )
 
 # legend fix --------------------------------------------------------------
@@ -177,17 +192,19 @@ co_ev_map %>%
 
 # Future Analysis
 
-Now that I have the framework set up, there are a lot of other interesting questions I would like to investigate.
+Now that I have the basic framework set up for mapping the EV data, there are a lot of other interesting questions I would like to investigate.
+
+-   Look at breakdown by charger level/type/network etc..
+
+-   Look at trends over time.
+
+-   Look at relationship between demographics (population, income etc. ) and chargers. The [*tidycensus*](https://walker-data.com/tidycensus/) package would probably be useful for this.
 
 -   Extend to other states or similar analysis at state level.
 
--   Look at breakdown by charger level/type/network etc.
-
--   Look at trends over time
-
--   Look at relationship between demographics (population, income etc. ) and chargers. *tidycensus* package would probably be useful for this.
-
 # SessionInfo
+
+In order to improve the reproducibility of this analysis, I include the *sessionInfo* below at the time this post was rendered.
 
 ```{r}
 sessionInfo()
