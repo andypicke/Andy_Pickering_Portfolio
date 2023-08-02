@@ -86,7 +86,7 @@ head(co_counties)
 
 ## Zip codes
 
-I have the EV station data and the county shape files, so the next step is to join them together. However, I have a **problem**: the EV stations data does not contain the county name or code, so I can't join them yet without a common column. There are probably a lot of different solutions to this problem (for example the EV data contains addresses so I could geocode these to get the county. In this case, I decided the easiest solution was to download the [zip code database](https://www.unitedstateszipcodes.org/zip-code-database/){.uri} from the USPS (free for personal use), which contains both zip code and their corresponding county.
+I have the EV station data and the county shape files, so the next step is to join them together. However, I have a **problem**: the EV stations data does not contain the county name or code, so I can't join them yet without a common column. There are probably a lot of different solutions to this problem (for example the EV data contains addresses so I could geo-code these to get the county). In this case, I decided the easiest solution was to download the [zip code database](https://www.unitedstateszipcodes.org/zip-code-database/){.uri} from the USPS (free for personal use), which contains both zip codes and their corresponding county.
 
 ```{r Load zip code database}
 
@@ -113,7 +113,7 @@ head(ev_county_counts)
 
 ## Combining data
 
-Now we can finally join the data we want to plot (# EV stations per county) in \*ev_county_counts\* to our sf object (\*co_counties\*) with the county spatial data, and we are ready to make some maps.
+Now we can finally join the data we want to plot (# EV stations per county) in *ev_county_counts* to our sf object (*co_counties*) with the county spatial data, and we are ready to make some maps.
 
 ```{r Combine Data}
 
@@ -125,7 +125,7 @@ head(co_ev_counts)
 
 # Mapping
 
-I'm going to make choropleth maps using two of the more popular mapping packages: *ggplot2 \[*\@ggplot2\] and *leaflet* [@leaflet]. I think they both make good-looking maps; the main advantage to leaflet is that the map is interactive.
+I'm going to make choropleth maps using two of the more popular mapping packages: *ggplot2* [@ggplot2] and *leaflet* \[@leaflet\]. I think they both make good-looking maps; the main advantage to leaflet is that the map is interactive.
 
 ## ggplot
 
@@ -153,7 +153,7 @@ Using leaflet requires a little more code but allows you to create an interactiv
 
 -   You can also **drag the map around and zoom in/out**.
 
--   It's also very easy with Leaflet to add a basemap (OpenStreetMap in this case) layer under the choropleth. I decided to add this here because to give readers a better sense of context, and also because I wanted to highlight that the counties close to major highways (I-70 east-west and I-25 north-south) appear to have higher numbers of chargers.
+-   It's also very easy with Leaflet to add a basemap (OpenStreetMap in this case) layer under the choropleth. I decided to add this here to give readers a better sense of context, and also because I wanted to highlight that the counties close to major highways (I-70 east-west and I-25 north-south) appear to have higher numbers of chargers.
 
 -   Note I've also included some code using from the [Creating Maps in R](https://www.linkedin.com/learning-login/share?forceAccount=false&redirect=https%3A%2F%2Fwww.linkedin.com%2Flearning%2Fcreating-maps-with-r%3Ftrk%3Dshare_ent_url%26shareId%3DQgGBGCunSQyanayy1A%252Fffg%253D%253D) course to fix an issue in the legend where the NA entry overlaps with the other entries.
 
