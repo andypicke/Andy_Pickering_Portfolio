@@ -10,6 +10,7 @@ date: "2023-08-01"
 categories: [EV, R, visualization, mapping, API]
 toc: true
 bibliography: references.bib
+freeze: auto
 ---
 
 # Introduction
@@ -125,7 +126,7 @@ head(co_ev_counts)
 
 # Mapping
 
-I'm going to make choropleth maps using two of the more popular mapping packages: *ggplot2* [@ggplot2] and *leaflet* \[@leaflet\]. I think they both make good-looking maps; the main advantage to leaflet is that the map is interactive.
+I'm going to make choropleth maps using two of the more popular mapping packages: *ggplot2* [@ggplot2] and *leaflet* [@leaflet]. I think they both make good-looking maps; the main advantage to leaflet is that the map is interactive.
 
 ## ggplot
 
