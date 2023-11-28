@@ -29,13 +29,13 @@ Data was downloaded from <https://ember-climate.org/data-catalogue/us-electricit
 
 suppressPackageStartupMessages(library(tidyverse))
 library(gt)
-theme_set(theme_gray(base_size = 15))
+theme_set(theme_gray(base_size = 16))
 
 # read yearly data
 # Data only contains USA, so we can drop country column and some other un-needed ones
 
 df_yearly <- readr::read_csv('data/us_yearly_full_release_long_format-2.csv', 
-                      show_col_types = FALSE) %>% 
+                      show_col_types = FALSE) |> 
   select(-c(Country,`Country code`,`State code`,
             `YoY % change`,`YoY absolute change`))
 
@@ -43,32 +43,32 @@ df_yearly <- readr::read_csv('data/us_yearly_full_release_long_format-2.csv',
 # make separate dataframe for just Electricity generation data
 # This contains both actual generation (gWh) and % of total gen for each fuel type
 
-df_gen_yearly_UStot <- df_yearly %>% 
-  filter(Category == "Electricity generation") %>% 
-  filter(Variable == "Total Generation") %>% 
-  filter(State == 'US Total') %>% 
-  select(-c("State","State type")) %>% 
+df_gen_yearly_UStot <- df_yearly |> 
+  filter(Category == "Electricity generation") |> 
+  filter(Variable == "Total Generation") |> 
+  filter(State == 'US Total') |> 
+  select(-c("State","State type")) |> 
   rename(generation = Value)
 
 
 
 # make separate dataframe for just Power sector emissions data (not generation)
-df_emis_yearly_UStot <- df_yearly %>% 
-  filter(Category == "Power sector emissions") %>% 
-  filter(State == 'US Total') %>% 
-  filter(Variable == 'Total emissions') %>% 
+df_emis_yearly_UStot <- df_yearly |> 
+  filter(Category == "Power sector emissions") |> 
+  filter(State == 'US Total') |> 
+  filter(Variable == 'Total emissions') |> 
   rename(emissions = Value)
 
 
 ```
 
-## Generation Data 
+## Generation Data
 
 ```{r}
 
 df_gen_yearly_UStot |>
-  gt::gt() %>% 
-  opt_row_striping() %>% 
+  gt::gt() |> 
+  opt_row_striping() |> 
   opt_interactive(use_highlight = TRUE, page_size_default = 5)
 
 ```
@@ -77,9 +77,9 @@ df_gen_yearly_UStot |>
 
 ```{r}
 
-df_emis_yearly_UStot %>% 
-  gt::gt() %>% 
-  opt_row_striping() %>% 
+df_emis_yearly_UStot |> 
+  gt::gt() |> 
+  opt_row_striping() |> 
   opt_interactive(use_highlight = TRUE, page_size_default = 5)
 
 ```
@@ -92,7 +92,7 @@ First I'll look at the time series of US electricity generation (@fig-electricit
 #| label: fig-electricity-generation-timeseries
 #| fig-cap: "Timeseries of yearly US electricity generation"
 
-df_gen_yearly_UStot %>% 
+df_gen_yearly_UStot |> 
   ggplot(aes(Year, generation)) +
   geom_point(size = 4) +
   ggtitle("Total US Yearly Electricity Generation") +
@@ -108,11 +108,11 @@ Next I'll look at the time series of emissions from the power sector. @fig-emiss
 #| label: fig-emissions-timeseries
 #| fig-cap: "Timeseries of yearly US emissions from electricity generation"
 
-df_emis_yearly_UStot %>% 
+df_emis_yearly_UStot |> 
   ggplot(aes(Year, emissions)) +
   geom_point(size = 4) +
   geom_smooth(formula = y ~ x, method = "loess") +
-  ggtitle("Total CO2 Emssions From Electricity Generation") +
+  ggtitle("Total CO2 Emissions From Electricity Generation") +
   ylab("Emissions [ktCO2]")
 
 ```
@@ -123,25 +123,25 @@ So far we have sen that electricity generation has been generally increasing ove
 
 ```{r Combine gen and emis data}
 
-df1 <- df_emis_yearly_UStot %>% 
+df1 <- df_emis_yearly_UStot |> 
   select(Year, emissions)
 
-df2 <- df_gen_yearly_UStot %>% 
+df2 <- df_gen_yearly_UStot |> 
   select(Year, generation) 
 
-df_comb <- df1 %>% 
-  inner_join(df2,by = join_by(Year)) %>% 
+df_comb <- df1 |> 
+  inner_join(df2,by = join_by(Year)) |> 
   mutate(emis_per_gen = emissions/generation)
 
 ```
 
-@fig-emissions-vs-generation shows a scatterplot of total US yearly emissions vs electricity generation, with the color corresponding to the year. This shows a trend of decreasing emissions over time, even as generation has increased.
+@fig-emissions-vs-generation shows a scatter plot of total US yearly emissions vs electricity generation, with the color corresponding to the year. This shows a trend of decreasing emissions over time, even as generation has increased.
 
 ```{r Emissions vs generation}
 #| label: fig-emissions-vs-generation
 #| fig-cap: "Scatterplot of total US yearly emissions vs electricity generation"
 
-df_comb %>% 
+df_comb |> 
   ggplot(aes(generation, emissions)) +
   geom_point(size = 5, aes(color = Year)) +
   xlab("Generation [GWh]") +
@@ -155,12 +155,12 @@ An easier way to visualize this trend is to plot the emissions/generation (i.e t
 #| label: fig-emssions-per-generation-vs-year
 #| fig-cap: "Timeseries of total US yearly Emssions/Generation, sized by value of generation"
 
-df_comb %>% 
+df_comb |> 
   ggplot(aes(Year, emis_per_gen)) +
   geom_point(aes(size = generation), color = 'lightblue', alpha = 1) +
   ylab("ktCO2 / GWh") +
   ggtitle("Yearly US Emissions/Generation") +
-  scale_size(range = c(0,9))
+  scale_size(range = c(0,10))
 
 ```
 
@@ -186,10 +186,10 @@ Some of the areas I plan to explore in continuing analysis of this data include:
 
 # SessionInfo
 
-To make this analysis more reproducible, my sessionInfo is listed below.
+To make this analysis more reproducible, my *SessionInfo* is listed below.
 
 ```{r}
 
-sessionInfo()
+utils::sessionInfo()
 
 ```
