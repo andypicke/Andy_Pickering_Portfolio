@@ -18,7 +18,7 @@
   <description><![CDATA[ <section id="introduction" class="level1"><h1>Introduction</h1>
 <p>In this analysis I look at trends in US electricity generation and associated CO2 emissions, using a nice <a href="https://ember-climate.org/data-catalogue/us-electricity-data/">data set</a> available from <a href="https://ember-climate.org/">Ember</a>. Ember provides monthly and yearly data on US electricity generation and emissions for the total US as well as by state, both in total and broken down by fuel types. In this first look at the data, I will limit my analysis to yearly data and total US generation/emissions.</p>
 </section><section id="data" class="level1"><h1>Data</h1>
-<p>Data was downloaded from <a href="https://ember-climate.org/data-catalogue/us-electricity-data/" class="uri">https://ember-climate.org/data-catalogue/us-electricity-data/</a> as a csv file and read into R. Some unnecessary columns were dropped, and the data is subsetted into separate data frames for total US generation and emissions.</p>
+<p>Data was downloaded from <a href="https://ember-climate.org/data-catalogue/us-electricity-data/" class="uri">https://ember-climate.org/data-catalogue/us-electricity-data/</a> as a csv file and read into R. Some unnecessary columns were dropped, and the data is sub-setted into separate data frames for total US generation and emissions.</p>
 <div class="cell">
 <details><summary>Code</summary><div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -57,6 +57,21 @@ background-color: null;
 font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">16</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/r/base/message.html">suppressPackageStartupMessages</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;"><a href="https://plotly-r.com">plotly</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -216,7 +231,6 @@ background-color: null;
 font-style: inherit;">)</span></span>
 <span></span>
 <span></span>
-<span></span>
 <span><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># make separate dataframe for just Power sector emissions data (not generation)</span></span>
@@ -288,7 +302,7 @@ font-style: inherit;">)</span></span></code></pre></div>
 </details>
 </div>
 <section id="generation-data" class="level2"><h2 class="anchored" data-anchor-id="generation-data">Generation Data</h2>
-<div class="cell">
+<div>
 <details open=""><summary>Code</summary><div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">df_gen_yearly_UStot</span> <span class="op" style="color: #5E5E5E;
@@ -331,25 +345,30 @@ background-color: null;
 font-style: inherit;">5</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
-</details><div class="cell-output-display">
+</details><div id="tbl-gen" class="cell tbl-parent quarto-layout-panel anchored">
+<div class="panel-caption table-caption">
+<p><strong>?(caption)</strong></p>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 
-<div id="ksikvescdv" class=".gt_table" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ksikvescdv table {
+<div id="kgjkfxtsqb" class=".gt_table" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#kgjkfxtsqb table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#ksikvescdv thead, #ksikvescdv tbody, #ksikvescdv tfoot, #ksikvescdv tr, #ksikvescdv td, #ksikvescdv th {
+#kgjkfxtsqb thead, #kgjkfxtsqb tbody, #kgjkfxtsqb tfoot, #kgjkfxtsqb tr, #kgjkfxtsqb td, #kgjkfxtsqb th {
   border-style: none;
 }
 
-#ksikvescdv p {
+#kgjkfxtsqb p {
   margin: 0;
   padding: 0;
 }
 
-#ksikvescdv .gt_table {
+#kgjkfxtsqb .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -375,12 +394,12 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-left-color: #D3D3D3;
 }
 
-#ksikvescdv .gt_caption {
+#kgjkfxtsqb .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ksikvescdv .gt_title {
+#kgjkfxtsqb .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -392,7 +411,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-bottom-width: 0;
 }
 
-#ksikvescdv .gt_subtitle {
+#kgjkfxtsqb .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -404,7 +423,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-top-width: 0;
 }
 
-#ksikvescdv .gt_heading {
+#kgjkfxtsqb .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -416,13 +435,13 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#ksikvescdv .gt_bottom_border {
+#kgjkfxtsqb .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ksikvescdv .gt_col_headings {
+#kgjkfxtsqb .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -437,7 +456,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#ksikvescdv .gt_col_heading {
+#kgjkfxtsqb .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -457,7 +476,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   overflow-x: hidden;
 }
 
-#ksikvescdv .gt_column_spanner_outer {
+#kgjkfxtsqb .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -469,15 +488,15 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 4px;
 }
 
-#ksikvescdv .gt_column_spanner_outer:first-child {
+#kgjkfxtsqb .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ksikvescdv .gt_column_spanner_outer:last-child {
+#kgjkfxtsqb .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ksikvescdv .gt_column_spanner {
+#kgjkfxtsqb .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -489,11 +508,11 @@ font-style: inherit;">)</span></span></code></pre></div>
   width: 100%;
 }
 
-#ksikvescdv .gt_spanner_row {
+#kgjkfxtsqb .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#ksikvescdv .gt_group_heading {
+#kgjkfxtsqb .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -519,7 +538,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   text-align: left;
 }
 
-#ksikvescdv .gt_empty_group_heading {
+#kgjkfxtsqb .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -534,15 +553,15 @@ font-style: inherit;">)</span></span></code></pre></div>
   vertical-align: middle;
 }
 
-#ksikvescdv .gt_from_md > :first-child {
+#kgjkfxtsqb .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ksikvescdv .gt_from_md > :last-child {
+#kgjkfxtsqb .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ksikvescdv .gt_row {
+#kgjkfxtsqb .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -561,7 +580,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   overflow-x: hidden;
 }
 
-#ksikvescdv .gt_stub {
+#kgjkfxtsqb .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -574,7 +593,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#ksikvescdv .gt_stub_row_group {
+#kgjkfxtsqb .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -588,15 +607,15 @@ font-style: inherit;">)</span></span></code></pre></div>
   vertical-align: top;
 }
 
-#ksikvescdv .gt_row_group_first td {
+#kgjkfxtsqb .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ksikvescdv .gt_row_group_first th {
+#kgjkfxtsqb .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#ksikvescdv .gt_summary_row {
+#kgjkfxtsqb .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -606,16 +625,16 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#ksikvescdv .gt_first_summary_row {
+#kgjkfxtsqb .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ksikvescdv .gt_first_summary_row.thick {
+#kgjkfxtsqb .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ksikvescdv .gt_last_summary_row {
+#kgjkfxtsqb .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -625,7 +644,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#ksikvescdv .gt_grand_summary_row {
+#kgjkfxtsqb .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -635,7 +654,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#ksikvescdv .gt_first_grand_summary_row {
+#kgjkfxtsqb .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -645,7 +664,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-top-color: #D3D3D3;
 }
 
-#ksikvescdv .gt_last_grand_summary_row_top {
+#kgjkfxtsqb .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -655,11 +674,11 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#ksikvescdv .gt_striped {
+#kgjkfxtsqb .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ksikvescdv .gt_table_body {
+#kgjkfxtsqb .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -668,7 +687,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#ksikvescdv .gt_footnotes {
+#kgjkfxtsqb .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -682,7 +701,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#ksikvescdv .gt_footnote {
+#kgjkfxtsqb .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -691,7 +710,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#ksikvescdv .gt_sourcenotes {
+#kgjkfxtsqb .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -705,7 +724,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#ksikvescdv .gt_sourcenote {
+#kgjkfxtsqb .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -713,73 +732,75 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#ksikvescdv .gt_left {
+#kgjkfxtsqb .gt_left {
   text-align: left;
 }
 
-#ksikvescdv .gt_center {
+#kgjkfxtsqb .gt_center {
   text-align: center;
 }
 
-#ksikvescdv .gt_right {
+#kgjkfxtsqb .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ksikvescdv .gt_font_normal {
+#kgjkfxtsqb .gt_font_normal {
   font-weight: normal;
 }
 
-#ksikvescdv .gt_font_bold {
+#kgjkfxtsqb .gt_font_bold {
   font-weight: bold;
 }
 
-#ksikvescdv .gt_font_italic {
+#kgjkfxtsqb .gt_font_italic {
   font-style: italic;
 }
 
-#ksikvescdv .gt_super {
+#kgjkfxtsqb .gt_super {
   font-size: 65%;
 }
 
-#ksikvescdv .gt_footnote_marks {
+#kgjkfxtsqb .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#ksikvescdv .gt_asterisk {
+#kgjkfxtsqb .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ksikvescdv .gt_indent_1 {
+#kgjkfxtsqb .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ksikvescdv .gt_indent_2 {
+#kgjkfxtsqb .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ksikvescdv .gt_indent_3 {
+#kgjkfxtsqb .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ksikvescdv .gt_indent_4 {
+#kgjkfxtsqb .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ksikvescdv .gt_indent_5 {
+#kgjkfxtsqb .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
-<div id="ksikvescdv" class="reactable html-widget " style="width:auto;height:auto;"></div>
-<script type="application/json" data-for="ksikvescdv">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Year":[2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022],"Category":["Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation"],"Subcategory":["Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total"],"Variable":["Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation"],"Unit":["GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh"],"generation":[3727019.8,3843676.63,3868941.97,3951942.15,4034985.11,4046939.86,4142573.3,4107543.23,3939827.24,4113948.69,4088869,4040678.7,4055605.99,4096016.94,4083990.83,4087556.22,4052312.62,4201559.9,4158396.01,4043179.15,4153620.21,4296877.97]},"columns":[{"id":"Year","name":"Year","type":"numeric","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021","2022"],"html":true,"align":"right","headerStyle":{"font-weight":"normal"}},{"id":"Category","name":"Category","type":"character","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation"],"html":true,"align":"left","headerStyle":{"font-weight":"normal"}},{"id":"Subcategory","name":"Subcategory","type":"character","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total"],"html":true,"align":"left","headerStyle":{"font-weight":"normal"}},{"id":"Variable","name":"Variable","type":"character","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation"],"html":true,"align":"left","headerStyle":{"font-weight":"normal"}},{"id":"Unit","name":"Unit","type":"character","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh"],"html":true,"align":"left","headerStyle":{"font-weight":"normal"}},{"id":"generation","name":"generation","type":"numeric","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["3727020","3843677","3868942","3951942","4034985","4046940","4142573","4107543","3939827","4113949","4088869","4040679","4055606","4096017","4083991","4087556","4052313","4201560","4158396","4043179","4153620","4296878"],"html":true,"align":"right","headerStyle":{"font-weight":"normal"}}],"defaultPageSize":5,"showPageSizeOptions":false,"pageSizeOptions":[10,25,50,100],"paginationType":"numbers","showPagination":true,"showPageInfo":true,"minRows":1,"highlight":true,"striped":true,"showSortable":true,"height":"auto","theme":{"color":"#333333","backgroundColor":"#FFFFFF","stripedColor":"rgba(128,128,128,0.05)","style":{"fontFamily":"system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"},"headerStyle":{"borderTopStyle":"solid","borderTopWidth":"2px","borderTopColor":"#D3D3D3","borderBottomStyle":"solid","borderBottomWidth":"2px","borderBottomColor":"#D3D3D3"}},"elementId":"ksikvescdv","dataKey":"0f14b58d1bbce41049474ee7bed115c8"},"children":[]},"class":"reactR_markup"},"evals":["tag.attribs.columns.0.style","tag.attribs.columns.1.style","tag.attribs.columns.2.style","tag.attribs.columns.3.style","tag.attribs.columns.4.style","tag.attribs.columns.5.style"],"jsHooks":[]}</script>
+<div id="kgjkfxtsqb" class="reactable html-widget " style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="kgjkfxtsqb">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Year":[2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022],"Category":["Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation"],"Subcategory":["Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total"],"Variable":["Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation"],"Unit":["GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh"],"generation":[3727019.8,3843676.63,3868941.97,3951942.15,4034985.11,4046939.86,4142573.3,4107543.23,3939827.24,4113948.69,4088869,4040678.7,4055605.99,4096016.94,4083990.83,4087556.22,4052312.62,4201559.9,4158396.01,4043179.15,4153620.21,4296877.97]},"columns":[{"id":"Year","name":"Year","type":"numeric","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021","2022"],"html":true,"align":"right","headerStyle":{"font-weight":"normal"}},{"id":"Category","name":"Category","type":"character","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation","Electricity generation"],"html":true,"align":"left","headerStyle":{"font-weight":"normal"}},{"id":"Subcategory","name":"Subcategory","type":"character","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total"],"html":true,"align":"left","headerStyle":{"font-weight":"normal"}},{"id":"Variable","name":"Variable","type":"character","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation","Total Generation"],"html":true,"align":"left","headerStyle":{"font-weight":"normal"}},{"id":"Unit","name":"Unit","type":"character","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh","GWh"],"html":true,"align":"left","headerStyle":{"font-weight":"normal"}},{"id":"generation","name":"generation","type":"numeric","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["3727020","3843677","3868942","3951942","4034985","4046940","4142573","4107543","3939827","4113949","4088869","4040679","4055606","4096017","4083991","4087556","4052313","4201560","4158396","4043179","4153620","4296878"],"html":true,"align":"right","headerStyle":{"font-weight":"normal"}}],"defaultPageSize":5,"showPageSizeOptions":false,"pageSizeOptions":[10,25,50,100],"paginationType":"numbers","showPagination":true,"showPageInfo":true,"minRows":1,"highlight":true,"striped":true,"showSortable":true,"height":"auto","theme":{"color":"#333333","backgroundColor":"#FFFFFF","stripedColor":"rgba(128,128,128,0.05)","style":{"fontFamily":"system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"},"headerStyle":{"borderTopStyle":"solid","borderTopWidth":"2px","borderTopColor":"#D3D3D3","borderBottomStyle":"solid","borderBottomWidth":"2px","borderBottomColor":"#D3D3D3"}},"elementId":"kgjkfxtsqb","dataKey":"0f14b58d1bbce41049474ee7bed115c8"},"children":[]},"class":"reactR_markup"},"evals":["tag.attribs.columns.0.style","tag.attribs.columns.1.style","tag.attribs.columns.2.style","tag.attribs.columns.3.style","tag.attribs.columns.4.style","tag.attribs.columns.5.style"],"jsHooks":[]}</script>
+</div>
+</div>
 </div>
 </div>
 </div>
 </section><section id="emissions-data" class="level2"><h2 class="anchored" data-anchor-id="emissions-data">Emissions Data</h2>
-<div class="cell">
+<div>
 <details open=""><summary>Code</summary><div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">df_emis_yearly_UStot</span> <span class="op" style="color: #5E5E5E;
@@ -822,25 +843,30 @@ background-color: null;
 font-style: inherit;">5</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
-</details><div class="cell-output-display">
+</details><div id="tbl-us-emis" class="cell tbl-parent quarto-layout-panel anchored">
+<div class="panel-caption table-caption">
+<p><strong>?(caption)</strong></p>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 
-<div id="toojmzcazy" class=".gt_table" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#toojmzcazy table {
+<div id="oeqfxchykg" class=".gt_table" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#oeqfxchykg table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#toojmzcazy thead, #toojmzcazy tbody, #toojmzcazy tfoot, #toojmzcazy tr, #toojmzcazy td, #toojmzcazy th {
+#oeqfxchykg thead, #oeqfxchykg tbody, #oeqfxchykg tfoot, #oeqfxchykg tr, #oeqfxchykg td, #oeqfxchykg th {
   border-style: none;
 }
 
-#toojmzcazy p {
+#oeqfxchykg p {
   margin: 0;
   padding: 0;
 }
 
-#toojmzcazy .gt_table {
+#oeqfxchykg .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -866,12 +892,12 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-left-color: #D3D3D3;
 }
 
-#toojmzcazy .gt_caption {
+#oeqfxchykg .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#toojmzcazy .gt_title {
+#oeqfxchykg .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -883,7 +909,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-bottom-width: 0;
 }
 
-#toojmzcazy .gt_subtitle {
+#oeqfxchykg .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -895,7 +921,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-top-width: 0;
 }
 
-#toojmzcazy .gt_heading {
+#oeqfxchykg .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -907,13 +933,13 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#toojmzcazy .gt_bottom_border {
+#oeqfxchykg .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#toojmzcazy .gt_col_headings {
+#oeqfxchykg .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -928,7 +954,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#toojmzcazy .gt_col_heading {
+#oeqfxchykg .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -948,7 +974,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   overflow-x: hidden;
 }
 
-#toojmzcazy .gt_column_spanner_outer {
+#oeqfxchykg .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -960,15 +986,15 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 4px;
 }
 
-#toojmzcazy .gt_column_spanner_outer:first-child {
+#oeqfxchykg .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#toojmzcazy .gt_column_spanner_outer:last-child {
+#oeqfxchykg .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#toojmzcazy .gt_column_spanner {
+#oeqfxchykg .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -980,11 +1006,11 @@ font-style: inherit;">)</span></span></code></pre></div>
   width: 100%;
 }
 
-#toojmzcazy .gt_spanner_row {
+#oeqfxchykg .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#toojmzcazy .gt_group_heading {
+#oeqfxchykg .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1010,7 +1036,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   text-align: left;
 }
 
-#toojmzcazy .gt_empty_group_heading {
+#oeqfxchykg .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1025,15 +1051,15 @@ font-style: inherit;">)</span></span></code></pre></div>
   vertical-align: middle;
 }
 
-#toojmzcazy .gt_from_md > :first-child {
+#oeqfxchykg .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#toojmzcazy .gt_from_md > :last-child {
+#oeqfxchykg .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#toojmzcazy .gt_row {
+#oeqfxchykg .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1052,7 +1078,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   overflow-x: hidden;
 }
 
-#toojmzcazy .gt_stub {
+#oeqfxchykg .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1065,7 +1091,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#toojmzcazy .gt_stub_row_group {
+#oeqfxchykg .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1079,15 +1105,15 @@ font-style: inherit;">)</span></span></code></pre></div>
   vertical-align: top;
 }
 
-#toojmzcazy .gt_row_group_first td {
+#oeqfxchykg .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#toojmzcazy .gt_row_group_first th {
+#oeqfxchykg .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#toojmzcazy .gt_summary_row {
+#oeqfxchykg .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1097,16 +1123,16 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#toojmzcazy .gt_first_summary_row {
+#oeqfxchykg .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#toojmzcazy .gt_first_summary_row.thick {
+#oeqfxchykg .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#toojmzcazy .gt_last_summary_row {
+#oeqfxchykg .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1116,7 +1142,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#toojmzcazy .gt_grand_summary_row {
+#oeqfxchykg .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1126,7 +1152,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#toojmzcazy .gt_first_grand_summary_row {
+#oeqfxchykg .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1136,7 +1162,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-top-color: #D3D3D3;
 }
 
-#toojmzcazy .gt_last_grand_summary_row_top {
+#oeqfxchykg .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1146,11 +1172,11 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#toojmzcazy .gt_striped {
+#oeqfxchykg .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#toojmzcazy .gt_table_body {
+#oeqfxchykg .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1159,7 +1185,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#toojmzcazy .gt_footnotes {
+#oeqfxchykg .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1173,7 +1199,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#toojmzcazy .gt_footnote {
+#oeqfxchykg .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1182,7 +1208,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#toojmzcazy .gt_sourcenotes {
+#oeqfxchykg .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1196,7 +1222,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#toojmzcazy .gt_sourcenote {
+#oeqfxchykg .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1204,68 +1230,70 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#toojmzcazy .gt_left {
+#oeqfxchykg .gt_left {
   text-align: left;
 }
 
-#toojmzcazy .gt_center {
+#oeqfxchykg .gt_center {
   text-align: center;
 }
 
-#toojmzcazy .gt_right {
+#oeqfxchykg .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#toojmzcazy .gt_font_normal {
+#oeqfxchykg .gt_font_normal {
   font-weight: normal;
 }
 
-#toojmzcazy .gt_font_bold {
+#oeqfxchykg .gt_font_bold {
   font-weight: bold;
 }
 
-#toojmzcazy .gt_font_italic {
+#oeqfxchykg .gt_font_italic {
   font-style: italic;
 }
 
-#toojmzcazy .gt_super {
+#oeqfxchykg .gt_super {
   font-size: 65%;
 }
 
-#toojmzcazy .gt_footnote_marks {
+#oeqfxchykg .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#toojmzcazy .gt_asterisk {
+#oeqfxchykg .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#toojmzcazy .gt_indent_1 {
+#oeqfxchykg .gt_indent_1 {
   text-indent: 5px;
 }
 
-#toojmzcazy .gt_indent_2 {
+#oeqfxchykg .gt_indent_2 {
   text-indent: 10px;
 }
 
-#toojmzcazy .gt_indent_3 {
+#oeqfxchykg .gt_indent_3 {
   text-indent: 15px;
 }
 
-#toojmzcazy .gt_indent_4 {
+#oeqfxchykg .gt_indent_4 {
   text-indent: 20px;
 }
 
-#toojmzcazy .gt_indent_5 {
+#oeqfxchykg .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
-<div id="toojmzcazy" class="reactable html-widget " style="width:auto;height:auto;"></div>
-<script type="application/json" data-for="toojmzcazy">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"State":["US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total"],"State type":["total","total","total","total","total","total","total","total","total","total","total","total","total","total","total","total","total","total","total","total","total","total"],"Year":[2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022],"Category":["Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions"],"Subcategory":["Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total"],"Variable":["Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions"],"Unit":["ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2"],"emissions":[1995635.47,2024917.8,2058220.61,2089910.01,2140766.21,2112196.45,2174723.55,2129423.05,1955184.4,2062476.93,1979510.19,1901011.15,1908657.48,1914096.66,1828238.01,1755354.29,1688936.22,1731307.58,1633311.62,1493517.14,1575296.75,1578063.75]},"columns":[{"id":"State","name":"State","type":"character","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total"],"html":true,"align":"left","headerStyle":{"font-weight":"normal"}},{"id":"State type","name":"State type","type":"character","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["total","total","total","total","total","total","total","total","total","total","total","total","total","total","total","total","total","total","total","total","total","total"],"html":true,"align":"left","headerStyle":{"font-weight":"normal"}},{"id":"Year","name":"Year","type":"numeric","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021","2022"],"html":true,"align":"right","headerStyle":{"font-weight":"normal"}},{"id":"Category","name":"Category","type":"character","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions"],"html":true,"align":"left","headerStyle":{"font-weight":"normal"}},{"id":"Subcategory","name":"Subcategory","type":"character","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total"],"html":true,"align":"left","headerStyle":{"font-weight":"normal"}},{"id":"Variable","name":"Variable","type":"character","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions"],"html":true,"align":"left","headerStyle":{"font-weight":"normal"}},{"id":"Unit","name":"Unit","type":"character","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2"],"html":true,"align":"left","headerStyle":{"font-weight":"normal"}},{"id":"emissions","name":"emissions","type":"numeric","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["1995635","2024918","2058221","2089910","2140766","2112196","2174724","2129423","1955184","2062477","1979510","1901011","1908657","1914097","1828238","1755354","1688936","1731308","1633312","1493517","1575297","1578064"],"html":true,"align":"right","headerStyle":{"font-weight":"normal"}}],"defaultPageSize":5,"showPageSizeOptions":false,"pageSizeOptions":[10,25,50,100],"paginationType":"numbers","showPagination":true,"showPageInfo":true,"minRows":1,"highlight":true,"striped":true,"showSortable":true,"height":"auto","theme":{"color":"#333333","backgroundColor":"#FFFFFF","stripedColor":"rgba(128,128,128,0.05)","style":{"fontFamily":"system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"},"headerStyle":{"borderTopStyle":"solid","borderTopWidth":"2px","borderTopColor":"#D3D3D3","borderBottomStyle":"solid","borderBottomWidth":"2px","borderBottomColor":"#D3D3D3"}},"elementId":"toojmzcazy","dataKey":"f0e354dc7bbf745bb6ba7104ac27d4c5"},"children":[]},"class":"reactR_markup"},"evals":["tag.attribs.columns.0.style","tag.attribs.columns.1.style","tag.attribs.columns.2.style","tag.attribs.columns.3.style","tag.attribs.columns.4.style","tag.attribs.columns.5.style","tag.attribs.columns.6.style","tag.attribs.columns.7.style"],"jsHooks":[]}</script>
+<div id="oeqfxchykg" class="reactable html-widget " style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="oeqfxchykg">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"State":["US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total"],"State type":["total","total","total","total","total","total","total","total","total","total","total","total","total","total","total","total","total","total","total","total","total","total"],"Year":[2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022],"Category":["Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions"],"Subcategory":["Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total"],"Variable":["Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions"],"Unit":["ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2"],"emissions":[1995635.47,2024917.8,2058220.61,2089910.01,2140766.21,2112196.45,2174723.55,2129423.05,1955184.4,2062476.93,1979510.19,1901011.15,1908657.48,1914096.66,1828238.01,1755354.29,1688936.22,1731307.58,1633311.62,1493517.14,1575296.75,1578063.75]},"columns":[{"id":"State","name":"State","type":"character","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total","US Total"],"html":true,"align":"left","headerStyle":{"font-weight":"normal"}},{"id":"State type","name":"State type","type":"character","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["total","total","total","total","total","total","total","total","total","total","total","total","total","total","total","total","total","total","total","total","total","total"],"html":true,"align":"left","headerStyle":{"font-weight":"normal"}},{"id":"Year","name":"Year","type":"numeric","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021","2022"],"html":true,"align":"right","headerStyle":{"font-weight":"normal"}},{"id":"Category","name":"Category","type":"character","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions","Power sector emissions"],"html":true,"align":"left","headerStyle":{"font-weight":"normal"}},{"id":"Subcategory","name":"Subcategory","type":"character","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total","Total"],"html":true,"align":"left","headerStyle":{"font-weight":"normal"}},{"id":"Variable","name":"Variable","type":"character","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions","Total emissions"],"html":true,"align":"left","headerStyle":{"font-weight":"normal"}},{"id":"Unit","name":"Unit","type":"character","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2","ktCO2"],"html":true,"align":"left","headerStyle":{"font-weight":"normal"}},{"id":"emissions","name":"emissions","type":"numeric","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["1995635","2024918","2058221","2089910","2140766","2112196","2174724","2129423","1955184","2062477","1979510","1901011","1908657","1914097","1828238","1755354","1688936","1731308","1633312","1493517","1575297","1578064"],"html":true,"align":"right","headerStyle":{"font-weight":"normal"}}],"defaultPageSize":5,"showPageSizeOptions":false,"pageSizeOptions":[10,25,50,100],"paginationType":"numbers","showPagination":true,"showPageInfo":true,"minRows":1,"highlight":true,"striped":true,"showSortable":true,"height":"auto","theme":{"color":"#333333","backgroundColor":"#FFFFFF","stripedColor":"rgba(128,128,128,0.05)","style":{"fontFamily":"system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"},"headerStyle":{"borderTopStyle":"solid","borderTopWidth":"2px","borderTopColor":"#D3D3D3","borderBottomStyle":"solid","borderBottomWidth":"2px","borderBottomColor":"#D3D3D3"}},"elementId":"oeqfxchykg","dataKey":"f0e354dc7bbf745bb6ba7104ac27d4c5"},"children":[]},"class":"reactR_markup"},"evals":["tag.attribs.columns.0.style","tag.attribs.columns.1.style","tag.attribs.columns.2.style","tag.attribs.columns.3.style","tag.attribs.columns.4.style","tag.attribs.columns.5.style","tag.attribs.columns.6.style","tag.attribs.columns.7.style"],"jsHooks":[]}</script>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -1273,6 +1301,10 @@ font-style: inherit;">)</span></span></code></pre></div>
 <p>First I’ll look at the time series of US electricity generation (Figure&nbsp;1). We can see that generation has generally increased over time, though it appears to have been relatively flat from about 2008-2017. There was a significant decrease in 2009 (possibly related to the 2008 recession), and also in 2020 (possibly related to the Covid-19 pandemic).</p>
 <div class="cell">
 <details open=""><summary>Code</summary><div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">g</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">df_gen_yearly_UStot</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -1328,18 +1360,34 @@ font-style: inherit;">(</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"[GWh]"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
+font-style: inherit;">)</span></span>
+<span></span>
+<span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">plotly</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/pkg/plotly/man/ggplotly.html">ggplotly</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">g</span><span class="op" style="color: #5E5E5E;
+background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
-</details><div class="cell-output-display">
-<div id="fig-electricity-generation-timeseries" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure"><p><img src="https://andypicke.quarto.pub/portfolio/posts/Ember_US_Electric_Total/Ember_US_elec_total_files/figure-html/fig-electricity-generation-timeseries-1.png" class="img-fluid figure-img" width="960"></p>
-<figcaption class="figure-caption">Figure&nbsp;1: Timeseries of yearly US electricity generation</figcaption></figure>
-</div>
+</details><div id="fig-electricity-generation-timeseries" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure"><div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-86a60dab7a1098417e7d" style="width:100%;height:325px;"></div>
+<script type="application/json" data-for="htmlwidget-86a60dab7a1098417e7d">{"x":{"data":[{"x":[2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022],"y":[3727019.7999999998,3843676.6299999999,3868941.9700000002,3951942.1499999999,4034985.1099999999,4046939.8599999999,4142573.2999999998,4107543.23,3939827.2400000002,4113948.6899999999,4088869,4040678.7000000002,4055605.9900000002,4096016.9399999999,4083990.8300000001,4087556.2200000002,4052312.6200000001,4201559.9000000004,4158396.0099999998,4043179.1499999999,4153620.21,4296877.9699999997],"text":["Year: 2001<br />generation: 3727020","Year: 2002<br />generation: 3843677","Year: 2003<br />generation: 3868942","Year: 2004<br />generation: 3951942","Year: 2005<br />generation: 4034985","Year: 2006<br />generation: 4046940","Year: 2007<br />generation: 4142573","Year: 2008<br />generation: 4107543","Year: 2009<br />generation: 3939827","Year: 2010<br />generation: 4113949","Year: 2011<br />generation: 4088869","Year: 2012<br />generation: 4040679","Year: 2013<br />generation: 4055606","Year: 2014<br />generation: 4096017","Year: 2015<br />generation: 4083991","Year: 2016<br />generation: 4087556","Year: 2017<br />generation: 4052313","Year: 2018<br />generation: 4201560","Year: 2019<br />generation: 4158396","Year: 2020<br />generation: 4043179","Year: 2021<br />generation: 4153620","Year: 2022<br />generation: 4296878"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,0,0,1)","opacity":1,"size":15.118110236220474,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":62.757990867579913,"r":10.62681610626816,"b":64.823578248235776,"l":96.704026567040259},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":21.253632212536321},"title":{"text":"Total US Yearly Electricity Generation","font":{"color":"rgba(0,0,0,1)","family":"","size":25.504358655043593},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[1999.95,2023.05],"tickmode":"array","ticktext":["2000","2005","2010","2015","2020"],"tickvals":[2000,2005,2010,2015,2020],"categoryorder":"array","categoryarray":["2000","2005","2010","2015","2020"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":5.3134080531340802,"tickwidth":0.96607419147892382,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":17.002905770029059},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.96607419147892382,"zeroline":false,"anchor":"y","title":{"text":"Year","font":{"color":"rgba(0,0,0,1)","family":"","size":21.253632212536321}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[3698526.8914999999,4325370.8784999996],"tickmode":"array","ticktext":["3700000","3800000","3900000","4000000","4100000","4200000","4300000"],"tickvals":[3700000,3800000,3900000,4000000,4100000,4200000,4300000],"categoryorder":"array","categoryarray":["3700000","3800000","3900000","4000000","4100000","4200000","4300000"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":5.3134080531340802,"tickwidth":0.96607419147892382,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":17.002905770029059},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.96607419147892382,"zeroline":false,"anchor":"x","title":{"text":"[GWh]","font":{"color":"rgba(0,0,0,1)","family":"","size":21.253632212536321}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":2.7487473156764497,"font":{"color":"rgba(0,0,0,1)","family":"","size":17.002905770029059}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"15b9f3e8cd2a1":{"x":{},"y":{},"type":"scatter"}},"cur_data":"15b9f3e8cd2a1","visdat":{"15b9f3e8cd2a1":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script><figcaption class="figure-caption">Figure&nbsp;1: Timeseries of yearly US electricity generation</figcaption></figure>
 </div>
 </div>
 </section><section id="emissions" class="level1"><h1>Emissions</h1>
 <p>Next I’ll look at the time series of emissions from the power sector. Figure&nbsp;2 shows that US power sector emissions were increasing up to about 2007, but have been steadily decreasing over time since then.</p>
 <div class="cell">
 <details open=""><summary>Code</summary><div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">g</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">df_emis_yearly_UStot</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -1416,12 +1464,24 @@ font-style: inherit;">(</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Emissions [ktCO2]"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
+font-style: inherit;">)</span></span>
+<span></span>
+<span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">plotly</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/pkg/plotly/man/ggplotly.html">ggplotly</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">g</span><span class="op" style="color: #5E5E5E;
+background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
-</details><div class="cell-output-display">
-<div id="fig-emissions-timeseries" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure"><p><img src="https://andypicke.quarto.pub/portfolio/posts/Ember_US_Electric_Total/Ember_US_elec_total_files/figure-html/fig-emissions-timeseries-1.png" class="img-fluid figure-img" width="960"></p>
-<figcaption class="figure-caption">Figure&nbsp;2: Timeseries of yearly US emissions from electricity generation</figcaption></figure>
-</div>
+</details><div id="fig-emissions-timeseries" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure"><div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-21b90ce5524dae368792" style="width:100%;height:325px;"></div>
+<script type="application/json" data-for="htmlwidget-21b90ce5524dae368792">{"x":{"data":[{"x":[2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022],"y":[1995635.47,2024917.8,2058220.6100000001,2089910.01,2140766.21,2112196.4500000002,2174723.5499999998,2129423.0499999998,1955184.3999999999,2062476.9299999999,1979510.1899999999,1901011.1499999999,1908657.48,1914096.6599999999,1828238.01,1755354.29,1688936.22,1731307.5800000001,1633311.6200000001,1493517.1399999999,1575296.75,1578063.75],"text":["Year: 2001<br />emissions: 1995635","Year: 2002<br />emissions: 2024918","Year: 2003<br />emissions: 2058221","Year: 2004<br />emissions: 2089910","Year: 2005<br />emissions: 2140766","Year: 2006<br />emissions: 2112196","Year: 2007<br />emissions: 2174724","Year: 2008<br />emissions: 2129423","Year: 2009<br />emissions: 1955184","Year: 2010<br />emissions: 2062477","Year: 2011<br />emissions: 1979510","Year: 2012<br />emissions: 1901011","Year: 2013<br />emissions: 1908657","Year: 2014<br />emissions: 1914097","Year: 2015<br />emissions: 1828238","Year: 2016<br />emissions: 1755354","Year: 2017<br />emissions: 1688936","Year: 2018<br />emissions: 1731308","Year: 2019<br />emissions: 1633312","Year: 2020<br />emissions: 1493517","Year: 2021<br />emissions: 1575297","Year: 2022<br />emissions: 1578064"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,0,0,1)","opacity":1,"size":15.118110236220474,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[2001,2001.2658227848101,2001.5316455696202,2001.7974683544303,2002.0632911392406,2002.3291139240507,2002.5949367088608,2002.8607594936709,2003.126582278481,2003.3924050632911,2003.6582278481012,2003.9240506329113,2004.1898734177216,2004.4556962025317,2004.7215189873418,2004.9873417721519,2005.253164556962,2005.5189873417721,2005.7848101265822,2006.0506329113923,2006.3164556962026,2006.5822784810127,2006.8481012658228,2007.1139240506329,2007.379746835443,2007.6455696202531,2007.9113924050632,2008.1772151898733,2008.4430379746836,2008.7088607594937,2008.9746835443038,2009.2405063291139,2009.506329113924,2009.7721518987341,2010.0379746835442,2010.3037974683543,2010.5696202531647,2010.8354430379748,2011.1012658227849,2011.367088607595,2011.632911392405,2011.8987341772151,2012.1645569620252,2012.4303797468353,2012.6962025316457,2012.9620253164558,2013.2278481012659,2013.493670886076,2013.7594936708861,2014.0253164556962,2014.2911392405063,2014.5569620253164,2014.8227848101267,2015.0886075949368,2015.3544303797469,2015.620253164557,2015.8860759493671,2016.1518987341772,2016.4177215189873,2016.6835443037974,2016.9493670886077,2017.2151898734178,2017.4810126582279,2017.746835443038,2018.0126582278481,2018.2784810126582,2018.5443037974683,2018.8101265822784,2019.0759493670887,2019.3417721518988,2019.6075949367089,2019.873417721519,2020.1392405063291,2020.4050632911392,2020.6708860759493,2020.9367088607594,2021.2025316455697,2021.4683544303798,2021.7341772151899,2022],"y":[1986714.5922698514,2000687.2769818907,2013915.9258287309,2026384.888211583,2038078.5135316658,2048981.1511901689,2059077.1505883134,2068350.8611273076,2076782.6433135143,2084345.1338969287,2091056.3585338127,2096941.0145287211,2102023.7991862143,2106329.4098108378,2109882.5437071524,2112707.8981797136,2114830.170533075,2116274.0580717945,2117064.2581004249,2117209.9863443202,2116206.7396745477,2113909.3364384403,2110465.6887049298,2106023.7085429486,2100731.3080214295,2094736.3992093033,2088186.8941755032,2081230.7049889611,2074015.7437186027,2066689.9224333728,2059401.153202197,2051542.5248303388,2042313.5013891719,2032072.5197666013,2021186.7119414047,2010023.20989236,1998949.1455982351,1988331.6510378267,1978455.5546283696,1968731.5236097213,1958950.4566501658,1949096.0983085462,1939152.1931437068,1929102.4857144905,1918930.7205797322,1908620.6422982938,1898155.9954290092,1887520.5245307225,1876697.9741622775,1865669.9606523849,1854172.0896996174,1842112.377537051,1829609.2940617998,1816781.3091710131,1803746.8927618032,1790624.5147312975,1777532.6449766208,1764589.7533948985,1751914.3098832567,1739624.7843388205,1727839.6466587055,1716443.6235114855,1705038.630077281,1693639.3528839962,1682272.8666067147,1670966.2459205196,1659746.5655004946,1648640.9000217223,1637676.3241592767,1626879.9125882601,1616278.7399837461,1605899.8810208177,1595764.0951071756,1585846.9442569483,1576127.9826340128,1566590.3221514428,1557217.074722304,1547991.3522596858,1538896.2666766539,1529914.9298862817],"text":["Year: 2001.000<br />emissions: 1986715","Year: 2001.266<br />emissions: 2000687","Year: 2001.532<br />emissions: 2013916","Year: 2001.797<br />emissions: 2026385","Year: 2002.063<br />emissions: 2038079","Year: 2002.329<br />emissions: 2048981","Year: 2002.595<br />emissions: 2059077","Year: 2002.861<br />emissions: 2068351","Year: 2003.127<br />emissions: 2076783","Year: 2003.392<br />emissions: 2084345","Year: 2003.658<br />emissions: 2091056","Year: 2003.924<br />emissions: 2096941","Year: 2004.190<br />emissions: 2102024","Year: 2004.456<br />emissions: 2106329","Year: 2004.722<br />emissions: 2109883","Year: 2004.987<br />emissions: 2112708","Year: 2005.253<br />emissions: 2114830","Year: 2005.519<br />emissions: 2116274","Year: 2005.785<br />emissions: 2117064","Year: 2006.051<br />emissions: 2117210","Year: 2006.316<br />emissions: 2116207","Year: 2006.582<br />emissions: 2113909","Year: 2006.848<br />emissions: 2110466","Year: 2007.114<br />emissions: 2106024","Year: 2007.380<br />emissions: 2100731","Year: 2007.646<br />emissions: 2094736","Year: 2007.911<br />emissions: 2088187","Year: 2008.177<br />emissions: 2081231","Year: 2008.443<br />emissions: 2074016","Year: 2008.709<br />emissions: 2066690","Year: 2008.975<br />emissions: 2059401","Year: 2009.241<br />emissions: 2051543","Year: 2009.506<br />emissions: 2042314","Year: 2009.772<br />emissions: 2032073","Year: 2010.038<br />emissions: 2021187","Year: 2010.304<br />emissions: 2010023","Year: 2010.570<br />emissions: 1998949","Year: 2010.835<br />emissions: 1988332","Year: 2011.101<br />emissions: 1978456","Year: 2011.367<br />emissions: 1968732","Year: 2011.633<br />emissions: 1958950","Year: 2011.899<br />emissions: 1949096","Year: 2012.165<br />emissions: 1939152","Year: 2012.430<br />emissions: 1929102","Year: 2012.696<br />emissions: 1918931","Year: 2012.962<br />emissions: 1908621","Year: 2013.228<br />emissions: 1898156","Year: 2013.494<br />emissions: 1887521","Year: 2013.759<br />emissions: 1876698","Year: 2014.025<br />emissions: 1865670","Year: 2014.291<br />emissions: 1854172","Year: 2014.557<br />emissions: 1842112","Year: 2014.823<br />emissions: 1829609","Year: 2015.089<br />emissions: 1816781","Year: 2015.354<br />emissions: 1803747","Year: 2015.620<br />emissions: 1790625","Year: 2015.886<br />emissions: 1777533","Year: 2016.152<br />emissions: 1764590","Year: 2016.418<br />emissions: 1751914","Year: 2016.684<br />emissions: 1739625","Year: 2016.949<br />emissions: 1727840","Year: 2017.215<br />emissions: 1716444","Year: 2017.481<br />emissions: 1705039","Year: 2017.747<br />emissions: 1693639","Year: 2018.013<br />emissions: 1682273","Year: 2018.278<br />emissions: 1670966","Year: 2018.544<br />emissions: 1659747","Year: 2018.810<br />emissions: 1648641","Year: 2019.076<br />emissions: 1637676","Year: 2019.342<br />emissions: 1626880","Year: 2019.608<br />emissions: 1616279","Year: 2019.873<br />emissions: 1605900","Year: 2020.139<br />emissions: 1595764","Year: 2020.405<br />emissions: 1585847","Year: 2020.671<br />emissions: 1576128","Year: 2020.937<br />emissions: 1566590","Year: 2021.203<br />emissions: 1557217","Year: 2021.468<br />emissions: 1547991","Year: 2021.734<br />emissions: 1538896","Year: 2022.000<br />emissions: 1529915"],"type":"scatter","mode":"lines","name":"fitted values","line":{"width":3.7795275590551185,"color":"rgba(51,102,255,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[2001,2001.2658227848101,2001.5316455696202,2001.7974683544303,2002.0632911392406,2002.3291139240507,2002.5949367088608,2002.8607594936709,2003.126582278481,2003.3924050632911,2003.6582278481012,2003.9240506329113,2004.1898734177216,2004.4556962025317,2004.7215189873418,2004.9873417721519,2005.253164556962,2005.5189873417721,2005.7848101265822,2006.0506329113923,2006.3164556962026,2006.5822784810127,2006.8481012658228,2007.1139240506329,2007.379746835443,2007.6455696202531,2007.9113924050632,2008.1772151898733,2008.4430379746836,2008.7088607594937,2008.9746835443038,2009.2405063291139,2009.506329113924,2009.7721518987341,2010.0379746835442,2010.3037974683543,2010.5696202531647,2010.8354430379748,2011.1012658227849,2011.367088607595,2011.632911392405,2011.8987341772151,2012.1645569620252,2012.4303797468353,2012.6962025316457,2012.9620253164558,2013.2278481012659,2013.493670886076,2013.7594936708861,2014.0253164556962,2014.2911392405063,2014.5569620253164,2014.8227848101267,2015.0886075949368,2015.3544303797469,2015.620253164557,2015.8860759493671,2016.1518987341772,2016.4177215189873,2016.6835443037974,2016.9493670886077,2017.2151898734178,2017.4810126582279,2017.746835443038,2018.0126582278481,2018.2784810126582,2018.5443037974683,2018.8101265822784,2019.0759493670887,2019.3417721518988,2019.6075949367089,2019.873417721519,2020.1392405063291,2020.4050632911392,2020.6708860759493,2020.9367088607594,2021.2025316455697,2021.4683544303798,2021.7341772151899,2022,2022,2022,2021.7341772151899,2021.4683544303798,2021.2025316455697,2020.9367088607594,2020.6708860759493,2020.4050632911392,2020.1392405063291,2019.873417721519,2019.6075949367089,2019.3417721518988,2019.0759493670887,2018.8101265822784,2018.5443037974683,2018.2784810126582,2018.0126582278481,2017.746835443038,2017.4810126582279,2017.2151898734178,2016.9493670886077,2016.6835443037974,2016.4177215189873,2016.1518987341772,2015.8860759493671,2015.620253164557,2015.3544303797469,2015.0886075949368,2014.8227848101267,2014.5569620253164,2014.2911392405063,2014.0253164556962,2013.7594936708861,2013.493670886076,2013.2278481012659,2012.9620253164558,2012.6962025316457,2012.4303797468353,2012.1645569620252,2011.8987341772151,2011.632911392405,2011.367088607595,2011.1012658227849,2010.8354430379748,2010.5696202531647,2010.3037974683543,2010.0379746835442,2009.7721518987341,2009.506329113924,2009.2405063291139,2008.9746835443038,2008.7088607594937,2008.4430379746836,2008.1772151898733,2007.9113924050632,2007.6455696202531,2007.379746835443,2007.1139240506329,2006.8481012658228,2006.5822784810127,2006.3164556962026,2006.0506329113923,2005.7848101265822,2005.5189873417721,2005.253164556962,2004.9873417721519,2004.7215189873418,2004.4556962025317,2004.1898734177216,2003.9240506329113,2003.6582278481012,2003.3924050632911,2003.126582278481,2002.8607594936709,2002.5949367088608,2002.3291139240507,2002.0632911392406,2001.7974683544303,2001.5316455696202,2001.2658227848101,2001,2001],"y":[1909793.6625505879,1930184.7452648405,1949287.1609795371,1967047.8786406983,1983416.0769475687,1998347.3741975767,2011809.5452442181,2023788.9275661369,2034292.217418842,2043345.6193996151,2051034.5074294556,2057459.2071029127,2062723.7254568869,2066930.6465772302,2070177.0920124587,2072552.2585516518,2074136.4499116356,2075001.1892393637,2075209.933065353,2074809.4983553861,2073512.1989213221,2071190.2983472338,2067859.2093415386,2063530.9142899523,2058240.0870663871,2052065.5804462787,2045144.1547408167,2037673.2480646221,2029902.4678674752,2022116.8664024037,2014616.1658604937,2006996.2374120296,1998346.7448846984,1988624.5906043514,1977900.3067723829,1966453.7734260899,1954806.2833132863,1943664.5113517575,1933711.1049763202,1924435.0916431474,1915407.0453844233,1906368.2925310181,1897076.3795408236,1887343.2085857396,1877070.1941903306,1866267.3767261393,1855047.1473814235,1843595.8090094805,1832135.604517947,1820884.9733106815,1809599.0336686482,1797999.1016859235,1786051.8371374607,1773738.5697363266,1761076.0739987786,1748133.2937762551,1735039.8507236245,1721983.2740315073,1709195.2717920502,1696930.2435855949,1685439.1586697714,1674589.2984764136,1663765.7612448502,1652945.6322625568,1642117.2269786529,1631260.7942258262,1620347.8022668869,1609340.8262923949,1598194.5167334683,1586858.0614839031,1575279.2254864324,1563409.4551261454,1551202.1615460049,1538579.338912853,1525494.2056414206,1511927.8855673457,1497880.0651514193,1483362.5874104919,1468393.7349596038,1452994.0001670183,1452994.0001670183,1606835.8596055452,1609398.798393704,1612620.1171088796,1616554.0842931888,1621252.7587355399,1626761.7596266051,1633114.5496010436,1640326.0286683463,1648390.30691549,1657278.2544810597,1666901.7636926172,1677158.1315850851,1687940.9737510497,1699145.3287341022,1710671.697615213,1722428.5062347765,1734333.0735054356,1746311.4989097118,1758297.9485465575,1770240.1346476397,1782319.3250920461,1794633.3479744631,1807196.2327582897,1820025.4392296171,1833115.7356863399,1846417.7115248279,1859824.0486056996,1873166.7509861388,1886225.6533881784,1898745.1457305865,1910454.9479940883,1921260.3438066081,1931445.2400519645,1941264.8434765949,1950973.9078704482,1960791.2469691338,1970861.7628432414,1981228.0067465899,1991823.9040860743,2002493.8679159083,2013027.9555762953,2023200.0042804191,2032998.7907238959,2043092.0078831839,2053592.6463586302,2064473.1171104265,2075520.4489288512,2086280.2578936454,2096088.8122486479,2104186.1405439004,2111262.9784643422,2118129.0195697304,2124788.1619132999,2131229.6336101894,2137407.217972328,2143222.5289764721,2148516.5027959449,2153072.168068321,2156628.3745296467,2158901.280427773,2159610.4743332542,2158918.5831354968,2157546.9269042253,2155523.8911545146,2152863.5378077752,2149587.9954018458,2145728.1730444455,2141323.8729155418,2136422.8219545297,2131078.20963817,2125344.6483942424,2119273.0692081866,2112912.7946884786,2106344.7559324089,2099614.9281827612,2092740.9501157629,2085721.8977824678,2078544.6906779248,2071189.8086989408,2063635.5219891148,1909793.6625505879],"text":["Year: 2001.000<br />emissions: 1986715","Year: 2001.266<br />emissions: 2000687","Year: 2001.532<br />emissions: 2013916","Year: 2001.797<br />emissions: 2026385","Year: 2002.063<br />emissions: 2038079","Year: 2002.329<br />emissions: 2048981","Year: 2002.595<br />emissions: 2059077","Year: 2002.861<br />emissions: 2068351","Year: 2003.127<br />emissions: 2076783","Year: 2003.392<br />emissions: 2084345","Year: 2003.658<br />emissions: 2091056","Year: 2003.924<br />emissions: 2096941","Year: 2004.190<br />emissions: 2102024","Year: 2004.456<br />emissions: 2106329","Year: 2004.722<br />emissions: 2109883","Year: 2004.987<br />emissions: 2112708","Year: 2005.253<br />emissions: 2114830","Year: 2005.519<br />emissions: 2116274","Year: 2005.785<br />emissions: 2117064","Year: 2006.051<br />emissions: 2117210","Year: 2006.316<br />emissions: 2116207","Year: 2006.582<br />emissions: 2113909","Year: 2006.848<br />emissions: 2110466","Year: 2007.114<br />emissions: 2106024","Year: 2007.380<br />emissions: 2100731","Year: 2007.646<br />emissions: 2094736","Year: 2007.911<br />emissions: 2088187","Year: 2008.177<br />emissions: 2081231","Year: 2008.443<br />emissions: 2074016","Year: 2008.709<br />emissions: 2066690","Year: 2008.975<br />emissions: 2059401","Year: 2009.241<br />emissions: 2051543","Year: 2009.506<br />emissions: 2042314","Year: 2009.772<br />emissions: 2032073","Year: 2010.038<br />emissions: 2021187","Year: 2010.304<br />emissions: 2010023","Year: 2010.570<br />emissions: 1998949","Year: 2010.835<br />emissions: 1988332","Year: 2011.101<br />emissions: 1978456","Year: 2011.367<br />emissions: 1968732","Year: 2011.633<br />emissions: 1958950","Year: 2011.899<br />emissions: 1949096","Year: 2012.165<br />emissions: 1939152","Year: 2012.430<br />emissions: 1929102","Year: 2012.696<br />emissions: 1918931","Year: 2012.962<br />emissions: 1908621","Year: 2013.228<br />emissions: 1898156","Year: 2013.494<br />emissions: 1887521","Year: 2013.759<br />emissions: 1876698","Year: 2014.025<br />emissions: 1865670","Year: 2014.291<br />emissions: 1854172","Year: 2014.557<br />emissions: 1842112","Year: 2014.823<br />emissions: 1829609","Year: 2015.089<br />emissions: 1816781","Year: 2015.354<br />emissions: 1803747","Year: 2015.620<br />emissions: 1790625","Year: 2015.886<br />emissions: 1777533","Year: 2016.152<br />emissions: 1764590","Year: 2016.418<br />emissions: 1751914","Year: 2016.684<br />emissions: 1739625","Year: 2016.949<br />emissions: 1727840","Year: 2017.215<br />emissions: 1716444","Year: 2017.481<br />emissions: 1705039","Year: 2017.747<br />emissions: 1693639","Year: 2018.013<br />emissions: 1682273","Year: 2018.278<br />emissions: 1670966","Year: 2018.544<br />emissions: 1659747","Year: 2018.810<br />emissions: 1648641","Year: 2019.076<br />emissions: 1637676","Year: 2019.342<br />emissions: 1626880","Year: 2019.608<br />emissions: 1616279","Year: 2019.873<br />emissions: 1605900","Year: 2020.139<br />emissions: 1595764","Year: 2020.405<br />emissions: 1585847","Year: 2020.671<br />emissions: 1576128","Year: 2020.937<br />emissions: 1566590","Year: 2021.203<br />emissions: 1557217","Year: 2021.468<br />emissions: 1547991","Year: 2021.734<br />emissions: 1538896","Year: 2022.000<br />emissions: 1529915","Year: 2022.000<br />emissions: 1529915","Year: 2022.000<br />emissions: 1529915","Year: 2021.734<br />emissions: 1538896","Year: 2021.468<br />emissions: 1547991","Year: 2021.203<br />emissions: 1557217","Year: 2020.937<br />emissions: 1566590","Year: 2020.671<br />emissions: 1576128","Year: 2020.405<br />emissions: 1585847","Year: 2020.139<br />emissions: 1595764","Year: 2019.873<br />emissions: 1605900","Year: 2019.608<br />emissions: 1616279","Year: 2019.342<br />emissions: 1626880","Year: 2019.076<br />emissions: 1637676","Year: 2018.810<br />emissions: 1648641","Year: 2018.544<br />emissions: 1659747","Year: 2018.278<br />emissions: 1670966","Year: 2018.013<br />emissions: 1682273","Year: 2017.747<br />emissions: 1693639","Year: 2017.481<br />emissions: 1705039","Year: 2017.215<br />emissions: 1716444","Year: 2016.949<br />emissions: 1727840","Year: 2016.684<br />emissions: 1739625","Year: 2016.418<br />emissions: 1751914","Year: 2016.152<br />emissions: 1764590","Year: 2015.886<br />emissions: 1777533","Year: 2015.620<br />emissions: 1790625","Year: 2015.354<br />emissions: 1803747","Year: 2015.089<br />emissions: 1816781","Year: 2014.823<br />emissions: 1829609","Year: 2014.557<br />emissions: 1842112","Year: 2014.291<br />emissions: 1854172","Year: 2014.025<br />emissions: 1865670","Year: 2013.759<br />emissions: 1876698","Year: 2013.494<br />emissions: 1887521","Year: 2013.228<br />emissions: 1898156","Year: 2012.962<br />emissions: 1908621","Year: 2012.696<br />emissions: 1918931","Year: 2012.430<br />emissions: 1929102","Year: 2012.165<br />emissions: 1939152","Year: 2011.899<br />emissions: 1949096","Year: 2011.633<br />emissions: 1958950","Year: 2011.367<br />emissions: 1968732","Year: 2011.101<br />emissions: 1978456","Year: 2010.835<br />emissions: 1988332","Year: 2010.570<br />emissions: 1998949","Year: 2010.304<br />emissions: 2010023","Year: 2010.038<br />emissions: 2021187","Year: 2009.772<br />emissions: 2032073","Year: 2009.506<br />emissions: 2042314","Year: 2009.241<br />emissions: 2051543","Year: 2008.975<br />emissions: 2059401","Year: 2008.709<br />emissions: 2066690","Year: 2008.443<br />emissions: 2074016","Year: 2008.177<br />emissions: 2081231","Year: 2007.911<br />emissions: 2088187","Year: 2007.646<br />emissions: 2094736","Year: 2007.380<br />emissions: 2100731","Year: 2007.114<br />emissions: 2106024","Year: 2006.848<br />emissions: 2110466","Year: 2006.582<br />emissions: 2113909","Year: 2006.316<br />emissions: 2116207","Year: 2006.051<br />emissions: 2117210","Year: 2005.785<br />emissions: 2117064","Year: 2005.519<br />emissions: 2116274","Year: 2005.253<br />emissions: 2114830","Year: 2004.987<br />emissions: 2112708","Year: 2004.722<br />emissions: 2109883","Year: 2004.456<br />emissions: 2106329","Year: 2004.190<br />emissions: 2102024","Year: 2003.924<br />emissions: 2096941","Year: 2003.658<br />emissions: 2091056","Year: 2003.392<br />emissions: 2084345","Year: 2003.127<br />emissions: 2076783","Year: 2002.861<br />emissions: 2068351","Year: 2002.595<br />emissions: 2059077","Year: 2002.329<br />emissions: 2048981","Year: 2002.063<br />emissions: 2038079","Year: 2001.797<br />emissions: 2026385","Year: 2001.532<br />emissions: 2013916","Year: 2001.266<br />emissions: 2000687","Year: 2001.000<br />emissions: 1986715","Year: 2001.000<br />emissions: 1986715"],"type":"scatter","mode":"lines","line":{"width":3.7795275590551185,"color":"transparent","dash":"solid"},"fill":"toself","fillcolor":"rgba(153,153,153,0.4)","hoveron":"points","hoverinfo":"x+y","showlegend":false,"xaxis":"x","yaxis":"y","frame":null}],"layout":{"margin":{"t":62.757990867579913,"r":10.62681610626816,"b":64.823578248235776,"l":96.704026567040259},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":21.253632212536321},"title":{"text":"Total CO2 Emissions From Electricity Generation","font":{"color":"rgba(0,0,0,1)","family":"","size":25.504358655043593},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[1999.95,2023.05],"tickmode":"array","ticktext":["2000","2005","2010","2015","2020"],"tickvals":[2000,2005,2010,2015,2020],"categoryorder":"array","categoryarray":["2000","2005","2010","2015","2020"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":5.3134080531340802,"tickwidth":0.96607419147892382,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":17.002905770029059},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.96607419147892382,"zeroline":false,"anchor":"y","title":{"text":"Year","font":{"color":"rgba(0,0,0,1)","family":"","size":21.253632212536321}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[1416907.5226753692,2210810.0274916487],"tickmode":"array","ticktext":["1600000","1800000","2000000","2200000"],"tickvals":[1600000,1800000,2000000,2200000],"categoryorder":"array","categoryarray":["1600000","1800000","2000000","2200000"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":5.3134080531340802,"tickwidth":0.96607419147892382,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":17.002905770029059},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.96607419147892382,"zeroline":false,"anchor":"x","title":{"text":"Emissions [ktCO2]","font":{"color":"rgba(0,0,0,1)","family":"","size":21.253632212536321}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":2.7487473156764497,"font":{"color":"rgba(0,0,0,1)","family":"","size":17.002905770029059}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"15b9f62d9cf5e":{"x":{},"y":{},"type":"scatter"},"15b9f49bd5705":{"x":{},"y":{}}},"cur_data":"15b9f62d9cf5e","visdat":{"15b9f62d9cf5e":["function (y) ","x"],"15b9f49bd5705":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script><figcaption class="figure-caption">Figure&nbsp;2: Timeseries of yearly US emissions from electricity generation</figcaption></figure>
 </div>
 </div>
 </section><section id="emissions-vs-generation" class="level1"><h1>Emissions vs Generation</h1>
@@ -1520,6 +1580,10 @@ font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell">
 <details open=""><summary>Code</summary><div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
 background-color: null;
+font-style: inherit;">g</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="va" style="color: #111111;
+background-color: null;
 font-style: inherit;">df_comb</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> </span>
@@ -1584,17 +1648,33 @@ font-style: inherit;">(</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Emissions [ktCO2]"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
+font-style: inherit;">)</span></span>
+<span></span>
+<span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">plotly</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/pkg/plotly/man/ggplotly.html">ggplotly</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">g</span><span class="op" style="color: #5E5E5E;
+background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
-</details><div class="cell-output-display">
-<div id="fig-emissions-vs-generation" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure"><p><img src="https://andypicke.quarto.pub/portfolio/posts/Ember_US_Electric_Total/Ember_US_elec_total_files/figure-html/fig-emissions-vs-generation-1.png" class="img-fluid figure-img" width="960"></p>
-<figcaption class="figure-caption">Figure&nbsp;3: Scatterplot of total US yearly emissions vs electricity generation</figcaption></figure>
-</div>
+</details><div id="fig-emissions-vs-generation" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure"><div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-fa781d722b3e96e0b7a5" style="width:100%;height:325px;"></div>
+<script type="application/json" data-for="htmlwidget-fa781d722b3e96e0b7a5">{"x":{"data":[{"x":[3727019.7999999998,3843676.6299999999,3868941.9700000002,3951942.1499999999,4034985.1099999999,4046939.8599999999,4142573.2999999998,4107543.23,3939827.2400000002,4113948.6899999999,4088869,4040678.7000000002,4055605.9900000002,4096016.9399999999,4083990.8300000001,4087556.2200000002,4052312.6200000001,4201559.9000000004,4158396.0099999998,4043179.1499999999,4153620.21,4296877.9699999997],"y":[1995635.47,2024917.8,2058220.6100000001,2089910.01,2140766.21,2112196.4500000002,2174723.5499999998,2129423.0499999998,1955184.3999999999,2062476.9299999999,1979510.1899999999,1901011.1499999999,1908657.48,1914096.6599999999,1828238.01,1755354.29,1688936.22,1731307.5800000001,1633311.6200000001,1493517.1399999999,1575296.75,1578063.75],"text":["generation: 3727020<br />emissions: 1995635<br />Year: 2001","generation: 3843677<br />emissions: 2024918<br />Year: 2002","generation: 3868942<br />emissions: 2058221<br />Year: 2003","generation: 3951942<br />emissions: 2089910<br />Year: 2004","generation: 4034985<br />emissions: 2140766<br />Year: 2005","generation: 4046940<br />emissions: 2112196<br />Year: 2006","generation: 4142573<br />emissions: 2174724<br />Year: 2007","generation: 4107543<br />emissions: 2129423<br />Year: 2008","generation: 3939827<br />emissions: 1955184<br />Year: 2009","generation: 4113949<br />emissions: 2062477<br />Year: 2010","generation: 4088869<br />emissions: 1979510<br />Year: 2011","generation: 4040679<br />emissions: 1901011<br />Year: 2012","generation: 4055606<br />emissions: 1908657<br />Year: 2013","generation: 4096017<br />emissions: 1914097<br />Year: 2014","generation: 4083991<br />emissions: 1828238<br />Year: 2015","generation: 4087556<br />emissions: 1755354<br />Year: 2016","generation: 4052313<br />emissions: 1688936<br />Year: 2017","generation: 4201560<br />emissions: 1731308<br />Year: 2018","generation: 4158396<br />emissions: 1633312<br />Year: 2019","generation: 4043179<br />emissions: 1493517<br />Year: 2020","generation: 4153620<br />emissions: 1575297<br />Year: 2021","generation: 4296878<br />emissions: 1578064<br />Year: 2022"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":["rgba(19,43,67,1)","rgba(22,49,75,1)","rgba(25,54,82,1)","rgba(28,60,90,1)","rgba(31,66,98,1)","rgba(34,72,106,1)","rgba(37,78,114,1)","rgba(40,84,122,1)","rgba(43,90,131,1)","rgba(46,97,139,1)","rgba(49,103,148,1)","rgba(52,109,156,1)","rgba(56,116,165,1)","rgba(59,122,174,1)","rgba(62,129,183,1)","rgba(66,136,192,1)","rgba(69,142,201,1)","rgba(72,149,210,1)","rgba(76,156,219,1)","rgba(79,163,228,1)","rgba(83,170,238,1)","rgba(86,177,247,1)"],"opacity":1,"size":18.897637795275593,"symbol":"circle","line":{"width":1.8897637795275593,"color":["rgba(19,43,67,1)","rgba(22,49,75,1)","rgba(25,54,82,1)","rgba(28,60,90,1)","rgba(31,66,98,1)","rgba(34,72,106,1)","rgba(37,78,114,1)","rgba(40,84,122,1)","rgba(43,90,131,1)","rgba(46,97,139,1)","rgba(49,103,148,1)","rgba(52,109,156,1)","rgba(56,116,165,1)","rgba(59,122,174,1)","rgba(62,129,183,1)","rgba(66,136,192,1)","rgba(69,142,201,1)","rgba(72,149,210,1)","rgba(76,156,219,1)","rgba(79,163,228,1)","rgba(83,170,238,1)","rgba(86,177,247,1)"]}},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[3700000],"y":[1600000],"name":"99_0a768412c8123a6211e4256605a6f71c","type":"scatter","mode":"markers","opacity":0,"hoverinfo":"skip","showlegend":false,"marker":{"color":[0,1],"colorscale":[[0,"#132B43"],[0.0033444816053491066,"#132B44"],[0.0066889632106982132,"#132C44"],[0.010033444816058147,"#142C45"],[0.013377926421407253,"#142D45"],[0.016722408026756359,"#142D46"],[0.020066889632105466,"#142D46"],[0.023411371237454574,"#142E47"],[0.026755852842814506,"#152E47"],[0.030100334448163613,"#152F48"],[0.033444816053512717,"#152F48"],[0.036789297658861825,"#152F49"],[0.040133779264210932,"#153049"],[0.04347826086956004,"#16304A"],[0.046822742474919972,"#16304A"],[0.050167224080269079,"#16314B"],[0.053511705685618187,"#16314B"],[0.056856187290967294,"#16324C"],[0.060200668896316402,"#17324D"],[0.063545150501676334,"#17324D"],[0.066889632107025435,"#17334E"],[0.070234113712374549,"#17334E"],[0.07357859531772365,"#17344F"],[0.076923076923072764,"#18344F"],[0.080267558528432689,"#183450"],[0.083612040133781804,"#183550"],[0.086956521739130904,"#183551"],[0.090301003344480019,"#183651"],[0.093645484949829119,"#193652"],[0.096989966555189058,"#193652"],[0.10033444816053816,"#193753"],[0.10367892976588726,"#193754"],[0.10702341137123637,"#193854"],[0.11036789297658547,"#1A3855"],[0.11371237458193459,"#1A3955"],[0.11705685618729451,"#1A3956"],[0.12040133779264363,"#1A3956"],[0.12374581939799273,"#1A3A57"],[0.12709030100334184,"#1B3A57"],[0.13043478260869096,"#1B3B58"],[0.13377926421405087,"#1B3B59"],[0.13712374581939998,"#1B3B59"],[0.1404682274247491,"#1C3C5A"],[0.14381270903009818,"#1C3C5A"],[0.1471571906354473,"#1C3D5B"],[0.15050167224080724,"#1C3D5B"],[0.15384615384615635,"#1C3D5C"],[0.15719063545150544,"#1D3E5C"],[0.16053511705685455,"#1D3E5D"],[0.16387959866220367,"#1D3F5D"],[0.16722408026756361,"#1D3F5E"],[0.17056856187291269,"#1D3F5F"],[0.17391304347826181,"#1E405F"],[0.17725752508361092,"#1E4060"],[0.18060200668896004,"#1E4160"],[0.18394648829430912,"#1E4161"],[0.18729096989966906,"#1E4261"],[0.19063545150501818,"#1F4262"],[0.19397993311036726,"#1F4263"],[0.19732441471571638,"#1F4363"],[0.20066889632106549,"#1F4364"],[0.20401337792642543,"#1F4464"],[0.20735785953177452,"#204465"],[0.21070234113712363,"#204465"],[0.21404682274247275,"#204566"],[0.21739130434782186,"#204566"],[0.22073578595318177,"#214667"],[0.22408026755853089,"#214668"],[0.22742474916388,"#214768"],[0.23076923076922912,"#214769"],[0.2341137123745782,"#214769"],[0.23745819397993814,"#22486A"],[0.24080267558528726,"#22486A"],[0.24414715719063634,"#22496B"],[0.24749163879598546,"#22496C"],[0.25083612040133457,"#224A6C"],[0.25418060200668369,"#234A6D"],[0.25752508361204363,"#234A6D"],[0.26086956521739274,"#234B6E"],[0.2642140468227418,"#234B6E"],[0.26755852842809091,"#244C6F"],[0.27090301003344003,"#244C70"],[0.27424749163879997,"#244C70"],[0.27759197324414908,"#244D71"],[0.2809364548494982,"#244D71"],[0.28428093645484731,"#254E72"],[0.28762541806019637,"#254E72"],[0.29096989966555631,"#254F73"],[0.29431438127090542,"#254F74"],[0.29765886287625454,"#254F74"],[0.30100334448160365,"#265075"],[0.30434782608695277,"#265075"],[0.30769230769231271,"#265176"],[0.31103678929766182,"#265176"],[0.31438127090301088,"#275277"],[0.31772575250835999,"#275278"],[0.32107023411370911,"#275278"],[0.32441471571905822,"#275379"],[0.32775919732441816,"#275379"],[0.33110367892976728,"#28547A"],[0.33444816053511639,"#28547B"],[0.33779264214046545,"#28557B"],[0.34113712374581456,"#28557C"],[0.3444816053511745,"#28567C"],[0.34782608695652362,"#29567D"],[0.35117056856187273,"#29567D"],[0.35451505016722185,"#29577E"],[0.35785953177257096,"#29577F"],[0.3612040133779309,"#2A587F"],[0.36454849498327996,"#2A5880"],[0.36789297658862907,"#2A5980"],[0.37123745819397819,"#2A5981"],[0.3745819397993273,"#2A5982"],[0.37792642140468724,"#2B5A82"],[0.38127090301003635,"#2B5A83"],[0.38461538461538547,"#2B5B83"],[0.38795986622073453,"#2B5B84"],[0.39130434782608364,"#2C5C85"],[0.39464882943143276,"#2C5C85"],[0.3979933110367927,"#2C5D86"],[0.40133779264214181,"#2C5D86"],[0.40468227424749093,"#2C5D87"],[0.40802675585284004,"#2D5E87"],[0.41137123745818915,"#2D5E88"],[0.41471571906354904,"#2D5F89"],[0.41806020066889815,"#2D5F89"],[0.42140468227424727,"#2E608A"],[0.42474916387959638,"#2E608A"],[0.4280936454849455,"#2E618B"],[0.43143812709030543,"#2E618C"],[0.43478260869565455,"#2E618C"],[0.43812709030100361,"#2F628D"],[0.44147157190635272,"#2F628D"],[0.44481605351170184,"#2F638E"],[0.44816053511706178,"#2F638F"],[0.45150501672241089,"#30648F"],[0.45484949832776,"#306490"],[0.45819397993310912,"#306590"],[0.46153846153845823,"#306591"],[0.46488294314380729,"#306592"],[0.46822742474916723,"#316692"],[0.47157190635451635,"#316693"],[0.47491638795986546,"#316793"],[0.47826086956521457,"#316794"],[0.48160535117056369,"#326895"],[0.48494983277592363,"#326895"],[0.48829431438127269,"#326996"],[0.4916387959866218,"#326996"],[0.49498327759197092,"#326997"],[0.49832775919732003,"#336A98"],[0.50167224080267991,"#336A98"],[0.50501672240802908,"#336B99"],[0.50836120401337814,"#336B99"],[0.51170568561872731,"#346C9A"],[0.51505016722407637,"#346C9B"],[0.51839464882943631,"#346D9B"],[0.52173913043478548,"#346D9C"],[0.52508361204013454,"#346E9D"],[0.5284280936454836,"#356E9D"],[0.53177257525083277,"#356E9E"],[0.53511705685618183,"#356F9E"],[0.53846153846154177,"#356F9F"],[0.54180602006689094,"#3670A0"],[0.54515050167224,"#3670A0"],[0.54849498327758917,"#3671A1"],[0.55183946488293822,"#3671A1"],[0.55518394648829816,"#3772A2"],[0.55852842809364722,"#3772A3"],[0.56187290969899639,"#3773A3"],[0.56521739130434545,"#3773A4"],[0.56856187290969462,"#3773A4"],[0.57190635451505456,"#3874A5"],[0.57525083612040362,"#3874A6"],[0.57859531772575268,"#3875A6"],[0.58193979933110185,"#3875A7"],[0.58528428093645091,"#3976A8"],[0.58862876254181085,"#3976A8"],[0.59197324414716002,"#3977A9"],[0.59531772575250907,"#3977A9"],[0.59866220735785824,"#3978AA"],[0.6020066889632073,"#3A78AB"],[0.60535117056856724,"#3A79AB"],[0.6086956521739163,"#3A79AC"],[0.61204013377926547,"#3A79AC"],[0.61538461538461453,"#3B7AAD"],[0.6187290969899637,"#3B7AAE"],[0.62207357859531276,"#3B7BAE"],[0.6254180602006727,"#3B7BAF"],[0.62876254180602176,"#3C7CB0"],[0.63210702341137093,"#3C7CB0"],[0.63545150501671999,"#3C7DB1"],[0.63879598662206916,"#3C7DB1"],[0.6421404682274291,"#3C7EB2"],[0.64548494983277815,"#3D7EB3"],[0.64882943143812732,"#3D7FB3"],[0.65217391304347638,"#3D7FB4"],[0.65551839464882544,"#3D7FB5"],[0.65886287625418538,"#3E80B5"],[0.66220735785953455,"#3E80B6"],[0.66555183946488361,"#3E81B6"],[0.66889632107023278,"#3E81B7"],[0.67224080267558184,"#3F82B8"],[0.6755852842809309,"#3F82B8"],[0.67892976588629084,"#3F83B9"],[0.68227424749164001,"#3F83BA"],[0.68561872909698907,"#4084BA"],[0.68896321070233824,"#4084BB"],[0.69230769230768729,"#4085BB"],[0.69565217391304723,"#4085BC"],[0.6989966555183964,"#4086BD"],[0.70234113712374546,"#4186BD"],[0.70568561872909452,"#4186BE"],[0.70903010033444369,"#4187BF"],[0.71237458193980363,"#4187BF"],[0.71571906354515269,"#4288C0"],[0.71906354515050186,"#4288C1"],[0.72240802675585092,"#4289C1"],[0.72575250836119998,"#4289C2"],[0.72909698996655992,"#438AC2"],[0.73244147157190909,"#438AC3"],[0.73578595317725815,"#438BC4"],[0.73913043478260732,"#438BC4"],[0.74247491638795637,"#438CC5"],[0.74581939799331631,"#448CC6"],[0.74916387959866548,"#448DC6"],[0.75250836120401454,"#448DC7"],[0.7558528428093636,"#448EC8"],[0.75919732441471277,"#458EC8"],[0.76254180602006183,"#458FC9"],[0.76588628762542177,"#458FC9"],[0.76923076923077094,"#458FCA"],[0.77257525083612,"#4690CB"],[0.77591973244146906,"#4690CB"],[0.77926421404681823,"#4691CC"],[0.78260869565217817,"#4691CD"],[0.78595317725752722,"#4792CD"],[0.78929765886287639,"#4792CE"],[0.79264214046822545,"#4793CF"],[0.79598662207357462,"#4793CF"],[0.79933110367893456,"#4894D0"],[0.80267558528428362,"#4894D0"],[0.80602006688963268,"#4895D1"],[0.80936454849498185,"#4895D2"],[0.81270903010033091,"#4896D2"],[0.81605351170569085,"#4996D3"],[0.81939799331104002,"#4997D4"],[0.82274247491638908,"#4997D4"],[0.82608695652173814,"#4998D5"],[0.82943143812708731,"#4A98D6"],[0.83277591973243636,"#4A99D6"],[0.8361204013377963,"#4A99D7"],[0.83946488294314547,"#4A9AD8"],[0.84280936454849453,"#4B9AD8"],[0.8461538461538437,"#4B9BD9"],[0.84949832775919276,"#4B9BDA"],[0.8528428093645527,"#4B9BDA"],[0.85618729096990176,"#4C9CDB"],[0.85953177257525093,"#4C9CDB"],[0.86287625418059999,"#4C9DDC"],[0.86622073578594916,"#4C9DDD"],[0.8695652173913091,"#4D9EDD"],[0.87290969899665816,"#4D9EDE"],[0.87625418060200722,"#4D9FDF"],[0.87959866220735639,"#4D9FDF"],[0.88294314381270544,"#4DA0E0"],[0.88628762541806538,"#4EA0E1"],[0.88963210702341455,"#4EA1E1"],[0.89297658862876361,"#4EA1E2"],[0.89632107023411278,"#4EA2E3"],[0.89966555183946184,"#4FA2E3"],[0.9030100334448109,"#4FA3E4"],[0.90635451505017084,"#4FA3E5"],[0.90969899665552001,"#4FA4E5"],[0.91304347826086907,"#50A4E6"],[0.91638795986621824,"#50A5E7"],[0.9197324414715673,"#50A5E7"],[0.92307692307692724,"#50A6E8"],[0.92642140468227629,"#51A6E8"],[0.92976588628762546,"#51A7E9"],[0.93311036789297452,"#51A7EA"],[0.93645484949832369,"#51A8EA"],[0.93979933110368363,"#52A8EB"],[0.94314381270903269,"#52A9EC"],[0.94648829431438186,"#52A9EC"],[0.94983277591973092,"#52AAED"],[0.95317725752507998,"#53AAEE"],[0.95652173913043992,"#53ABEE"],[0.95986622073578909,"#53ABEF"],[0.96321070234113815,"#53ACF0"],[0.96655518394648732,"#54ACF0"],[0.96989966555183638,"#54ADF1"],[0.97324414715718555,"#54ADF2"],[0.97658862876254537,"#54AEF2"],[0.97993311036789454,"#55AEF3"],[0.9832775919732436,"#55AFF4"],[0.98662207357859277,"#55AFF4"],[0.98996655518394183,"#55B0F5"],[0.99331103678930177,"#56B0F6"],[0.99665551839465094,"#56B1F6"],[1,"#56B1F7"]],"colorbar":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":2.7487473156764497,"thickness":23.039999999999996,"title":"Year","titlefont":{"color":"rgba(0,0,0,1)","family":"","size":21.253632212536321},"tickmode":"array","ticktext":["2005","2010","2015","2020"],"tickvals":[0.19047619047619047,0.42857142857142855,0.66666666666666663,0.90476190476190477],"tickfont":{"color":"rgba(0,0,0,1)","family":"","size":17.002905770029059},"ticklen":2,"len":0.5}},"xaxis":"x","yaxis":"y","frame":null}],"layout":{"margin":{"t":37.253632212536317,"r":10.62681610626816,"b":64.823578248235776,"l":96.704026567040259},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":21.253632212536321},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[3698526.8914999999,4325370.8784999996],"tickmode":"array","ticktext":["3700000","3800000","3900000","4000000","4100000","4200000","4300000"],"tickvals":[3700000,3800000,3900000,4000000,4100000,4200000,4300000],"categoryorder":"array","categoryarray":["3700000","3800000","3900000","4000000","4100000","4200000","4300000"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":5.3134080531340802,"tickwidth":0.96607419147892382,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":17.002905770029059},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.96607419147892382,"zeroline":false,"anchor":"y","title":{"text":"Generation [GWh]","font":{"color":"rgba(0,0,0,1)","family":"","size":21.253632212536321}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[1459456.8195,2208783.8704999997],"tickmode":"array","ticktext":["1600000","1800000","2000000","2200000"],"tickvals":[1600000,1800000,2000000,2200000],"categoryorder":"array","categoryarray":["1600000","1800000","2000000","2200000"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":5.3134080531340802,"tickwidth":0.96607419147892382,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":17.002905770029059},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.96607419147892382,"zeroline":false,"anchor":"x","title":{"text":"Emissions [ktCO2]","font":{"color":"rgba(0,0,0,1)","family":"","size":21.253632212536321}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":2.7487473156764497,"font":{"color":"rgba(0,0,0,1)","family":"","size":17.002905770029059},"title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":21.253632212536321}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"15b9f6e98fdf7":{"x":{},"y":{},"colour":{},"type":"scatter"}},"cur_data":"15b9f6e98fdf7","visdat":{"15b9f6e98fdf7":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script><figcaption class="figure-caption">Figure&nbsp;3: Scatterplot of total US yearly emissions vs electricity generation</figcaption></figure>
 </div>
 </div>
 <p>An easier way to visualize this trend is to plot the emissions/generation (i.e the CO2 intensity) over time, shown in Figure&nbsp;4. In this figure, the size of the points are also proportional to the value of generation.</p>
 <div class="cell">
 <details open=""><summary>Code</summary><div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">g</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">df_comb</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -1681,16 +1761,28 @@ font-style: inherit;">(</span><span class="fl" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">0</span>,<span class="fl" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">9</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">10</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
 background-color: null;
+font-style: inherit;">)</span></span>
+<span></span>
+<span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">plotly</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/pkg/plotly/man/ggplotly.html">ggplotly</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">g</span><span class="op" style="color: #5E5E5E;
+background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
-</details><div class="cell-output-display">
-<div id="fig-emssions-per-generation-vs-year" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure"><p><img src="https://andypicke.quarto.pub/portfolio/posts/Ember_US_Electric_Total/Ember_US_elec_total_files/figure-html/fig-emssions-per-generation-vs-year-1.png" class="img-fluid figure-img" width="960"></p>
-<figcaption class="figure-caption">Figure&nbsp;4: Timeseries of total US yearly Emssions/Generation, sized by value of generation</figcaption></figure>
-</div>
+</details><div id="fig-emssions-per-generation-vs-year" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure"><div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-341987ea7d8f1d726546" style="width:100%;height:325px;"></div>
+<script type="application/json" data-for="htmlwidget-341987ea7d8f1d726546">{"x":{"data":[{"x":[2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022],"y":[0.5354507292931473,0.52681793889617612,0.53198539186153782,0.52883112421066181,0.53055120443802584,0.52192434853726744,0.52496923832343534,0.51841768443177161,0.4962614553626975,0.50133754341987191,0.48412169477672184,0.47046827801477997,0.47062201917696644,0.46730682222227332,0.44765967557277792,0.42943856806451458,0.41678329842182804,0.41206304829784762,0.39277442938870083,0.36939177923886946,0.37925873583901887,0.36725821887839188],"text":["Year: 2001<br />emis_per_gen: 0.5354507<br />generation: 3727020","Year: 2002<br />emis_per_gen: 0.5268179<br />generation: 3843677","Year: 2003<br />emis_per_gen: 0.5319854<br />generation: 3868942","Year: 2004<br />emis_per_gen: 0.5288311<br />generation: 3951942","Year: 2005<br />emis_per_gen: 0.5305512<br />generation: 4034985","Year: 2006<br />emis_per_gen: 0.5219243<br />generation: 4046940","Year: 2007<br />emis_per_gen: 0.5249692<br />generation: 4142573","Year: 2008<br />emis_per_gen: 0.5184177<br />generation: 4107543","Year: 2009<br />emis_per_gen: 0.4962615<br />generation: 3939827","Year: 2010<br />emis_per_gen: 0.5013375<br />generation: 4113949","Year: 2011<br />emis_per_gen: 0.4841217<br />generation: 4088869","Year: 2012<br />emis_per_gen: 0.4704683<br />generation: 4040679","Year: 2013<br />emis_per_gen: 0.4706220<br />generation: 4055606","Year: 2014<br />emis_per_gen: 0.4673068<br />generation: 4096017","Year: 2015<br />emis_per_gen: 0.4476597<br />generation: 4083991","Year: 2016<br />emis_per_gen: 0.4294386<br />generation: 4087556","Year: 2017<br />emis_per_gen: 0.4167833<br />generation: 4052313","Year: 2018<br />emis_per_gen: 0.4120630<br />generation: 4201560","Year: 2019<br />emis_per_gen: 0.3927744<br />generation: 4158396","Year: 2020<br />emis_per_gen: 0.3693918<br />generation: 4043179","Year: 2021<br />emis_per_gen: 0.3792587<br />generation: 4153620","Year: 2022<br />emis_per_gen: 0.3672582<br />generation: 4296878"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(173,216,230,1)","opacity":1,"size":[0,17.100515885090189,18.861631176764792,23.744904819499833,27.784656146998781,28.318801098233887,32.275100192086825,30.884802484143464,23.096572211765761,31.143664025471168,30.117431779432007,28.040317988789738,28.699794049225343,30.413445732194148,29.913733005621683,30.06274948689795,28.555604981748022,34.489792821982654,32.883816958104234,28.151863099512159,32.701280669689822,37.795275590551185],"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(173,216,230,1)"}},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":62.757990867579913,"r":10.62681610626816,"b":64.823578248235776,"l":71.199667911996684},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":21.253632212536321},"title":{"text":"Yearly US Emissions/Generation","font":{"color":"rgba(0,0,0,1)","family":"","size":25.504358655043593},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[1999.95,2023.05],"tickmode":"array","ticktext":["2000","2005","2010","2015","2020"],"tickvals":[2000,2005,2010,2015,2020],"categoryorder":"array","categoryarray":["2000","2005","2010","2015","2020"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":5.3134080531340802,"tickwidth":0.96607419147892382,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":17.002905770029059},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.96607419147892382,"zeroline":false,"anchor":"y","title":{"text":"Year","font":{"color":"rgba(0,0,0,1)","family":"","size":21.253632212536321}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.35884859335765412,0.54386035481388506],"tickmode":"array","ticktext":["0.40","0.45","0.50"],"tickvals":[0.40000000000000002,0.45000000000000007,0.5],"categoryorder":"array","categoryarray":["0.40","0.45","0.50"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":5.3134080531340802,"tickwidth":0.96607419147892382,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":17.002905770029059},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.96607419147892382,"zeroline":false,"anchor":"x","title":{"text":"ktCO2 / GWh","font":{"color":"rgba(0,0,0,1)","family":"","size":21.253632212536321}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":2.7487473156764497,"font":{"color":"rgba(0,0,0,1)","family":"","size":17.002905770029059},"title":{"text":"generation","font":{"color":"rgba(0,0,0,1)","family":"","size":21.253632212536321}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"15b9f95e0074":{"x":{},"y":{},"size":{},"type":"scatter"}},"cur_data":"15b9f95e0074","visdat":{"15b9f95e0074":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script><figcaption class="figure-caption">Figure&nbsp;4: Timeseries of total US yearly Emssions/Generation, sized by value of generation</figcaption></figure>
 </div>
 </div>
 </section><section id="summary" class="level1"><h1>Summary</h1>
@@ -1740,25 +1832,26 @@ attached base packages:
 [1] stats     graphics  grDevices datasets  utils     methods   base     
 
 other attached packages:
- [1] gt_0.10.0       lubridate_1.9.3 forcats_1.0.0   stringr_1.5.0  
- [5] dplyr_1.1.3     purrr_1.0.2     readr_2.1.4     tidyr_1.3.0    
- [9] tibble_3.2.1    ggplot2_3.4.4   tidyverse_2.0.0
+ [1] plotly_4.10.3   gt_0.10.0       lubridate_1.9.3 forcats_1.0.0  
+ [5] stringr_1.5.0   dplyr_1.1.3     purrr_1.0.2     readr_2.1.4    
+ [9] tidyr_1.3.0     tibble_3.2.1    ggplot2_3.4.4   tidyverse_2.0.0
 
 loaded via a namespace (and not attached):
- [1] sass_0.4.7        utf8_1.2.4        generics_0.1.3    renv_1.0.3       
- [5] xml2_1.3.5        lattice_0.22-5    stringi_1.7.12    hms_1.1.3        
- [9] digest_0.6.33     magrittr_2.0.3    evaluate_0.22     grid_4.3.1       
-[13] timechange_0.2.0  fastmap_1.1.1     Matrix_1.6-1.1    jsonlite_1.8.7   
-[17] mgcv_1.9-0        fansi_1.0.5       crosstalk_1.2.0   scales_1.2.1     
-[21] cli_3.6.1         rlang_1.1.1       crayon_1.5.2      splines_4.3.1    
-[25] ellipsis_0.3.2    bit64_4.0.5       munsell_0.5.0     reactR_0.5.0     
-[29] withr_2.5.1       yaml_2.3.7        tools_4.3.1       parallel_4.3.1   
-[33] tzdb_0.4.0        colorspace_2.1-0  vctrs_0.6.4       R6_2.5.1         
-[37] lifecycle_1.0.3   reactable_0.4.4   htmlwidgets_1.6.2 bit_4.0.5        
-[41] vroom_1.6.4       pkgconfig_2.0.3   pillar_1.9.0      gtable_0.3.4     
-[45] glue_1.6.2        xfun_0.40         tidyselect_1.2.0  rstudioapi_0.15.0
-[49] knitr_1.44        farver_2.1.1      nlme_3.1-163      htmltools_0.5.6.1
-[53] labeling_0.4.3    rmarkdown_2.25    compiler_4.3.1   </code></pre>
+ [1] gtable_0.3.4      xfun_0.40         htmlwidgets_1.6.2 lattice_0.22-5   
+ [5] tzdb_0.4.0        vctrs_0.6.4       tools_4.3.1       crosstalk_1.2.0  
+ [9] generics_0.1.3    parallel_4.3.1    fansi_1.0.5       pkgconfig_2.0.3  
+[13] Matrix_1.6-1.1    data.table_1.14.8 lifecycle_1.0.3   farver_2.1.1     
+[17] compiler_4.3.1    munsell_0.5.0     htmltools_0.5.6.1 sass_0.4.7       
+[21] yaml_2.3.7        lazyeval_0.2.2    pillar_1.9.0      crayon_1.5.2     
+[25] ellipsis_0.3.2    nlme_3.1-163      tidyselect_1.2.0  digest_0.6.33    
+[29] stringi_1.7.12    labeling_0.4.3    splines_4.3.1     fastmap_1.1.1    
+[33] grid_4.3.1        colorspace_2.1-0  cli_3.6.1         magrittr_2.0.3   
+[37] utf8_1.2.4        withr_2.5.1       reactR_0.5.0      scales_1.2.1     
+[41] bit64_4.0.5       timechange_0.2.0  rmarkdown_2.25    httr_1.4.7       
+[45] bit_4.0.5         hms_1.1.3         evaluate_0.22     knitr_1.44       
+[49] viridisLite_0.4.2 mgcv_1.9-0        rlang_1.1.1       glue_1.6.2       
+[53] reactable_0.4.4   xml2_1.3.5        renv_1.0.3        rstudioapi_0.15.0
+[57] vroom_1.6.4       jsonlite_1.8.7    R6_2.5.1         </code></pre>
 </div>
 </div>
 

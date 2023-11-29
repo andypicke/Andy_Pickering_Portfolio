@@ -151,14 +151,14 @@
     "href": "posts/Ember_US_Electric_Total/Ember_US_elec_total.html#generation-data",
     "title": "Trends in US Electricity Generation and CO2 Emissions",
     "section": "Generation Data",
-    "text": "Generation Data\n\nCodedf_gen_yearly_UStot |&gt;\n  gt::gt() |&gt; \n  opt_row_striping() |&gt; \n  opt_interactive(use_highlight = TRUE, page_size_default = 5)"
+    "text": "Generation Data\n\nCodedf_gen_yearly_UStot |&gt;\n  gt::gt() |&gt; \n  opt_row_striping() |&gt; \n  opt_interactive(use_highlight = TRUE, page_size_default = 5)\n\n\n?(caption)"
   },
   {
     "objectID": "posts/Ember_US_Electric_Total/Ember_US_elec_total.html#emissions-data",
     "href": "posts/Ember_US_Electric_Total/Ember_US_elec_total.html#emissions-data",
     "title": "Trends in US Electricity Generation and CO2 Emissions",
     "section": "Emissions Data",
-    "text": "Emissions Data\n\nCodedf_emis_yearly_UStot |&gt; \n  gt::gt() |&gt; \n  opt_row_striping() |&gt; \n  opt_interactive(use_highlight = TRUE, page_size_default = 5)"
+    "text": "Emissions Data\n\nCodedf_emis_yearly_UStot |&gt; \n  gt::gt() |&gt; \n  opt_row_striping() |&gt; \n  opt_interactive(use_highlight = TRUE, page_size_default = 5)\n\n\n?(caption)"
   },
   {
     "objectID": "posts/Ember_US_Electric_Total/Ember_US_elec_total.html#further-exploration",
