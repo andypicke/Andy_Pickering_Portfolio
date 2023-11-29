@@ -8,6 +8,7 @@ format:
     code-fold: show
     fig-width: 10
 date: "2023-11-19"
+date-modified: today
 categories: [energy, R, visualization]
 toc: true
 #bibliography: references.bib
@@ -21,15 +22,17 @@ In this analysis I look at trends in US electricity generation and associated CO
 
 # Data
 
-Data was downloaded from <https://ember-climate.org/data-catalogue/us-electricity-data/> as a csv file and read into R. Some unnecessary columns were dropped, and the data is subsetted into separate data frames for total US generation and emissions.
+Data was downloaded from <https://ember-climate.org/data-catalogue/us-electricity-data/> as a csv file and read into R. Some unnecessary columns were dropped, and the data is sub-setted into separate data frames for total US generation and emissions.
 
-```{r data prep}
+```{r }
+#| label: data prep
 #| code-fold: true
 #| 
 
 suppressPackageStartupMessages(library(tidyverse))
 library(gt)
 theme_set(theme_gray(base_size = 16))
+suppressPackageStartupMessages(library(plotly))
 
 # read yearly data
 # Data only contains USA, so we can drop country column and some other un-needed ones
@@ -51,7 +54,6 @@ df_gen_yearly_UStot <- df_yearly |>
   rename(generation = Value)
 
 
-
 # make separate dataframe for just Power sector emissions data (not generation)
 df_emis_yearly_UStot <- df_yearly |> 
   filter(Category == "Power sector emissions") |> 
@@ -65,6 +67,7 @@ df_emis_yearly_UStot <- df_yearly |>
 ## Generation Data
 
 ```{r}
+#| label: tbl-gen
 
 df_gen_yearly_UStot |>
   gt::gt() |> 
@@ -76,6 +79,7 @@ df_gen_yearly_UStot |>
 ## Emissions Data
 
 ```{r}
+#| label: tbl-us-emis
 
 df_emis_yearly_UStot |> 
   gt::gt() |> 
@@ -92,11 +96,13 @@ First I'll look at the time series of US electricity generation (@fig-electricit
 #| label: fig-electricity-generation-timeseries
 #| fig-cap: "Timeseries of yearly US electricity generation"
 
-df_gen_yearly_UStot |> 
+g <- df_gen_yearly_UStot |> 
   ggplot(aes(Year, generation)) +
   geom_point(size = 4) +
   ggtitle("Total US Yearly Electricity Generation") +
   ylab("[GWh]")
+
+plotly::ggplotly(g)
 
 ```
 
@@ -108,12 +114,14 @@ Next I'll look at the time series of emissions from the power sector. @fig-emiss
 #| label: fig-emissions-timeseries
 #| fig-cap: "Timeseries of yearly US emissions from electricity generation"
 
-df_emis_yearly_UStot |> 
+g <- df_emis_yearly_UStot |> 
   ggplot(aes(Year, emissions)) +
   geom_point(size = 4) +
   geom_smooth(formula = y ~ x, method = "loess") +
   ggtitle("Total CO2 Emissions From Electricity Generation") +
   ylab("Emissions [ktCO2]")
+
+plotly::ggplotly(g)
 
 ```
 
@@ -141,11 +149,13 @@ df_comb <- df1 |>
 #| label: fig-emissions-vs-generation
 #| fig-cap: "Scatterplot of total US yearly emissions vs electricity generation"
 
-df_comb |> 
+g <- df_comb |> 
   ggplot(aes(generation, emissions)) +
   geom_point(size = 5, aes(color = Year)) +
   xlab("Generation [GWh]") +
   ylab("Emissions [ktCO2]")
+
+plotly::ggplotly(g)
 
 ```
 
@@ -155,12 +165,14 @@ An easier way to visualize this trend is to plot the emissions/generation (i.e t
 #| label: fig-emssions-per-generation-vs-year
 #| fig-cap: "Timeseries of total US yearly Emssions/Generation, sized by value of generation"
 
-df_comb |> 
+g <- df_comb |> 
   ggplot(aes(Year, emis_per_gen)) +
   geom_point(aes(size = generation), color = 'lightblue', alpha = 1) +
   ylab("ktCO2 / GWh") +
   ggtitle("Yearly US Emissions/Generation") +
   scale_size(range = c(0,10))
+
+plotly::ggplotly(g)
 
 ```
 
