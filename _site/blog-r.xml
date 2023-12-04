@@ -5507,7 +5507,7 @@ Wickham, Hadley. 2022. <span>“Rvest: Easily Harvest (Scrape) Web Pages.”</sp
 <p>I’ll retrieve the EV station data using the AFDC API. The documentation for the AFDC fuel-stations API can be found at: <a href="https://developer.nrel.gov/docs/transportation/alt-fuel-stations-v1/all/#station-count-record-fields" class="uri">https://developer.nrel.gov/docs/transportation/alt-fuel-stations-v1/all/#station-count-record-fields</a></p>
 <ul>
 <li><p>You can obtain a free API key at: [<a href="https://developer.nrel.gov/signup/" class="uri">https://developer.nrel.gov/signup/</a>]. I’ve saved my API key in my local .Renviron file so I can load it without exposing the key in my code.</p></li>
-<li><p>I will request data for all EV stations in Colorado.</p></li>
+<li><p>I will request data for all EV stations in <strong>Colorado</strong>.</p></li>
 <li><p>I’ll retrieve the data from the API using the <em>httr</em> <span class="citation" data-cites="httr">(Wickham 2023)</span> package.</p></li>
 </ul>
 <div class="cell">
@@ -5546,7 +5546,7 @@ font-style: inherit;"># Return data for all electric stations in Colorado</span>
 background-color: null;
 font-style: inherit;">api_path</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">&lt;-</span><span class="st" style="color: #20794D;
+font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">".json?&amp;fuel_type=ELEC&amp;state=CO&amp;limit=all"</span></span>
 <span></span>
@@ -5582,9 +5582,9 @@ font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;"><a href="https://httr.r-lib.org/reference/GET.html">GET</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">(</span>url<span class="op" style="color: #5E5E5E;
+font-style: inherit;">(</span>url <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span><span class="va" style="color: #111111;
+font-style: inherit;">=</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">complete_api_path</span><span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -5602,11 +5602,11 @@ font-style: inherit;">$</span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">status_code</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">!=</span><span class="fl" style="color: #AD0000;
+font-style: inherit;">!=</span> <span class="fl" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">200</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">{</span></span>
 <span> <span class="fu" style="color: #4758AB;
@@ -5708,7 +5708,7 @@ font-style: inherit;">)</span></span></code></pre></div>
 </div>
 <ul>
 <li><p>The converted response is actually a list containing the data as well as some metadata about the request.</p></li>
-<li><p>The <em>total_results</em> field gives the total number of fuel station records match your requested query (regardless of any limit applied).</p></li>
+<li><p>The <em>total_results</em> field gives the total number of fuel station records that match your requested query (regardless of any limit applied).</p></li>
 </ul>
 <div class="cell">
 <details open=""><summary>Code</summary><div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
@@ -5719,7 +5719,7 @@ font-style: inherit;">$</span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">total_results</span></span></code></pre></div>
 </details><div class="cell-output cell-output-stdout">
-<pre><code>[1] 2049</code></pre>
+<pre><code>[1] 2303</code></pre>
 </div>
 </div>
 <ul>
@@ -5727,7 +5727,7 @@ font-style: inherit;">total_results</span></span></code></pre></div>
 <p>The *<a href="https://developer.nrel.gov/docs/transportation/alt-fuel-stations-v1/all/#station-count-record-fields">station_counts</a>* field gives a breakdown by fuel type (here I requested only electric so the counts for all other fuel types are zero).</p>
 <ul>
 <li><p><em>total</em> includes the number of individual chargers/plugs, which is why it is greater than the station count.</p></li>
-<li><p>In this case, there are 2049 stations, and a total of 4910 chargers/plugs.</p></li>
+<li><p>In this case, there are 2303 stations, and a total of 5695 chargers/plugs.</p></li>
 </ul>
 </li>
 </ul>
@@ -5749,11 +5749,11 @@ background-color: null;
 font-style: inherit;">ELEC</span></span></code></pre></div>
 </details><div class="cell-output cell-output-stdout">
 <pre><code>$total
-[1] 4910
+[1] 5695
 
 $stations
 $stations$total
-[1] 2049</code></pre>
+[1] 2303</code></pre>
 </div>
 </div>
 <p>Finally, the data we want to analyze is in the <em>fuel_stations</em> data frame.</p>
@@ -5947,9 +5947,9 @@ font-style: inherit;"><a href="https://rdrr.io/r/stats/filter.html">filter</a></
 background-color: null;
 font-style: inherit;">(</span><span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">status_code</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">status_code</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">==</span><span class="st" style="color: #20794D;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'E'</span><span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -6010,47 +6010,17 @@ font-style: inherit;">open_date</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span>
 <span></span>
-<span><span class="fu" style="color: #4758AB;
+<span><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">ev</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span></span></code></pre></div>
-</details><div class="cell-output cell-output-stdout">
-<pre><code> [1] "access_code"                "access_days_time"          
- [3] "access_detail_code"         "cards_accepted"            
- [5] "date_last_confirmed"        "expected_date"             
- [7] "fuel_type_code"             "groups_with_access_code"   
- [9] "id"                         "open_date"                 
-[11] "owner_type_code"            "status_code"               
-[13] "restricted_access"          "maximum_vehicle_class"     
-[15] "station_name"               "station_phone"             
-[17] "updated_at"                 "facility_type"             
-[19] "geocode_status"             "latitude"                  
-[21] "longitude"                  "city"                      
-[23] "intersection_directions"    "plus4"                     
-[25] "state"                      "street_address"            
-[27] "zip"                        "country"                   
-[29] "ev_connector_types"         "ev_dc_fast_num"            
-[31] "ev_level1_evse_num"         "ev_level2_evse_num"        
-[33] "ev_network"                 "ev_network_web"            
-[35] "ev_other_evse"              "ev_pricing"                
-[37] "ev_renewable_source"        "nps_unit_name"             
-[39] "access_days_time_fr"        "intersection_directions_fr"
-[41] "groups_with_access_code_fr" "ev_pricing_fr"             
-[43] "ev_network_ids"             "federal_agency"            
-[45] "open_year"                 </code></pre>
-</div>
+font-style: inherit;">#colnames(ev)</span></span></code></pre></div>
+</details>
 </div>
 </section></section><section id="analysis" class="level2"><h2 class="anchored" data-anchor-id="analysis">Analysis</h2>
 <section id="station-openings-over-time" class="level3"><h3 class="anchored" data-anchor-id="station-openings-over-time">Station Openings Over Time</h3>
-<section id="look-at-how-many-stations-opened-each-year" class="level4"><h4 class="anchored" data-anchor-id="look-at-how-many-stations-opened-each-year">Look at how many stations opened each year</h4>
+<section id="how-many-stations-opened-each-year" class="level4"><h4 class="anchored" data-anchor-id="how-many-stations-opened-each-year">How many stations opened each year?</h4>
 <p>First I’d like to look at how many EV stations opened over time, so I’ll make a new data frame summarizing the number of stations opened by year.</p>
 <div class="cell">
-<details open=""><summary>Code</summary><div class="sourceCode" id="cb14" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
+<details open=""><summary>Code</summary><div class="sourceCode" id="cb13" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">ev_opened</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -6090,30 +6060,11 @@ font-style: inherit;">open_year</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span></span>
-<span></span>
-<span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">ev_opened</span><span class="op" style="color: #5E5E5E;
-background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
-</details><div class="cell-output cell-output-stdout">
-<pre><code>  open_year nopened
-1      2010       2
-2      2011      13
-3      2012      30
-4      2013      18
-5      2014      35
-6      2015      57</code></pre>
+</details>
 </div>
-</div>
-</section><section id="plot-number-of-stations-opened-each-year" class="level4"><h4 class="anchored" data-anchor-id="plot-number-of-stations-opened-each-year">Plot Number of Stations Opened Each year</h4>
 <div class="cell">
-<details open=""><summary>Code</summary><div class="sourceCode" id="cb16" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
+<details open=""><summary>Code</summary><div class="sourceCode" id="cb14" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">ev_opened</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -6142,7 +6093,7 @@ font-style: inherit;">geom_col</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
@@ -6153,7 +6104,7 @@ font-style: inherit;">(</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Year Opened"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
@@ -6164,7 +6115,7 @@ font-style: inherit;">(</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"# Stations Opened"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
@@ -6175,7 +6126,7 @@ font-style: inherit;">(</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'EV Stations Opened in Colorado Each Year'</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
@@ -6188,7 +6139,7 @@ font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">15</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
@@ -6213,20 +6164,16 @@ font-style: inherit;">0</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 </details><div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><img src="https://andypicke.quarto.pub/portfolio/posts/EV_Stations/index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="768"></p>
-<figcaption class="figure-caption">Number of EV Charging Stations Opend In Colorado</figcaption></figure>
+<div id="fig-nopened-bar" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure"><p><img src="https://andypicke.quarto.pub/portfolio/posts/EV_Stations/index_files/figure-html/fig-nopened-bar-1.png" class="img-fluid figure-img" width="768"></p>
+<figcaption class="figure-caption">Figure&nbsp;1: Number of EV Charging Stations Opened In Colorado each year</figcaption></figure>
 </div>
 </div>
 </div>
 </section><section id="cumulative-sum-of-stations-opened-over-time" class="level4"><h4 class="anchored" data-anchor-id="cumulative-sum-of-stations-opened-over-time">Cumulative sum of stations opened over time</h4>
 <p>We can also look at the cumulative sum of stations opened over time</p>
 <div class="cell">
-<details open=""><summary>Code</summary><div class="sourceCode" id="cb17" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">#| fig-width: 8</span></span>
-<span></span>
-<span><span class="va" style="color: #111111;
+<details open=""><summary>Code</summary><div class="sourceCode" id="cb15" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">ev_opened</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -6252,29 +6199,20 @@ font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">geom_line</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">(</span>linewidth<span class="op" style="color: #5E5E5E;
+font-style: inherit;">(</span>linewidth <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1.5</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span></span>
-<span>  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">geom_point</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
@@ -6285,7 +6223,7 @@ font-style: inherit;">(</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Year"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
@@ -6296,7 +6234,7 @@ font-style: inherit;">(</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"# Stations"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
@@ -6307,7 +6245,7 @@ font-style: inherit;">(</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Cumulative sum of EV stations opened in CO"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
@@ -6322,7 +6260,10 @@ font-style: inherit;">15</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 </details><div class="cell-output-display">
-<p><img src="https://andypicke.quarto.pub/portfolio/posts/EV_Stations/index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+<div id="fig-nopen-cumsum" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure"><p><img src="https://andypicke.quarto.pub/portfolio/posts/EV_Stations/index_files/figure-html/fig-nopen-cumsum-1.png" class="img-fluid figure-img" width="768"></p>
+<figcaption class="figure-caption">Figure&nbsp;2: Cumulative sum of EV stations opened in CO</figcaption></figure>
+</div>
 </div>
 </div>
 </section></section><section id="station-openings-by-levelcharger-type" class="level3"><h3 class="anchored" data-anchor-id="station-openings-by-levelcharger-type">Station openings by level/charger type</h3>
@@ -6332,7 +6273,7 @@ font-style: inherit;">)</span></span></code></pre></div>
 <em>Note</em> here I’m working with the number of <em>chargers</em> of each level, not the number of <em>stations</em>.</li>
 </ul>
 <div class="cell">
-<details open=""><summary>Code</summary><div class="sourceCode" id="cb18" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
+<details open=""><summary>Code</summary><div class="sourceCode" id="cb16" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">ev_opened_level</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -6380,9 +6321,9 @@ font-style: inherit;">%&gt;%</span></span>
 background-color: null;
 font-style: inherit;">summarize</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">(</span>n_DC<span class="op" style="color: #5E5E5E;
+font-style: inherit;">(</span>n_DC <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span><span class="fu" style="color: #4758AB;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -6395,9 +6336,9 @@ background-color: null;
 font-style: inherit;">TRUE</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span>, </span>
-<span>            n_L2<span class="op" style="color: #5E5E5E;
+<span>            n_L2 <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span><span class="fu" style="color: #4758AB;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -6410,9 +6351,9 @@ background-color: null;
 font-style: inherit;">TRUE</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span>,</span>
-<span>            n_L1<span class="op" style="color: #5E5E5E;
+<span>            n_L1 <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span><span class="fu" style="color: #4758AB;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -6461,16 +6402,16 @@ font-style: inherit;">)</span></span></code></pre></div>
   open_year  n_DC  n_L2  n_L1
       &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
 1      2010     1    21    18
-2      2011     1    17     0
-3      2012     9    41     0
-4      2013    20    31    28
-5      2014    24    62     0
-6      2015    29   127     0</code></pre>
+2      2011     1    22     0
+3      2012     9    42     0
+4      2013    20    36    28
+5      2014    24    63     0
+6      2015    29   124     0</code></pre>
 </div>
 </div>
 <p>To make plotting easier, I’ll pivot the dataframe from wide to long format so I can group by charging level:</p>
 <div class="cell">
-<details open=""><summary>Code</summary><div class="sourceCode" id="cb20" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
+<details open=""><summary>Code</summary><div class="sourceCode" id="cb18" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">ev_opened_level_long</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -6487,9 +6428,9 @@ font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">(</span>cols<span class="op" style="color: #5E5E5E;
+font-style: inherit;">(</span>cols <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span><span class="fu" style="color: #4758AB;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -6537,17 +6478,17 @@ font-style: inherit;">)</span></span></code></pre></div>
 2      2010 L2          21
 3      2010 L1          18
 4      2011 DC           1
-5      2011 L2          17
+5      2011 L2          22
 6      2011 L1           0</code></pre>
 </div>
 </div>
 <p>Now I can go ahead and plot the number of chargers opened over time, by level.</p>
 <div class="cell">
-<details open=""><summary>Code</summary><div class="sourceCode" id="cb22" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co" style="color: #5E5E5E;
+<details open=""><summary>Code</summary><div class="sourceCode" id="cb20" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">#| fig-width: 8</span></span>
-<span></span>
-<span><span class="va" style="color: #111111;
+font-style: inherit;">g</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">ev_opened_level_long</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -6564,9 +6505,9 @@ font-style: inherit;">(</span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">open_year</span>, <span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">n_opened</span>, group<span class="op" style="color: #5E5E5E;
+font-style: inherit;">n_opened</span>, group <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span><span class="va" style="color: #111111;
+font-style: inherit;">=</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">Level</span><span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -6583,19 +6524,19 @@ font-style: inherit;">(</span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">aes</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">(</span>col<span class="op" style="color: #5E5E5E;
+font-style: inherit;">(</span>col <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span><span class="va" style="color: #111111;
+font-style: inherit;">=</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">Level</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span>, linewidth<span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span>, linewidth <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1.5</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
@@ -6606,15 +6547,15 @@ font-style: inherit;">(</span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">aes</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">(</span>col<span class="op" style="color: #5E5E5E;
+font-style: inherit;">(</span>col <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span><span class="va" style="color: #111111;
+font-style: inherit;">=</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">Level</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
@@ -6625,7 +6566,7 @@ font-style: inherit;">(</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Year Opened"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
@@ -6636,7 +6577,7 @@ font-style: inherit;">(</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"# Charges Opened"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
@@ -6647,14 +6588,29 @@ font-style: inherit;">(</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Number of Chargers Opened Per Year By Level"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
+font-style: inherit;">)</span></span>
+<span>  </span>
+<span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">plotly</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/pkg/plotly/man/ggplotly.html">ggplotly</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">g</span><span class="op" style="color: #5E5E5E;
+background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
-</details><div class="cell-output-display">
-<p><img src="https://andypicke.quarto.pub/portfolio/posts/EV_Stations/index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</details><div id="fig-nopened-level" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure"><div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-8e7548e7ab53ef8e54aa" style="width:100%;height:406px;"></div>
+<script type="application/json" data-for="htmlwidget-8e7548e7ab53ef8e54aa">{"x":{"data":[{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[1,1,9,20,24,29,0,13,44,52,146,180,142,229],"text":["open_year: 2010<br />n_opened:    1<br />Level: DC<br />Level: DC","open_year: 2011<br />n_opened:    1<br />Level: DC<br />Level: DC","open_year: 2012<br />n_opened:    9<br />Level: DC<br />Level: DC","open_year: 2013<br />n_opened:   20<br />Level: DC<br />Level: DC","open_year: 2014<br />n_opened:   24<br />Level: DC<br />Level: DC","open_year: 2015<br />n_opened:   29<br />Level: DC<br />Level: DC","open_year: 2016<br />n_opened:    0<br />Level: DC<br />Level: DC","open_year: 2017<br />n_opened:   13<br />Level: DC<br />Level: DC","open_year: 2018<br />n_opened:   44<br />Level: DC<br />Level: DC","open_year: 2019<br />n_opened:   52<br />Level: DC<br />Level: DC","open_year: 2020<br />n_opened:  146<br />Level: DC<br />Level: DC","open_year: 2021<br />n_opened:  180<br />Level: DC<br />Level: DC","open_year: 2022<br />n_opened:  142<br />Level: DC<br />Level: DC","open_year: 2023<br />n_opened:  229<br />Level: DC<br />Level: DC"],"type":"scatter","mode":"lines+markers","line":{"width":5.6692913385826778,"color":"rgba(248,118,109,1)","dash":"solid"},"hoveron":"points","name":"DC","legendgroup":"DC","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(248,118,109,1)"}},"frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[18,0,0,28,0,0,0,11,8,0,0,25,0,0],"text":["open_year: 2010<br />n_opened:   18<br />Level: L1<br />Level: L1","open_year: 2011<br />n_opened:    0<br />Level: L1<br />Level: L1","open_year: 2012<br />n_opened:    0<br />Level: L1<br />Level: L1","open_year: 2013<br />n_opened:   28<br />Level: L1<br />Level: L1","open_year: 2014<br />n_opened:    0<br />Level: L1<br />Level: L1","open_year: 2015<br />n_opened:    0<br />Level: L1<br />Level: L1","open_year: 2016<br />n_opened:    0<br />Level: L1<br />Level: L1","open_year: 2017<br />n_opened:   11<br />Level: L1<br />Level: L1","open_year: 2018<br />n_opened:    8<br />Level: L1<br />Level: L1","open_year: 2019<br />n_opened:    0<br />Level: L1<br />Level: L1","open_year: 2020<br />n_opened:    0<br />Level: L1<br />Level: L1","open_year: 2021<br />n_opened:   25<br />Level: L1<br />Level: L1","open_year: 2022<br />n_opened:    0<br />Level: L1<br />Level: L1","open_year: 2023<br />n_opened:    0<br />Level: L1<br />Level: L1"],"type":"scatter","mode":"lines+markers","line":{"width":5.6692913385826778,"color":"rgba(0,186,56,1)","dash":"solid"},"hoveron":"points","name":"L1","legendgroup":"L1","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(0,186,56,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,186,56,1)"}},"frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[21,22,42,36,63,124,115,367,245,300,614,1052,807,594],"text":["open_year: 2010<br />n_opened:   21<br />Level: L2<br />Level: L2","open_year: 2011<br />n_opened:   22<br />Level: L2<br />Level: L2","open_year: 2012<br />n_opened:   42<br />Level: L2<br />Level: L2","open_year: 2013<br />n_opened:   36<br />Level: L2<br />Level: L2","open_year: 2014<br />n_opened:   63<br />Level: L2<br />Level: L2","open_year: 2015<br />n_opened:  124<br />Level: L2<br />Level: L2","open_year: 2016<br />n_opened:  115<br />Level: L2<br />Level: L2","open_year: 2017<br />n_opened:  367<br />Level: L2<br />Level: L2","open_year: 2018<br />n_opened:  245<br />Level: L2<br />Level: L2","open_year: 2019<br />n_opened:  300<br />Level: L2<br />Level: L2","open_year: 2020<br />n_opened:  614<br />Level: L2<br />Level: L2","open_year: 2021<br />n_opened: 1052<br />Level: L2<br />Level: L2","open_year: 2022<br />n_opened:  807<br />Level: L2<br />Level: L2","open_year: 2023<br />n_opened:  594<br />Level: L2<br />Level: L2"],"type":"scatter","mode":"lines+markers","line":{"width":5.6692913385826778,"color":"rgba(97,156,255,1)","dash":"solid"},"hoveron":"points","name":"L2","legendgroup":"L2","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(97,156,255,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(97,156,255,1)"}},"frame":null}],"layout":{"margin":{"t":55.850560398505607,"r":9.9626400996264035,"b":56.787048567870499,"l":66.749688667496898},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":19.925280199252807},"title":{"text":"Number of Chargers Opened Per Year By Level","font":{"color":"rgba(0,0,0,1)","family":"","size":23.910336239103362},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[2009.3499999999999,2023.6500000000001],"tickmode":"array","ticktext":["2012","2016","2020"],"tickvals":[2012,2016,2020],"categoryorder":"array","categoryarray":["2012","2016","2020"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":4.9813200498132018,"tickwidth":0.90569455451149117,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":15.940224159402241},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.90569455451149117,"zeroline":false,"anchor":"y","title":{"text":"Year Opened","font":{"color":"rgba(0,0,0,1)","family":"","size":19.925280199252807}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-52.600000000000001,1104.5999999999999],"tickmode":"array","ticktext":["0","250","500","750","1000"],"tickvals":[0,249.99999999999997,500,750,999.99999999999989],"categoryorder":"array","categoryarray":["0","250","500","750","1000"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":4.9813200498132018,"tickwidth":0.90569455451149117,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":15.940224159402243},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.90569455451149117,"zeroline":false,"anchor":"x","title":{"text":"# Charges Opened","font":{"color":"rgba(0,0,0,1)","family":"","size":19.925280199252807}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":2.5769506084466713,"font":{"color":"rgba(0,0,0,1)","family":"","size":15.940224159402241},"title":{"text":"Level","font":{"color":"rgba(0,0,0,1)","family":"","size":19.925280199252807}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"1785147528be6":{"x":{},"y":{},"colour":{},"type":"scatter"},"178517c5ecd9e":{"x":{},"y":{},"colour":{}}},"cur_data":"1785147528be6","visdat":{"1785147528be6":["function (y) ","x"],"178517c5ecd9e":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script><figcaption class="figure-caption">Figure&nbsp;3: Number of Chargers Opened Per Year By Level</figcaption></figure>
 </div>
 </div>
 </section></section><section id="session-info" class="level2"><h2 class="anchored" data-anchor-id="session-info">Session Info</h2>
 <div class="cell">
-<details open=""><summary>Code</summary><div class="sourceCode" id="cb23" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu" style="color: #4758AB;
+<details open=""><summary>Code</summary><div class="sourceCode" id="cb21" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -6662,34 +6618,39 @@ font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 </details><div class="cell-output cell-output-stdout">
-<pre><code>R version 4.2.3 (2023-03-15)
-Platform: x86_64-apple-darwin17.0 (64-bit)
-Running under: macOS Big Sur ... 10.16
+<pre><code>R version 4.3.1 (2023-06-16)
+Platform: x86_64-apple-darwin20 (64-bit)
+Running under: macOS Sonoma 14.1.1
 
 Matrix products: default
-BLAS:   /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRblas.0.dylib
-LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib
+BLAS:   /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/lib/libRlapack.dylib;  LAPACK version 3.11.0
 
 locale:
 [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+time zone: America/Denver
+tzcode source: internal
 
 attached base packages:
 [1] stats     graphics  grDevices datasets  utils     methods   base     
 
 other attached packages:
-[1] dplyr_1.1.2    ggplot2_3.4.2  jsonlite_1.8.5 httr_1.4.6    
+[1] dplyr_1.1.3    ggplot2_3.4.4  jsonlite_1.8.7 httr_1.4.7    
 
 loaded via a namespace (and not attached):
- [1] pillar_1.9.0     compiler_4.2.3   tools_4.2.3      digest_0.6.31   
- [5] lubridate_1.9.2  evaluate_0.21    lifecycle_1.0.3  tibble_3.2.1    
- [9] gtable_0.3.3     timechange_0.2.0 pkgconfig_2.0.3  rlang_1.1.1     
-[13] cli_3.6.1        rstudioapi_0.14  curl_5.0.1       yaml_2.3.7      
-[17] xfun_0.39        fastmap_1.1.1    withr_2.5.0      knitr_1.43      
-[21] generics_0.1.3   vctrs_0.6.2      grid_4.2.3       tidyselect_1.2.0
-[25] glue_1.6.2       R6_2.5.1         fansi_1.0.4      rmarkdown_2.22  
-[29] purrr_1.0.1      tidyr_1.3.0      farver_2.1.1     magrittr_2.0.3  
-[33] scales_1.2.1     htmltools_0.5.5  colorspace_2.1-0 renv_0.17.3     
-[37] labeling_0.4.2   utf8_1.2.3       munsell_0.5.0   </code></pre>
+ [1] gtable_0.3.4      compiler_4.3.1    renv_1.0.3        tidyselect_1.2.0 
+ [5] tidyr_1.3.0       scales_1.2.1      yaml_2.3.7        fastmap_1.1.1    
+ [9] R6_2.5.1          labeling_0.4.3    generics_0.1.3    curl_5.1.0       
+[13] knitr_1.44        htmlwidgets_1.6.2 tibble_3.2.1      munsell_0.5.0    
+[17] lubridate_1.9.3   pillar_1.9.0      rlang_1.1.1       utf8_1.2.4       
+[21] xfun_0.40         lazyeval_0.2.2    viridisLite_0.4.2 plotly_4.10.3    
+[25] timechange_0.2.0  cli_3.6.1         withr_2.5.1       magrittr_2.0.3   
+[29] crosstalk_1.2.0   digest_0.6.33     grid_4.3.1        rstudioapi_0.15.0
+[33] lifecycle_1.0.3   vctrs_0.6.4       data.table_1.14.8 evaluate_0.22    
+[37] glue_1.6.2        farver_2.1.1      fansi_1.0.5       colorspace_2.1-0 
+[41] purrr_1.0.2       rmarkdown_2.25    ellipsis_0.3.2    tools_4.3.1      
+[45] pkgconfig_2.0.3   htmltools_0.5.6.1</code></pre>
 </div>
 </div>
 </section><section id="references" class="level2">
@@ -6723,9 +6684,9 @@ Wickham, Hadley, Romain François, Lionel Henry, Kirill Müller, and Davis Vaugh
   <link>https://andypicke.quarto.pub/portfolio/posts/Energy_Tidy_Tuesday/index.html</link>
   <description><![CDATA[ <section id="tidy-tuesday-energy-2023---week-23" class="level1"><h1>Tidy Tuesday: Energy (2023 - Week 23)</h1>
 <section id="introduction" class="level2"><h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>In this document I’ll analyze and visualize some energy data that were the focus of <em>T<a href="https://github.com/rfordatascience/tidytuesday/tree/master/data/2023/2023-06-06">idy Tuesday</a></em><a href="https://github.com/rfordatascience/tidytuesday/tree/master/data/2023/2023-06-06">2023 week 23</a>. The data comes from <a href="https://ourworldindata.org/about">Our World In Data</a> and the full data set is available <a href="https://github.com/owid/energy-data">here</a>. Data Source Citation: <span class="citation" data-cites="owidenergy">Ritchie, Roser, and Rosado (2022)</span>.</p>
+<p>In this document I’ll analyze and visualize some energy data that were the focus of <a href="https://github.com/rfordatascience/tidytuesday/tree/master/data/2023/2023-06-06">Tidy Tuesday 2023 week 23</a>. The data comes from <a href="https://ourworldindata.org/about">Our World In Data</a> and the full data set is available <a href="https://github.com/owid/energy-data">here</a>. Data Source Citation: <span class="citation" data-cites="owidenergy">Ritchie, Roser, and Rosado (2022)</span>.</p>
 </section><section id="analysis-and-visualization" class="level2"><h2 class="anchored" data-anchor-id="analysis-and-visualization">Analysis and Visualization</h2>
-<p>I’ll start by loading libraries (tidyverse) and the data set. The result is a dataframe with a row for each country and year, from 1900-2002.</p>
+<p>I’ll start by loading the <em>tidyverse</em> (<span class="citation" data-cites="tidyverse-2">Wickham et al. (2019)</span>) library and the data set. The result is a dataframe with a row for each country and year, from 1900-2002.</p>
 <div class="cell">
 <details open=""><summary>Code</summary><div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -6738,6 +6699,21 @@ background-color: null;
 font-style: inherit;">(</span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/r/base/message.html">suppressPackageStartupMessages</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;"><a href="https://plotly-r.com">plotly</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -6757,7 +6733,7 @@ font-style: inherit;"><a href="https://readr.tidyverse.org/reference/read_delim.
 background-color: null;
 font-style: inherit;">(</span><span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-06-06/owid-energy.csv'</span>,show_col_types <span class="op" style="color: #5E5E5E;
+font-style: inherit;">"https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-06-06/owid-energy.csv"</span>, show_col_types <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="cn" style="color: #8f5902;
 background-color: null;
@@ -6835,22 +6811,22 @@ font-style: inherit;">&lt;-</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">owid_energy</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span><span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">country</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">country</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">==</span><span class="st" style="color: #20794D;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"United States"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op" style="color: #5E5E5E;
@@ -6898,20 +6874,21 @@ font-style: inherit;">)</span></span></code></pre></div>
 </div>
 </div>
 <section id="share-of-electricity-generation-by-fuel-type" class="level3"><h3 class="anchored" data-anchor-id="share-of-electricity-generation-by-fuel-type">Share of electricity generation by fuel type</h3>
-<p>For this analysis, I’ve chosen to investigate how the mix of fuel types used to generate electricity has changed over time. We need to reduce carbon emissionsIn order to prevent or mitigate the effects of climate change, and electricity generation is a large component of these emissions. I’m interested to see what progress has been made in transitioning to more renewable/low-carbon fuels for electricity generation.</p>
-<p>Conveniently, the data already contain fields for the share of total electricity generation for each fuel type! I’ll make a new data frame with just these fields. I can select these columns (all ending in <em>share_elec</em>), using the <em>ends_with</em> function from the <span class="citation" data-cites="dplyr">Wickham et al. (2023)</span> package.</p>
+<p>For this analysis, I’ve chosen to investigate how the mix of fuel types used to generate electricity has changed over time. We need to reduce carbon emissions in order to prevent or mitigate the effects of climate change, and electricity generation is a large component of these emissions. I’m interested to see what progress has been made in transitioning to more renewable/low-carbon fuels for electricity generation.</p>
+<p>Conveniently, the data already contain fields for the share of total electricity generation for each fuel type! I’ll make a new data frame with just these fields. I can select these columns (all ending in <em>share_elec</em>), using the <em>ends_with</em> function from the <em>dplyr</em> <span class="citation" data-cites="dplyr">Wickham et al. (2023)</span> package.</p>
 <div class="cell">
 <details open=""><summary>Code</summary><div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">usa</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu" style="color: #4758AB;
+font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span><span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">year</span>,<span class="fu" style="color: #4758AB;
+font-style: inherit;">year</span>, <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">dplyr</span><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -6921,13 +6898,13 @@ font-style: inherit;"><a href="https://tidyselect.r-lib.org/reference/starts_wit
 background-color: null;
 font-style: inherit;">(</span><span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'share_elec'</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">"share_elec"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op" style="color: #5E5E5E;
@@ -6951,7 +6928,7 @@ font-style: inherit;">)</span></span></code></pre></div>
 #   solar_share_elec &lt;dbl&gt;, wind_share_elec &lt;dbl&gt;</code></pre>
 </div>
 </div>
-<p>Now I have a dataframe with just the variables I want to plot, but the format isn’t ideal; I would have to specify/plot each variable separately. What I want to do is give a single plot command and group/color the lines by the variable (fuel type). To achieve this, I am going to pivot the data frame from wide to long format. I believe this was previously referred to as <em>gather</em> or <em>melt</em>.</p>
+<p>Now I have a dataframe with just the variables I want to plot, but the format isn’t ideal; I would have to specify/plot each variable separately. What I want to do is give a single plot command and group/color the lines by the variable (fuel type). To achieve this, I am going to pivot the data frame from wide to long format, using the <em>pivot_longer</em> function from the <em>tidyr</em> (<span class="citation" data-cites="tidyr">Wickham, Vaughan, and Girlich (2023)</span>) package. I believe this was previously referred to as <em>gather</em> or <em>melt</em>.</p>
 <div class="cell">
 <details open=""><summary>Code</summary><div class="sourceCode" id="cb9" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
 background-color: null;
@@ -6961,25 +6938,26 @@ font-style: inherit;">&lt;-</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">usa</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu" style="color: #4758AB;
+font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span><span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">year</span>,<span class="fu" style="color: #4758AB;
+font-style: inherit;">year</span>, <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">ends_with</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span><span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'share_elec'</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">"share_elec"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">tidyr</span><span class="fu" style="color: #4758AB;
@@ -6988,29 +6966,52 @@ font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">(</span>cols<span class="op" style="color: #5E5E5E;
+font-style: inherit;">(</span></span>
+<span>    cols <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span><span class="fu" style="color: #4758AB;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">ends_with</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span><span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'share_elec'</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">"share_elec"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span>,</span>
-<span>                      names_to<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'FuelType'</span>,</span>
-<span>                      values_to <span class="op" style="color: #5E5E5E;
+<span>    names_to <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'Percentage'</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">"FuelType"</span>,</span>
+<span>    values_to <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span></span>
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Percentage"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span>  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span>FuelType <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://stringr.tidyverse.org/reference/str_remove.html">str_remove</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">FuelType</span>,<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'_share_elec'</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span> </span>
+<span></span>
 <span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op" style="color: #5E5E5E;
@@ -7022,23 +7023,27 @@ background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 </details><div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
-   year FuelType              Percentage
-  &lt;dbl&gt; &lt;chr&gt;                      &lt;dbl&gt;
-1  2000 biofuel_share_elec          1.60
-2  2000 coal_share_elec            51.7 
-3  2000 fossil_share_elec          70.9 
-4  2000 gas_share_elec             16.2 
-5  2000 hydro_share_elec            7.10
-6  2000 low_carbon_share_elec      29.1 </code></pre>
+   year FuelType   Percentage
+  &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt;
+1  2000 biofuel          1.60
+2  2000 coal            51.7 
+3  2000 fossil          70.9 
+4  2000 gas             16.2 
+5  2000 hydro            7.10
+6  2000 low_carbon      29.1 </code></pre>
 </div>
 </div>
 <p>Now my dataframe has a row for each year, fuel type, and value, and I can simply group or color by the fuel type when I plot.</p>
 <div class="cell">
 <details open=""><summary>Code</summary><div class="sourceCode" id="cb11" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
 background-color: null;
+font-style: inherit;">g</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="va" style="color: #111111;
+background-color: null;
 font-style: inherit;">usa_share</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op" style="color: #5E5E5E;
@@ -7049,13 +7054,13 @@ font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/aes.html"
 background-color: null;
 font-style: inherit;">(</span><span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">year</span>,<span class="va" style="color: #111111;
+font-style: inherit;">year</span>, <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">Percentage</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
@@ -7066,19 +7071,19 @@ font-style: inherit;">(</span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">(</span>color<span class="op" style="color: #5E5E5E;
+font-style: inherit;">(</span>color <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span><span class="va" style="color: #111111;
+font-style: inherit;">=</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">FuelType</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span>,linewidth<span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span>, linewidth <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1.5</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
@@ -7089,7 +7094,7 @@ font-style: inherit;">(</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Percent of US electricity Generation By Fuel type"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
@@ -7100,7 +7105,7 @@ font-style: inherit;">(</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Year"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
@@ -7111,39 +7116,56 @@ font-style: inherit;">(</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Percent"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
+font-style: inherit;">)</span></span>
+<span></span>
+<span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">plotly</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/pkg/plotly/man/ggplotly.html">ggplotly</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">g</span><span class="op" style="color: #5E5E5E;
+background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
-</details><div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><img src="https://andypicke.quarto.pub/portfolio/posts/Energy_Tidy_Tuesday/index_files/figure-html/share-all-1.png" class="img-fluid figure-img" alt="Timeseries of the percent of total US electricty generation by fuel type." width="768"></p>
-<figcaption class="figure-caption">Timeseries of the percent of total US electricty generation by fuel type.</figcaption></figure>
+</details><div id="fig-share-all" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure"><div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-2184f1b5f80170a55c7d" style="width:100%;height:406px;"></div>
+<script type="application/json" data-for="htmlwidget-2184f1b5f80170a55c7d">{"x":{"data":[{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021],"y":[1.597,1.335,1.397,1.379,1.355,1.345,1.3560000000000001,1.341,1.3400000000000001,1.383,1.363,1.3859999999999999,1.4259999999999999,1.5009999999999999,1.5620000000000001,1.5580000000000001,1.5349999999999999,1.548,1.472,1.383,1.353,1.3069999999999999],"text":["year: 2000<br />Percentage:  1.597<br />FuelType: biofuel","year: 2001<br />Percentage:  1.335<br />FuelType: biofuel","year: 2002<br />Percentage:  1.397<br />FuelType: biofuel","year: 2003<br />Percentage:  1.379<br />FuelType: biofuel","year: 2004<br />Percentage:  1.355<br />FuelType: biofuel","year: 2005<br />Percentage:  1.345<br />FuelType: biofuel","year: 2006<br />Percentage:  1.356<br />FuelType: biofuel","year: 2007<br />Percentage:  1.341<br />FuelType: biofuel","year: 2008<br />Percentage:  1.340<br />FuelType: biofuel","year: 2009<br />Percentage:  1.383<br />FuelType: biofuel","year: 2010<br />Percentage:  1.363<br />FuelType: biofuel","year: 2011<br />Percentage:  1.386<br />FuelType: biofuel","year: 2012<br />Percentage:  1.426<br />FuelType: biofuel","year: 2013<br />Percentage:  1.501<br />FuelType: biofuel","year: 2014<br />Percentage:  1.562<br />FuelType: biofuel","year: 2015<br />Percentage:  1.558<br />FuelType: biofuel","year: 2016<br />Percentage:  1.535<br />FuelType: biofuel","year: 2017<br />Percentage:  1.548<br />FuelType: biofuel","year: 2018<br />Percentage:  1.472<br />FuelType: biofuel","year: 2019<br />Percentage:  1.383<br />FuelType: biofuel","year: 2020<br />Percentage:  1.353<br />FuelType: biofuel","year: 2021<br />Percentage:  1.307<br />FuelType: biofuel"],"type":"scatter","mode":"lines","line":{"width":5.6692913385826778,"color":"rgba(248,118,109,1)","dash":"solid"},"hoveron":"points","name":"biofuel","legendgroup":"biofuel","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021],"y":[51.715000000000003,51.078000000000003,50.286999999999999,51.015000000000001,50.058999999999997,49.884999999999998,49.186,48.677,48.344999999999999,44.567999999999998,44.902999999999999,42.393999999999998,37.469999999999999,38.985999999999997,38.616,33.115000000000002,30.315000000000001,29.757000000000001,27.359000000000002,23.204999999999998,19.128,21.623999999999999],"text":["year: 2000<br />Percentage: 51.715<br />FuelType: coal","year: 2001<br />Percentage: 51.078<br />FuelType: coal","year: 2002<br />Percentage: 50.287<br />FuelType: coal","year: 2003<br />Percentage: 51.015<br />FuelType: coal","year: 2004<br />Percentage: 50.059<br />FuelType: coal","year: 2005<br />Percentage: 49.885<br />FuelType: coal","year: 2006<br />Percentage: 49.186<br />FuelType: coal","year: 2007<br />Percentage: 48.677<br />FuelType: coal","year: 2008<br />Percentage: 48.345<br />FuelType: coal","year: 2009<br />Percentage: 44.568<br />FuelType: coal","year: 2010<br />Percentage: 44.903<br />FuelType: coal","year: 2011<br />Percentage: 42.394<br />FuelType: coal","year: 2012<br />Percentage: 37.470<br />FuelType: coal","year: 2013<br />Percentage: 38.986<br />FuelType: coal","year: 2014<br />Percentage: 38.616<br />FuelType: coal","year: 2015<br />Percentage: 33.115<br />FuelType: coal","year: 2016<br />Percentage: 30.315<br />FuelType: coal","year: 2017<br />Percentage: 29.757<br />FuelType: coal","year: 2018<br />Percentage: 27.359<br />FuelType: coal","year: 2019<br />Percentage: 23.205<br />FuelType: coal","year: 2020<br />Percentage: 19.128<br />FuelType: coal","year: 2021<br />Percentage: 21.624<br />FuelType: coal"],"type":"scatter","mode":"lines","line":{"width":5.6692913385826778,"color":"rgba(222,140,0,1)","dash":"solid"},"hoveron":"points","name":"coal","legendgroup":"coal","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021],"y":[70.941999999999993,71.861000000000004,70.959000000000003,71.234999999999999,71.313999999999993,71.870000000000005,71.129000000000005,72.135000000000005,71.191000000000003,69.176000000000002,70.066000000000003,68.207999999999998,68.775999999999996,67.713999999999999,67.188000000000002,66.853999999999999,65.001000000000005,62.683999999999997,63.341000000000001,62.241,60.148000000000003,60.509],"text":["year: 2000<br />Percentage: 70.942<br />FuelType: fossil","year: 2001<br />Percentage: 71.861<br />FuelType: fossil","year: 2002<br />Percentage: 70.959<br />FuelType: fossil","year: 2003<br />Percentage: 71.235<br />FuelType: fossil","year: 2004<br />Percentage: 71.314<br />FuelType: fossil","year: 2005<br />Percentage: 71.870<br />FuelType: fossil","year: 2006<br />Percentage: 71.129<br />FuelType: fossil","year: 2007<br />Percentage: 72.135<br />FuelType: fossil","year: 2008<br />Percentage: 71.191<br />FuelType: fossil","year: 2009<br />Percentage: 69.176<br />FuelType: fossil","year: 2010<br />Percentage: 70.066<br />FuelType: fossil","year: 2011<br />Percentage: 68.208<br />FuelType: fossil","year: 2012<br />Percentage: 68.776<br />FuelType: fossil","year: 2013<br />Percentage: 67.714<br />FuelType: fossil","year: 2014<br />Percentage: 67.188<br />FuelType: fossil","year: 2015<br />Percentage: 66.854<br />FuelType: fossil","year: 2016<br />Percentage: 65.001<br />FuelType: fossil","year: 2017<br />Percentage: 62.684<br />FuelType: fossil","year: 2018<br />Percentage: 63.341<br />FuelType: fossil","year: 2019<br />Percentage: 62.241<br />FuelType: fossil","year: 2020<br />Percentage: 60.148<br />FuelType: fossil","year: 2021<br />Percentage: 60.509<br />FuelType: fossil"],"type":"scatter","mode":"lines","line":{"width":5.6692913385826778,"color":"rgba(183,159,0,1)","dash":"solid"},"hoveron":"points","name":"fossil","legendgroup":"fossil","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021],"y":[16.175000000000001,17.146000000000001,17.975000000000001,16.797999999999998,17.968,18.859000000000002,20.173999999999999,21.643000000000001,21.497,23.376000000000001,24.009,24.791,30.338999999999999,27.734999999999999,27.504999999999999,32.651000000000003,33.719999999999999,31.992999999999999,34.966000000000001,38.134999999999998,40.170999999999999,38.036999999999999],"text":["year: 2000<br />Percentage: 16.175<br />FuelType: gas","year: 2001<br />Percentage: 17.146<br />FuelType: gas","year: 2002<br />Percentage: 17.975<br />FuelType: gas","year: 2003<br />Percentage: 16.798<br />FuelType: gas","year: 2004<br />Percentage: 17.968<br />FuelType: gas","year: 2005<br />Percentage: 18.859<br />FuelType: gas","year: 2006<br />Percentage: 20.174<br />FuelType: gas","year: 2007<br />Percentage: 21.643<br />FuelType: gas","year: 2008<br />Percentage: 21.497<br />FuelType: gas","year: 2009<br />Percentage: 23.376<br />FuelType: gas","year: 2010<br />Percentage: 24.009<br />FuelType: gas","year: 2011<br />Percentage: 24.791<br />FuelType: gas","year: 2012<br />Percentage: 30.339<br />FuelType: gas","year: 2013<br />Percentage: 27.735<br />FuelType: gas","year: 2014<br />Percentage: 27.505<br />FuelType: gas","year: 2015<br />Percentage: 32.651<br />FuelType: gas","year: 2016<br />Percentage: 33.720<br />FuelType: gas","year: 2017<br />Percentage: 31.993<br />FuelType: gas","year: 2018<br />Percentage: 34.966<br />FuelType: gas","year: 2019<br />Percentage: 38.135<br />FuelType: gas","year: 2020<br />Percentage: 40.171<br />FuelType: gas","year: 2021<br />Percentage: 38.037<br />FuelType: gas"],"type":"scatter","mode":"lines","line":{"width":5.6692913385826778,"color":"rgba(124,174,0,1)","dash":"solid"},"hoveron":"points","name":"gas","legendgroup":"gas","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021],"y":[7.1020000000000003,5.5839999999999996,6.649,6.9080000000000004,6.577,6.5369999999999999,6.9850000000000003,5.8079999999999998,6.0510000000000002,6.8230000000000004,6.1909999999999998,7.6529999999999996,6.7140000000000004,6.5069999999999997,6.181,5.9740000000000002,6.3879999999999999,7.2510000000000003,6.8220000000000001,6.7960000000000003,6.9240000000000004,5.9359999999999999],"text":["year: 2000<br />Percentage:  7.102<br />FuelType: hydro","year: 2001<br />Percentage:  5.584<br />FuelType: hydro","year: 2002<br />Percentage:  6.649<br />FuelType: hydro","year: 2003<br />Percentage:  6.908<br />FuelType: hydro","year: 2004<br />Percentage:  6.577<br />FuelType: hydro","year: 2005<br />Percentage:  6.537<br />FuelType: hydro","year: 2006<br />Percentage:  6.985<br />FuelType: hydro","year: 2007<br />Percentage:  5.808<br />FuelType: hydro","year: 2008<br />Percentage:  6.051<br />FuelType: hydro","year: 2009<br />Percentage:  6.823<br />FuelType: hydro","year: 2010<br />Percentage:  6.191<br />FuelType: hydro","year: 2011<br />Percentage:  7.653<br />FuelType: hydro","year: 2012<br />Percentage:  6.714<br />FuelType: hydro","year: 2013<br />Percentage:  6.507<br />FuelType: hydro","year: 2014<br />Percentage:  6.181<br />FuelType: hydro","year: 2015<br />Percentage:  5.974<br />FuelType: hydro","year: 2016<br />Percentage:  6.388<br />FuelType: hydro","year: 2017<br />Percentage:  7.251<br />FuelType: hydro","year: 2018<br />Percentage:  6.822<br />FuelType: hydro","year: 2019<br />Percentage:  6.796<br />FuelType: hydro","year: 2020<br />Percentage:  6.924<br />FuelType: hydro","year: 2021<br />Percentage:  5.936<br />FuelType: hydro"],"type":"scatter","mode":"lines","line":{"width":5.6692913385826778,"color":"rgba(0,186,56,1)","dash":"solid"},"hoveron":"points","name":"hydro","legendgroup":"hydro","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021],"y":[29.058,28.138999999999999,29.041,28.765000000000001,28.686,28.129999999999999,28.870999999999999,27.864999999999998,28.809000000000001,30.824000000000002,29.934000000000001,31.792000000000002,31.224,32.286000000000001,32.811999999999998,33.146000000000001,34.999000000000002,37.316000000000003,36.658999999999999,37.759,39.851999999999997,39.491],"text":["year: 2000<br />Percentage: 29.058<br />FuelType: low_carbon","year: 2001<br />Percentage: 28.139<br />FuelType: low_carbon","year: 2002<br />Percentage: 29.041<br />FuelType: low_carbon","year: 2003<br />Percentage: 28.765<br />FuelType: low_carbon","year: 2004<br />Percentage: 28.686<br />FuelType: low_carbon","year: 2005<br />Percentage: 28.130<br />FuelType: low_carbon","year: 2006<br />Percentage: 28.871<br />FuelType: low_carbon","year: 2007<br />Percentage: 27.865<br />FuelType: low_carbon","year: 2008<br />Percentage: 28.809<br />FuelType: low_carbon","year: 2009<br />Percentage: 30.824<br />FuelType: low_carbon","year: 2010<br />Percentage: 29.934<br />FuelType: low_carbon","year: 2011<br />Percentage: 31.792<br />FuelType: low_carbon","year: 2012<br />Percentage: 31.224<br />FuelType: low_carbon","year: 2013<br />Percentage: 32.286<br />FuelType: low_carbon","year: 2014<br />Percentage: 32.812<br />FuelType: low_carbon","year: 2015<br />Percentage: 33.146<br />FuelType: low_carbon","year: 2016<br />Percentage: 34.999<br />FuelType: low_carbon","year: 2017<br />Percentage: 37.316<br />FuelType: low_carbon","year: 2018<br />Percentage: 36.659<br />FuelType: low_carbon","year: 2019<br />Percentage: 37.759<br />FuelType: low_carbon","year: 2020<br />Percentage: 39.852<br />FuelType: low_carbon","year: 2021<br />Percentage: 39.491<br />FuelType: low_carbon"],"type":"scatter","mode":"lines","line":{"width":5.6692913385826778,"color":"rgba(0,192,139,1)","dash":"solid"},"hoveron":"points","name":"low_carbon","legendgroup":"low_carbon","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021],"y":[19.827999999999999,20.626000000000001,20.292000000000002,19.739999999999998,19.952999999999999,19.379999999999999,19.452000000000002,19.466999999999999,19.628,20.276,19.616,19.326000000000001,19.039999999999999,19.454999999999998,19.462,19.52,19.710999999999999,19.864000000000001,19.209,19.465,19.536000000000001,18.742000000000001],"text":["year: 2000<br />Percentage: 19.828<br />FuelType: nuclear","year: 2001<br />Percentage: 20.626<br />FuelType: nuclear","year: 2002<br />Percentage: 20.292<br />FuelType: nuclear","year: 2003<br />Percentage: 19.740<br />FuelType: nuclear","year: 2004<br />Percentage: 19.953<br />FuelType: nuclear","year: 2005<br />Percentage: 19.380<br />FuelType: nuclear","year: 2006<br />Percentage: 19.452<br />FuelType: nuclear","year: 2007<br />Percentage: 19.467<br />FuelType: nuclear","year: 2008<br />Percentage: 19.628<br />FuelType: nuclear","year: 2009<br />Percentage: 20.276<br />FuelType: nuclear","year: 2010<br />Percentage: 19.616<br />FuelType: nuclear","year: 2011<br />Percentage: 19.326<br />FuelType: nuclear","year: 2012<br />Percentage: 19.040<br />FuelType: nuclear","year: 2013<br />Percentage: 19.455<br />FuelType: nuclear","year: 2014<br />Percentage: 19.462<br />FuelType: nuclear","year: 2015<br />Percentage: 19.520<br />FuelType: nuclear","year: 2016<br />Percentage: 19.711<br />FuelType: nuclear","year: 2017<br />Percentage: 19.864<br />FuelType: nuclear","year: 2018<br />Percentage: 19.209<br />FuelType: nuclear","year: 2019<br />Percentage: 19.465<br />FuelType: nuclear","year: 2020<br />Percentage: 19.536<br />FuelType: nuclear","year: 2021<br />Percentage: 18.742<br />FuelType: nuclear"],"type":"scatter","mode":"lines","line":{"width":5.6692913385826778,"color":"rgba(0,191,196,1)","dash":"solid"},"hoveron":"points","name":"nuclear","legendgroup":"nuclear","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021],"y":[3.0510000000000002,3.637,2.6970000000000001,3.4220000000000002,3.286,3.1259999999999999,1.7689999999999999,1.8149999999999999,1.349,1.232,1.155,1.0229999999999999,0.96699999999999997,0.99299999999999999,1.0669999999999999,1.0880000000000001,0.96599999999999997,0.93500000000000005,1.016,0.90000000000000002,0.84899999999999998,0.84799999999999998],"text":["year: 2000<br />Percentage:  3.051<br />FuelType: oil","year: 2001<br />Percentage:  3.637<br />FuelType: oil","year: 2002<br />Percentage:  2.697<br />FuelType: oil","year: 2003<br />Percentage:  3.422<br />FuelType: oil","year: 2004<br />Percentage:  3.286<br />FuelType: oil","year: 2005<br />Percentage:  3.126<br />FuelType: oil","year: 2006<br />Percentage:  1.769<br />FuelType: oil","year: 2007<br />Percentage:  1.815<br />FuelType: oil","year: 2008<br />Percentage:  1.349<br />FuelType: oil","year: 2009<br />Percentage:  1.232<br />FuelType: oil","year: 2010<br />Percentage:  1.155<br />FuelType: oil","year: 2011<br />Percentage:  1.023<br />FuelType: oil","year: 2012<br />Percentage:  0.967<br />FuelType: oil","year: 2013<br />Percentage:  0.993<br />FuelType: oil","year: 2014<br />Percentage:  1.067<br />FuelType: oil","year: 2015<br />Percentage:  1.088<br />FuelType: oil","year: 2016<br />Percentage:  0.966<br />FuelType: oil","year: 2017<br />Percentage:  0.935<br />FuelType: oil","year: 2018<br />Percentage:  1.016<br />FuelType: oil","year: 2019<br />Percentage:  0.900<br />FuelType: oil","year: 2020<br />Percentage:  0.849<br />FuelType: oil","year: 2021<br />Percentage:  0.848<br />FuelType: oil"],"type":"scatter","mode":"lines","line":{"width":5.6692913385826778,"color":"rgba(0,180,240,1)","dash":"solid"},"hoveron":"points","name":"oil","legendgroup":"oil","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021],"y":[1.968,1.734,1.8169999999999999,1.8140000000000001,1.784,1.758,1.764,1.744,1.7609999999999999,1.8260000000000001,1.7969999999999999,1.8300000000000001,1.8779999999999999,1.9630000000000001,2.028,2.0259999999999998,2.004,2.0179999999999998,1.9159999999999999,1.8129999999999999,1.8,1.746],"text":["year: 2000<br />Percentage:  1.968<br />FuelType: other_renewables","year: 2001<br />Percentage:  1.734<br />FuelType: other_renewables","year: 2002<br />Percentage:  1.817<br />FuelType: other_renewables","year: 2003<br />Percentage:  1.814<br />FuelType: other_renewables","year: 2004<br />Percentage:  1.784<br />FuelType: other_renewables","year: 2005<br />Percentage:  1.758<br />FuelType: other_renewables","year: 2006<br />Percentage:  1.764<br />FuelType: other_renewables","year: 2007<br />Percentage:  1.744<br />FuelType: other_renewables","year: 2008<br />Percentage:  1.761<br />FuelType: other_renewables","year: 2009<br />Percentage:  1.826<br />FuelType: other_renewables","year: 2010<br />Percentage:  1.797<br />FuelType: other_renewables","year: 2011<br />Percentage:  1.830<br />FuelType: other_renewables","year: 2012<br />Percentage:  1.878<br />FuelType: other_renewables","year: 2013<br />Percentage:  1.963<br />FuelType: other_renewables","year: 2014<br />Percentage:  2.028<br />FuelType: other_renewables","year: 2015<br />Percentage:  2.026<br />FuelType: other_renewables","year: 2016<br />Percentage:  2.004<br />FuelType: other_renewables","year: 2017<br />Percentage:  2.018<br />FuelType: other_renewables","year: 2018<br />Percentage:  1.916<br />FuelType: other_renewables","year: 2019<br />Percentage:  1.813<br />FuelType: other_renewables","year: 2020<br />Percentage:  1.800<br />FuelType: other_renewables","year: 2021<br />Percentage:  1.746<br />FuelType: other_renewables"],"type":"scatter","mode":"lines","line":{"width":5.6692913385826778,"color":"rgba(97,156,255,1)","dash":"solid"},"hoveron":"points","name":"other_renewables","legendgroup":"other_renewables","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021],"y":[9.2300000000000004,7.5129999999999999,8.7490000000000006,9.0250000000000004,8.7330000000000005,8.7490000000000006,9.4179999999999993,8.3979999999999997,9.1809999999999992,10.548,10.318,12.467000000000001,12.183999999999999,12.831,13.35,13.625999999999999,15.288,17.452000000000002,17.449999999999999,18.295000000000002,20.315999999999999,20.75],"text":["year: 2000<br />Percentage:  9.230<br />FuelType: renewables","year: 2001<br />Percentage:  7.513<br />FuelType: renewables","year: 2002<br />Percentage:  8.749<br />FuelType: renewables","year: 2003<br />Percentage:  9.025<br />FuelType: renewables","year: 2004<br />Percentage:  8.733<br />FuelType: renewables","year: 2005<br />Percentage:  8.749<br />FuelType: renewables","year: 2006<br />Percentage:  9.418<br />FuelType: renewables","year: 2007<br />Percentage:  8.398<br />FuelType: renewables","year: 2008<br />Percentage:  9.181<br />FuelType: renewables","year: 2009<br />Percentage: 10.548<br />FuelType: renewables","year: 2010<br />Percentage: 10.318<br />FuelType: renewables","year: 2011<br />Percentage: 12.467<br />FuelType: renewables","year: 2012<br />Percentage: 12.184<br />FuelType: renewables","year: 2013<br />Percentage: 12.831<br />FuelType: renewables","year: 2014<br />Percentage: 13.350<br />FuelType: renewables","year: 2015<br />Percentage: 13.626<br />FuelType: renewables","year: 2016<br />Percentage: 15.288<br />FuelType: renewables","year: 2017<br />Percentage: 17.452<br />FuelType: renewables","year: 2018<br />Percentage: 17.450<br />FuelType: renewables","year: 2019<br />Percentage: 18.295<br />FuelType: renewables","year: 2020<br />Percentage: 20.316<br />FuelType: renewables","year: 2021<br />Percentage: 20.750<br />FuelType: renewables"],"type":"scatter","mode":"lines","line":{"width":5.6692913385826778,"color":"rgba(199,124,255,1)","dash":"solid"},"hoveron":"points","name":"renewables","legendgroup":"renewables","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021],"y":[0.012999999999999999,0.014,0.014,0.014,0.014999999999999999,0.014,0.012999999999999999,0.014999999999999999,0.021000000000000001,0.023,0.029000000000000001,0.044999999999999998,0.107,0.223,0.70599999999999996,0.95599999999999996,1.3420000000000001,1.907,2.222,2.5699999999999998,3.2330000000000001,3.96],"text":["year: 2000<br />Percentage:  0.013<br />FuelType: solar","year: 2001<br />Percentage:  0.014<br />FuelType: solar","year: 2002<br />Percentage:  0.014<br />FuelType: solar","year: 2003<br />Percentage:  0.014<br />FuelType: solar","year: 2004<br />Percentage:  0.015<br />FuelType: solar","year: 2005<br />Percentage:  0.014<br />FuelType: solar","year: 2006<br />Percentage:  0.013<br />FuelType: solar","year: 2007<br />Percentage:  0.015<br />FuelType: solar","year: 2008<br />Percentage:  0.021<br />FuelType: solar","year: 2009<br />Percentage:  0.023<br />FuelType: solar","year: 2010<br />Percentage:  0.029<br />FuelType: solar","year: 2011<br />Percentage:  0.045<br />FuelType: solar","year: 2012<br />Percentage:  0.107<br />FuelType: solar","year: 2013<br />Percentage:  0.223<br />FuelType: solar","year: 2014<br />Percentage:  0.706<br />FuelType: solar","year: 2015<br />Percentage:  0.956<br />FuelType: solar","year: 2016<br />Percentage:  1.342<br />FuelType: solar","year: 2017<br />Percentage:  1.907<br />FuelType: solar","year: 2018<br />Percentage:  2.222<br />FuelType: solar","year: 2019<br />Percentage:  2.570<br />FuelType: solar","year: 2020<br />Percentage:  3.233<br />FuelType: solar","year: 2021<br />Percentage:  3.960<br />FuelType: solar"],"type":"scatter","mode":"lines","line":{"width":5.6692913385826778,"color":"rgba(245,100,227,1)","dash":"solid"},"hoveron":"points","name":"solar","legendgroup":"solar","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021],"y":[0.14699999999999999,0.18099999999999999,0.26900000000000002,0.28899999999999998,0.35799999999999998,0.441,0.65700000000000003,0.83199999999999996,1.3480000000000001,1.875,2.3010000000000002,2.9390000000000001,3.4849999999999999,4.1379999999999999,4.4349999999999996,4.6699999999999999,5.5529999999999999,6.2750000000000004,6.4900000000000002,7.1150000000000002,8.3580000000000005,9.1080000000000005],"text":["year: 2000<br />Percentage:  0.147<br />FuelType: wind","year: 2001<br />Percentage:  0.181<br />FuelType: wind","year: 2002<br />Percentage:  0.269<br />FuelType: wind","year: 2003<br />Percentage:  0.289<br />FuelType: wind","year: 2004<br />Percentage:  0.358<br />FuelType: wind","year: 2005<br />Percentage:  0.441<br />FuelType: wind","year: 2006<br />Percentage:  0.657<br />FuelType: wind","year: 2007<br />Percentage:  0.832<br />FuelType: wind","year: 2008<br />Percentage:  1.348<br />FuelType: wind","year: 2009<br />Percentage:  1.875<br />FuelType: wind","year: 2010<br />Percentage:  2.301<br />FuelType: wind","year: 2011<br />Percentage:  2.939<br />FuelType: wind","year: 2012<br />Percentage:  3.485<br />FuelType: wind","year: 2013<br />Percentage:  4.138<br />FuelType: wind","year: 2014<br />Percentage:  4.435<br />FuelType: wind","year: 2015<br />Percentage:  4.670<br />FuelType: wind","year: 2016<br />Percentage:  5.553<br />FuelType: wind","year: 2017<br />Percentage:  6.275<br />FuelType: wind","year: 2018<br />Percentage:  6.490<br />FuelType: wind","year: 2019<br />Percentage:  7.115<br />FuelType: wind","year: 2020<br />Percentage:  8.358<br />FuelType: wind","year: 2021<br />Percentage:  9.108<br />FuelType: wind"],"type":"scatter","mode":"lines","line":{"width":5.6692913385826778,"color":"rgba(255,100,176,1)","dash":"solid"},"hoveron":"points","name":"wind","legendgroup":"wind","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":45.223744292237441,"r":7.3059360730593621,"b":41.643835616438366,"l":37.260273972602747},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Percent of US electricity Generation By Fuel type","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[1998.95,2022.05],"tickmode":"array","ticktext":["2000","2005","2010","2015","2020"],"tickvals":[2000,2005,2010,2015,2020],"categoryorder":"array","categoryarray":["2000","2005","2010","2015","2020"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Year","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-3.5931000000000002,75.741100000000003],"tickmode":"array","ticktext":["0","20","40","60"],"tickvals":[0,20,39.999999999999993,60.000000000000007],"categoryorder":"array","categoryarray":["0","20","40","60"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Percent","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"FuelType","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"10a6e9275050":{"x":{},"y":{},"colour":{},"type":"scatter"}},"cur_data":"10a6e9275050","visdat":{"10a6e9275050":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script><figcaption class="figure-caption">Figure&nbsp;1: Timeseries of the percent of total US electricty generation by fuel type.</figcaption></figure>
 </div>
 </div>
-</div>
-<p>Here we finally have a plot of the share of electricity generation by fuel type. We can see that the share of fossil fuels and coal has decreased, and renewable have increased. But there’s a lot on this plot and it’s hard to read, so I’ll focus down on some more specific subsets of the data.</p>
+<p>Here we finally have a plot (Figure&nbsp;1) of the share of electricity generation by fuel type. We can see that the share of fossil fuels and coal has decreased, and renewable have increased. But there’s a lot on this plot and it’s hard to read, so I’ll focus on some more specific subsets of the data.</p>
 </section><section id="total-fossil-renewables-and-nuclear-shares" class="level3"><h3 class="anchored" data-anchor-id="total-fossil-renewables-and-nuclear-shares">Total Fossil, renewables, and nuclear shares</h3>
 <p>First we can look at the total shares of fossil (oil,coal, gas), renewable (wind, solar, hydro), and nuclear generation. Grouping into these categories de-clutters the plot and makes it easier to interpret.</p>
 <div class="cell">
 <details open=""><summary>Code</summary><div class="sourceCode" id="cb12" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
 background-color: null;
+font-style: inherit;">g</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="va" style="color: #111111;
+background-color: null;
 font-style: inherit;">usa</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu" style="color: #4758AB;
+font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span><span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">year</span>,<span class="va" style="color: #111111;
+font-style: inherit;">year</span>, <span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">fossil_share_elec</span>,<span class="va" style="color: #111111;
+font-style: inherit;">fossil_share_elec</span>, <span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">renewables_share_elec</span>,<span class="va" style="color: #111111;
+font-style: inherit;">renewables_share_elec</span>, <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">nuclear_share_elec</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">tidyr</span><span class="fu" style="color: #4758AB;
@@ -7152,9 +7174,10 @@ font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">(</span>cols<span class="op" style="color: #5E5E5E;
+font-style: inherit;">(</span></span>
+<span>    cols <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span><span class="fu" style="color: #4758AB;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">dplyr</span><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -7164,23 +7187,45 @@ font-style: inherit;"><a href="https://tidyselect.r-lib.org/reference/starts_wit
 background-color: null;
 font-style: inherit;">(</span><span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'share_elec'</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">"share_elec"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span>,</span>
-<span>               names_to<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'FuelType'</span>,</span>
-<span>               values_to <span class="op" style="color: #5E5E5E;
+<span>    names_to <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'Percentage'</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">"FuelType"</span>,</span>
+<span>    values_to <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Percentage"</span></span>
+<span>  <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span>FuelType <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://stringr.tidyverse.org/reference/str_remove.html">str_remove</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">FuelType</span>,<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'_share_elec'</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
 <span>  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op" style="color: #5E5E5E;
@@ -7191,13 +7236,13 @@ font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/aes.html"
 background-color: null;
 font-style: inherit;">(</span><span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">year</span>,<span class="va" style="color: #111111;
+font-style: inherit;">year</span>, <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">Percentage</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
@@ -7208,19 +7253,19 @@ font-style: inherit;">(</span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">(</span>color<span class="op" style="color: #5E5E5E;
+font-style: inherit;">(</span>color <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span><span class="va" style="color: #111111;
+font-style: inherit;">=</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">FuelType</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span>,linewidth<span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span>, linewidth <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1.5</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
@@ -7231,7 +7276,7 @@ font-style: inherit;">(</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Percent of US electricity Generation"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
@@ -7242,7 +7287,7 @@ font-style: inherit;">(</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Year"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
@@ -7253,12 +7298,27 @@ font-style: inherit;">(</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Percent"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
+font-style: inherit;">)</span></span>
+<span></span>
+<span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">plotly</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/pkg/plotly/man/ggplotly.html">ggplotly</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">g</span><span class="op" style="color: #5E5E5E;
+background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
-</details><div class="cell-output-display">
-<p><img src="https://andypicke.quarto.pub/portfolio/posts/Energy_Tidy_Tuesday/index_files/figure-html/share-fossil-renewable-nuclear-1.png" class="img-fluid" alt="Timeseries of the percent of total US electricty generation by fuel types." width="768"></p>
+</details><div id="fig-share-fossil-renewable-nuclear" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure"><div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-a4ca6ad5b1942ed5345b" style="width:100%;height:406px;"></div>
+<script type="application/json" data-for="htmlwidget-a4ca6ad5b1942ed5345b">{"x":{"data":[{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021],"y":[70.941999999999993,71.861000000000004,70.959000000000003,71.234999999999999,71.313999999999993,71.870000000000005,71.129000000000005,72.135000000000005,71.191000000000003,69.176000000000002,70.066000000000003,68.207999999999998,68.775999999999996,67.713999999999999,67.188000000000002,66.853999999999999,65.001000000000005,62.683999999999997,63.341000000000001,62.241,60.148000000000003,60.509],"text":["year: 2000<br />Percentage: 70.942<br />FuelType: fossil","year: 2001<br />Percentage: 71.861<br />FuelType: fossil","year: 2002<br />Percentage: 70.959<br />FuelType: fossil","year: 2003<br />Percentage: 71.235<br />FuelType: fossil","year: 2004<br />Percentage: 71.314<br />FuelType: fossil","year: 2005<br />Percentage: 71.870<br />FuelType: fossil","year: 2006<br />Percentage: 71.129<br />FuelType: fossil","year: 2007<br />Percentage: 72.135<br />FuelType: fossil","year: 2008<br />Percentage: 71.191<br />FuelType: fossil","year: 2009<br />Percentage: 69.176<br />FuelType: fossil","year: 2010<br />Percentage: 70.066<br />FuelType: fossil","year: 2011<br />Percentage: 68.208<br />FuelType: fossil","year: 2012<br />Percentage: 68.776<br />FuelType: fossil","year: 2013<br />Percentage: 67.714<br />FuelType: fossil","year: 2014<br />Percentage: 67.188<br />FuelType: fossil","year: 2015<br />Percentage: 66.854<br />FuelType: fossil","year: 2016<br />Percentage: 65.001<br />FuelType: fossil","year: 2017<br />Percentage: 62.684<br />FuelType: fossil","year: 2018<br />Percentage: 63.341<br />FuelType: fossil","year: 2019<br />Percentage: 62.241<br />FuelType: fossil","year: 2020<br />Percentage: 60.148<br />FuelType: fossil","year: 2021<br />Percentage: 60.509<br />FuelType: fossil"],"type":"scatter","mode":"lines","line":{"width":5.6692913385826778,"color":"rgba(248,118,109,1)","dash":"solid"},"hoveron":"points","name":"fossil","legendgroup":"fossil","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021],"y":[19.827999999999999,20.626000000000001,20.292000000000002,19.739999999999998,19.952999999999999,19.379999999999999,19.452000000000002,19.466999999999999,19.628,20.276,19.616,19.326000000000001,19.039999999999999,19.454999999999998,19.462,19.52,19.710999999999999,19.864000000000001,19.209,19.465,19.536000000000001,18.742000000000001],"text":["year: 2000<br />Percentage: 19.828<br />FuelType: nuclear","year: 2001<br />Percentage: 20.626<br />FuelType: nuclear","year: 2002<br />Percentage: 20.292<br />FuelType: nuclear","year: 2003<br />Percentage: 19.740<br />FuelType: nuclear","year: 2004<br />Percentage: 19.953<br />FuelType: nuclear","year: 2005<br />Percentage: 19.380<br />FuelType: nuclear","year: 2006<br />Percentage: 19.452<br />FuelType: nuclear","year: 2007<br />Percentage: 19.467<br />FuelType: nuclear","year: 2008<br />Percentage: 19.628<br />FuelType: nuclear","year: 2009<br />Percentage: 20.276<br />FuelType: nuclear","year: 2010<br />Percentage: 19.616<br />FuelType: nuclear","year: 2011<br />Percentage: 19.326<br />FuelType: nuclear","year: 2012<br />Percentage: 19.040<br />FuelType: nuclear","year: 2013<br />Percentage: 19.455<br />FuelType: nuclear","year: 2014<br />Percentage: 19.462<br />FuelType: nuclear","year: 2015<br />Percentage: 19.520<br />FuelType: nuclear","year: 2016<br />Percentage: 19.711<br />FuelType: nuclear","year: 2017<br />Percentage: 19.864<br />FuelType: nuclear","year: 2018<br />Percentage: 19.209<br />FuelType: nuclear","year: 2019<br />Percentage: 19.465<br />FuelType: nuclear","year: 2020<br />Percentage: 19.536<br />FuelType: nuclear","year: 2021<br />Percentage: 18.742<br />FuelType: nuclear"],"type":"scatter","mode":"lines","line":{"width":5.6692913385826778,"color":"rgba(0,186,56,1)","dash":"solid"},"hoveron":"points","name":"nuclear","legendgroup":"nuclear","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021],"y":[9.2300000000000004,7.5129999999999999,8.7490000000000006,9.0250000000000004,8.7330000000000005,8.7490000000000006,9.4179999999999993,8.3979999999999997,9.1809999999999992,10.548,10.318,12.467000000000001,12.183999999999999,12.831,13.35,13.625999999999999,15.288,17.452000000000002,17.449999999999999,18.295000000000002,20.315999999999999,20.75],"text":["year: 2000<br />Percentage:  9.230<br />FuelType: renewables","year: 2001<br />Percentage:  7.513<br />FuelType: renewables","year: 2002<br />Percentage:  8.749<br />FuelType: renewables","year: 2003<br />Percentage:  9.025<br />FuelType: renewables","year: 2004<br />Percentage:  8.733<br />FuelType: renewables","year: 2005<br />Percentage:  8.749<br />FuelType: renewables","year: 2006<br />Percentage:  9.418<br />FuelType: renewables","year: 2007<br />Percentage:  8.398<br />FuelType: renewables","year: 2008<br />Percentage:  9.181<br />FuelType: renewables","year: 2009<br />Percentage: 10.548<br />FuelType: renewables","year: 2010<br />Percentage: 10.318<br />FuelType: renewables","year: 2011<br />Percentage: 12.467<br />FuelType: renewables","year: 2012<br />Percentage: 12.184<br />FuelType: renewables","year: 2013<br />Percentage: 12.831<br />FuelType: renewables","year: 2014<br />Percentage: 13.350<br />FuelType: renewables","year: 2015<br />Percentage: 13.626<br />FuelType: renewables","year: 2016<br />Percentage: 15.288<br />FuelType: renewables","year: 2017<br />Percentage: 17.452<br />FuelType: renewables","year: 2018<br />Percentage: 17.450<br />FuelType: renewables","year: 2019<br />Percentage: 18.295<br />FuelType: renewables","year: 2020<br />Percentage: 20.316<br />FuelType: renewables","year: 2021<br />Percentage: 20.750<br />FuelType: renewables"],"type":"scatter","mode":"lines","line":{"width":5.6692913385826778,"color":"rgba(97,156,255,1)","dash":"solid"},"hoveron":"points","name":"renewables","legendgroup":"renewables","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":45.223744292237441,"r":7.3059360730593621,"b":41.643835616438366,"l":37.260273972602747},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Percent of US electricity Generation","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[1998.95,2022.05],"tickmode":"array","ticktext":["2000","2005","2010","2015","2020"],"tickvals":[2000,2005,2010,2015,2020],"categoryorder":"array","categoryarray":["2000","2005","2010","2015","2020"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Year","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[4.2819000000000003,75.366100000000003],"tickmode":"array","ticktext":["20","40","60"],"tickvals":[20,40,60],"categoryorder":"array","categoryarray":["20","40","60"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Percent","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"FuelType","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"10a6e44f9affa":{"x":{},"y":{},"colour":{},"type":"scatter"}},"cur_data":"10a6e44f9affa","visdat":{"10a6e44f9affa":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script><figcaption class="figure-caption">Figure&nbsp;2: Timeseries of the percent of total US electricty generation by fuel types</figcaption></figure>
 </div>
 </div>
-<p>Observations from this plot:</p>
+<p>Observations from this plot (Figure&nbsp;2):</p>
 <ul>
 <li><p>Fossil fuel share has been decreasing steadily since about 2007</p></li>
 <li><p>Renewable share has been increasing steadily since about 2007</p></li>
@@ -7271,27 +7331,32 @@ font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell">
 <details open=""><summary>Code</summary><div class="sourceCode" id="cb13" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
 background-color: null;
+font-style: inherit;">g</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="va" style="color: #111111;
+background-color: null;
 font-style: inherit;">usa</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu" style="color: #4758AB;
+font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span><span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">year</span>,<span class="va" style="color: #111111;
+font-style: inherit;">year</span>, <span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">fossil_share_elec</span>,<span class="va" style="color: #111111;
+font-style: inherit;">fossil_share_elec</span>, <span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">oil_share_elec</span>,<span class="va" style="color: #111111;
+font-style: inherit;">oil_share_elec</span>, <span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">gas_share_elec</span>,<span class="va" style="color: #111111;
+font-style: inherit;">gas_share_elec</span>, <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">coal_share_elec</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">tidyr</span><span class="fu" style="color: #4758AB;
@@ -7300,9 +7365,10 @@ font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">(</span>cols<span class="op" style="color: #5E5E5E;
+font-style: inherit;">(</span></span>
+<span>    cols <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span><span class="fu" style="color: #4758AB;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">dplyr</span><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -7312,23 +7378,45 @@ font-style: inherit;"><a href="https://tidyselect.r-lib.org/reference/starts_wit
 background-color: null;
 font-style: inherit;">(</span><span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'share_elec'</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">"share_elec"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span>,</span>
-<span>               names_to<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'FuelType'</span>,</span>
-<span>               values_to <span class="op" style="color: #5E5E5E;
+<span>    names_to <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'Percentage'</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">"FuelType"</span>,</span>
+<span>    values_to <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Percentage"</span></span>
+<span>  <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span>FuelType <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://stringr.tidyverse.org/reference/str_remove.html">str_remove</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">FuelType</span>,<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'_share_elec'</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
 <span>  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op" style="color: #5E5E5E;
@@ -7339,13 +7427,13 @@ font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/aes.html"
 background-color: null;
 font-style: inherit;">(</span><span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">year</span>,<span class="va" style="color: #111111;
+font-style: inherit;">year</span>, <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">Percentage</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
@@ -7356,19 +7444,19 @@ font-style: inherit;">(</span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">(</span>color<span class="op" style="color: #5E5E5E;
+font-style: inherit;">(</span>color <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span><span class="va" style="color: #111111;
+font-style: inherit;">=</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">FuelType</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span>,linewidth<span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span>, linewidth <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1.5</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
@@ -7379,7 +7467,7 @@ font-style: inherit;">(</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Percent of US electricity Generation: Fossil Fuels"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
@@ -7390,7 +7478,7 @@ font-style: inherit;">(</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Year"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
@@ -7401,12 +7489,27 @@ font-style: inherit;">(</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Percent"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
+font-style: inherit;">)</span></span>
+<span></span>
+<span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">plotly</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/pkg/plotly/man/ggplotly.html">ggplotly</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">g</span><span class="op" style="color: #5E5E5E;
+background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
-</details><div class="cell-output-display">
-<p><img src="https://andypicke.quarto.pub/portfolio/posts/Energy_Tidy_Tuesday/index_files/figure-html/share-fossil-1.png" class="img-fluid" alt="Timeseries of the percent of total US electricty generation by fossil fuels." width="768"></p>
+</details><div id="fig-share-fossil" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure"><div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-600faac30918a1b74d0c" style="width:100%;height:406px;"></div>
+<script type="application/json" data-for="htmlwidget-600faac30918a1b74d0c">{"x":{"data":[{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021],"y":[51.715000000000003,51.078000000000003,50.286999999999999,51.015000000000001,50.058999999999997,49.884999999999998,49.186,48.677,48.344999999999999,44.567999999999998,44.902999999999999,42.393999999999998,37.469999999999999,38.985999999999997,38.616,33.115000000000002,30.315000000000001,29.757000000000001,27.359000000000002,23.204999999999998,19.128,21.623999999999999],"text":["year: 2000<br />Percentage: 51.715<br />FuelType: coal","year: 2001<br />Percentage: 51.078<br />FuelType: coal","year: 2002<br />Percentage: 50.287<br />FuelType: coal","year: 2003<br />Percentage: 51.015<br />FuelType: coal","year: 2004<br />Percentage: 50.059<br />FuelType: coal","year: 2005<br />Percentage: 49.885<br />FuelType: coal","year: 2006<br />Percentage: 49.186<br />FuelType: coal","year: 2007<br />Percentage: 48.677<br />FuelType: coal","year: 2008<br />Percentage: 48.345<br />FuelType: coal","year: 2009<br />Percentage: 44.568<br />FuelType: coal","year: 2010<br />Percentage: 44.903<br />FuelType: coal","year: 2011<br />Percentage: 42.394<br />FuelType: coal","year: 2012<br />Percentage: 37.470<br />FuelType: coal","year: 2013<br />Percentage: 38.986<br />FuelType: coal","year: 2014<br />Percentage: 38.616<br />FuelType: coal","year: 2015<br />Percentage: 33.115<br />FuelType: coal","year: 2016<br />Percentage: 30.315<br />FuelType: coal","year: 2017<br />Percentage: 29.757<br />FuelType: coal","year: 2018<br />Percentage: 27.359<br />FuelType: coal","year: 2019<br />Percentage: 23.205<br />FuelType: coal","year: 2020<br />Percentage: 19.128<br />FuelType: coal","year: 2021<br />Percentage: 21.624<br />FuelType: coal"],"type":"scatter","mode":"lines","line":{"width":5.6692913385826778,"color":"rgba(248,118,109,1)","dash":"solid"},"hoveron":"points","name":"coal","legendgroup":"coal","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021],"y":[70.941999999999993,71.861000000000004,70.959000000000003,71.234999999999999,71.313999999999993,71.870000000000005,71.129000000000005,72.135000000000005,71.191000000000003,69.176000000000002,70.066000000000003,68.207999999999998,68.775999999999996,67.713999999999999,67.188000000000002,66.853999999999999,65.001000000000005,62.683999999999997,63.341000000000001,62.241,60.148000000000003,60.509],"text":["year: 2000<br />Percentage: 70.942<br />FuelType: fossil","year: 2001<br />Percentage: 71.861<br />FuelType: fossil","year: 2002<br />Percentage: 70.959<br />FuelType: fossil","year: 2003<br />Percentage: 71.235<br />FuelType: fossil","year: 2004<br />Percentage: 71.314<br />FuelType: fossil","year: 2005<br />Percentage: 71.870<br />FuelType: fossil","year: 2006<br />Percentage: 71.129<br />FuelType: fossil","year: 2007<br />Percentage: 72.135<br />FuelType: fossil","year: 2008<br />Percentage: 71.191<br />FuelType: fossil","year: 2009<br />Percentage: 69.176<br />FuelType: fossil","year: 2010<br />Percentage: 70.066<br />FuelType: fossil","year: 2011<br />Percentage: 68.208<br />FuelType: fossil","year: 2012<br />Percentage: 68.776<br />FuelType: fossil","year: 2013<br />Percentage: 67.714<br />FuelType: fossil","year: 2014<br />Percentage: 67.188<br />FuelType: fossil","year: 2015<br />Percentage: 66.854<br />FuelType: fossil","year: 2016<br />Percentage: 65.001<br />FuelType: fossil","year: 2017<br />Percentage: 62.684<br />FuelType: fossil","year: 2018<br />Percentage: 63.341<br />FuelType: fossil","year: 2019<br />Percentage: 62.241<br />FuelType: fossil","year: 2020<br />Percentage: 60.148<br />FuelType: fossil","year: 2021<br />Percentage: 60.509<br />FuelType: fossil"],"type":"scatter","mode":"lines","line":{"width":5.6692913385826778,"color":"rgba(124,174,0,1)","dash":"solid"},"hoveron":"points","name":"fossil","legendgroup":"fossil","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021],"y":[16.175000000000001,17.146000000000001,17.975000000000001,16.797999999999998,17.968,18.859000000000002,20.173999999999999,21.643000000000001,21.497,23.376000000000001,24.009,24.791,30.338999999999999,27.734999999999999,27.504999999999999,32.651000000000003,33.719999999999999,31.992999999999999,34.966000000000001,38.134999999999998,40.170999999999999,38.036999999999999],"text":["year: 2000<br />Percentage: 16.175<br />FuelType: gas","year: 2001<br />Percentage: 17.146<br />FuelType: gas","year: 2002<br />Percentage: 17.975<br />FuelType: gas","year: 2003<br />Percentage: 16.798<br />FuelType: gas","year: 2004<br />Percentage: 17.968<br />FuelType: gas","year: 2005<br />Percentage: 18.859<br />FuelType: gas","year: 2006<br />Percentage: 20.174<br />FuelType: gas","year: 2007<br />Percentage: 21.643<br />FuelType: gas","year: 2008<br />Percentage: 21.497<br />FuelType: gas","year: 2009<br />Percentage: 23.376<br />FuelType: gas","year: 2010<br />Percentage: 24.009<br />FuelType: gas","year: 2011<br />Percentage: 24.791<br />FuelType: gas","year: 2012<br />Percentage: 30.339<br />FuelType: gas","year: 2013<br />Percentage: 27.735<br />FuelType: gas","year: 2014<br />Percentage: 27.505<br />FuelType: gas","year: 2015<br />Percentage: 32.651<br />FuelType: gas","year: 2016<br />Percentage: 33.720<br />FuelType: gas","year: 2017<br />Percentage: 31.993<br />FuelType: gas","year: 2018<br />Percentage: 34.966<br />FuelType: gas","year: 2019<br />Percentage: 38.135<br />FuelType: gas","year: 2020<br />Percentage: 40.171<br />FuelType: gas","year: 2021<br />Percentage: 38.037<br />FuelType: gas"],"type":"scatter","mode":"lines","line":{"width":5.6692913385826778,"color":"rgba(0,191,196,1)","dash":"solid"},"hoveron":"points","name":"gas","legendgroup":"gas","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021],"y":[3.0510000000000002,3.637,2.6970000000000001,3.4220000000000002,3.286,3.1259999999999999,1.7689999999999999,1.8149999999999999,1.349,1.232,1.155,1.0229999999999999,0.96699999999999997,0.99299999999999999,1.0669999999999999,1.0880000000000001,0.96599999999999997,0.93500000000000005,1.016,0.90000000000000002,0.84899999999999998,0.84799999999999998],"text":["year: 2000<br />Percentage:  3.051<br />FuelType: oil","year: 2001<br />Percentage:  3.637<br />FuelType: oil","year: 2002<br />Percentage:  2.697<br />FuelType: oil","year: 2003<br />Percentage:  3.422<br />FuelType: oil","year: 2004<br />Percentage:  3.286<br />FuelType: oil","year: 2005<br />Percentage:  3.126<br />FuelType: oil","year: 2006<br />Percentage:  1.769<br />FuelType: oil","year: 2007<br />Percentage:  1.815<br />FuelType: oil","year: 2008<br />Percentage:  1.349<br />FuelType: oil","year: 2009<br />Percentage:  1.232<br />FuelType: oil","year: 2010<br />Percentage:  1.155<br />FuelType: oil","year: 2011<br />Percentage:  1.023<br />FuelType: oil","year: 2012<br />Percentage:  0.967<br />FuelType: oil","year: 2013<br />Percentage:  0.993<br />FuelType: oil","year: 2014<br />Percentage:  1.067<br />FuelType: oil","year: 2015<br />Percentage:  1.088<br />FuelType: oil","year: 2016<br />Percentage:  0.966<br />FuelType: oil","year: 2017<br />Percentage:  0.935<br />FuelType: oil","year: 2018<br />Percentage:  1.016<br />FuelType: oil","year: 2019<br />Percentage:  0.900<br />FuelType: oil","year: 2020<br />Percentage:  0.849<br />FuelType: oil","year: 2021<br />Percentage:  0.848<br />FuelType: oil"],"type":"scatter","mode":"lines","line":{"width":5.6692913385826778,"color":"rgba(199,124,255,1)","dash":"solid"},"hoveron":"points","name":"oil","legendgroup":"oil","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":45.223744292237441,"r":7.3059360730593621,"b":41.643835616438366,"l":37.260273972602747},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Percent of US electricity Generation: Fossil Fuels","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[1998.95,2022.05],"tickmode":"array","ticktext":["2000","2005","2010","2015","2020"],"tickvals":[2000,2005,2010,2015,2020],"categoryorder":"array","categoryarray":["2000","2005","2010","2015","2020"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Year","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-2.7163500000000007,75.69935000000001],"tickmode":"array","ticktext":["0","20","40","60"],"tickvals":[0,20,40,60],"categoryorder":"array","categoryarray":["0","20","40","60"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Percent","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"FuelType","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"10a6e349b4a62":{"x":{},"y":{},"colour":{},"type":"scatter"}},"cur_data":"10a6e349b4a62","visdat":{"10a6e349b4a62":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script><figcaption class="figure-caption">Figure&nbsp;3: Timeseries of the percent of total US electricty generation by fossil fuels</figcaption></figure>
 </div>
 </div>
-<p>Observations from this plot:</p>
+<p>Observations from this plot (Figure&nbsp;3):</p>
 <ul>
 <li><p>We can see that the fossil fuel share of electricity generation has been decreasing, starting around 2008.</p></li>
 <li><p>Coal and gas make up the majority of the fossil fuel generation.</p></li>
@@ -7418,28 +7521,35 @@ font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell">
 <details open=""><summary>Code</summary><div class="sourceCode" id="cb14" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
 background-color: null;
+font-style: inherit;">g</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="va" style="color: #111111;
+background-color: null;
 font-style: inherit;">usa</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu" style="color: #4758AB;
+font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
+font-style: inherit;">(</span></span>
+<span>    <span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">year</span>,<span class="va" style="color: #111111;
+font-style: inherit;">year</span>, <span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">renewables_share_elec</span>,<span class="va" style="color: #111111;
+font-style: inherit;">renewables_share_elec</span>, <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">solar_share_elec</span>,</span>
-<span>               <span class="va" style="color: #111111;
+<span>    <span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">hydro_share_elec</span>,<span class="va" style="color: #111111;
+font-style: inherit;">hydro_share_elec</span>, <span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">wind_share_elec</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">wind_share_elec</span></span>
+<span>  <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">tidyr</span><span class="fu" style="color: #4758AB;
@@ -7448,9 +7558,10 @@ font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">(</span>cols<span class="op" style="color: #5E5E5E;
+font-style: inherit;">(</span></span>
+<span>    cols <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span><span class="fu" style="color: #4758AB;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">dplyr</span><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -7460,23 +7571,45 @@ font-style: inherit;"><a href="https://tidyselect.r-lib.org/reference/starts_wit
 background-color: null;
 font-style: inherit;">(</span><span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'share_elec'</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">"share_elec"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span>,</span>
-<span>               names_to<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'FuelType'</span>,</span>
-<span>               values_to <span class="op" style="color: #5E5E5E;
+<span>    names_to <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'Percentage'</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">"FuelType"</span>,</span>
+<span>    values_to <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Percentage"</span></span>
+<span>  <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span>FuelType <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://stringr.tidyverse.org/reference/str_remove.html">str_remove</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">FuelType</span>,<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'_share_elec'</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
 <span>  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op" style="color: #5E5E5E;
@@ -7487,13 +7620,13 @@ font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/aes.html"
 background-color: null;
 font-style: inherit;">(</span><span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">year</span>,<span class="va" style="color: #111111;
+font-style: inherit;">year</span>, <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">Percentage</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
@@ -7504,19 +7637,19 @@ font-style: inherit;">(</span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">(</span>color<span class="op" style="color: #5E5E5E;
+font-style: inherit;">(</span>color <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span><span class="va" style="color: #111111;
+font-style: inherit;">=</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">FuelType</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span>,linewidth<span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span>, linewidth <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1.5</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
@@ -7527,7 +7660,7 @@ font-style: inherit;">(</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Percent of US electricity Generation: Renewables"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
@@ -7538,7 +7671,7 @@ font-style: inherit;">(</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Year"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
@@ -7549,12 +7682,28 @@ font-style: inherit;">(</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Percent"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
+font-style: inherit;">)</span></span>
+<span></span>
+<span></span>
+<span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">plotly</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/pkg/plotly/man/ggplotly.html">ggplotly</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">g</span><span class="op" style="color: #5E5E5E;
+background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
-</details><div class="cell-output-display">
-<p><img src="https://andypicke.quarto.pub/portfolio/posts/Energy_Tidy_Tuesday/index_files/figure-html/share-renewable-1.png" class="img-fluid" alt="Timeseries of the percent of total US electricty generation renewable fuels." width="768"></p>
+</details><div id="fig-share-renewable" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure"><div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-8ee66204aa1023f6d3d8" style="width:100%;height:406px;"></div>
+<script type="application/json" data-for="htmlwidget-8ee66204aa1023f6d3d8">{"x":{"data":[{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021],"y":[7.1020000000000003,5.5839999999999996,6.649,6.9080000000000004,6.577,6.5369999999999999,6.9850000000000003,5.8079999999999998,6.0510000000000002,6.8230000000000004,6.1909999999999998,7.6529999999999996,6.7140000000000004,6.5069999999999997,6.181,5.9740000000000002,6.3879999999999999,7.2510000000000003,6.8220000000000001,6.7960000000000003,6.9240000000000004,5.9359999999999999],"text":["year: 2000<br />Percentage:  7.102<br />FuelType: hydro","year: 2001<br />Percentage:  5.584<br />FuelType: hydro","year: 2002<br />Percentage:  6.649<br />FuelType: hydro","year: 2003<br />Percentage:  6.908<br />FuelType: hydro","year: 2004<br />Percentage:  6.577<br />FuelType: hydro","year: 2005<br />Percentage:  6.537<br />FuelType: hydro","year: 2006<br />Percentage:  6.985<br />FuelType: hydro","year: 2007<br />Percentage:  5.808<br />FuelType: hydro","year: 2008<br />Percentage:  6.051<br />FuelType: hydro","year: 2009<br />Percentage:  6.823<br />FuelType: hydro","year: 2010<br />Percentage:  6.191<br />FuelType: hydro","year: 2011<br />Percentage:  7.653<br />FuelType: hydro","year: 2012<br />Percentage:  6.714<br />FuelType: hydro","year: 2013<br />Percentage:  6.507<br />FuelType: hydro","year: 2014<br />Percentage:  6.181<br />FuelType: hydro","year: 2015<br />Percentage:  5.974<br />FuelType: hydro","year: 2016<br />Percentage:  6.388<br />FuelType: hydro","year: 2017<br />Percentage:  7.251<br />FuelType: hydro","year: 2018<br />Percentage:  6.822<br />FuelType: hydro","year: 2019<br />Percentage:  6.796<br />FuelType: hydro","year: 2020<br />Percentage:  6.924<br />FuelType: hydro","year: 2021<br />Percentage:  5.936<br />FuelType: hydro"],"type":"scatter","mode":"lines","line":{"width":5.6692913385826778,"color":"rgba(248,118,109,1)","dash":"solid"},"hoveron":"points","name":"hydro","legendgroup":"hydro","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021],"y":[9.2300000000000004,7.5129999999999999,8.7490000000000006,9.0250000000000004,8.7330000000000005,8.7490000000000006,9.4179999999999993,8.3979999999999997,9.1809999999999992,10.548,10.318,12.467000000000001,12.183999999999999,12.831,13.35,13.625999999999999,15.288,17.452000000000002,17.449999999999999,18.295000000000002,20.315999999999999,20.75],"text":["year: 2000<br />Percentage:  9.230<br />FuelType: renewables","year: 2001<br />Percentage:  7.513<br />FuelType: renewables","year: 2002<br />Percentage:  8.749<br />FuelType: renewables","year: 2003<br />Percentage:  9.025<br />FuelType: renewables","year: 2004<br />Percentage:  8.733<br />FuelType: renewables","year: 2005<br />Percentage:  8.749<br />FuelType: renewables","year: 2006<br />Percentage:  9.418<br />FuelType: renewables","year: 2007<br />Percentage:  8.398<br />FuelType: renewables","year: 2008<br />Percentage:  9.181<br />FuelType: renewables","year: 2009<br />Percentage: 10.548<br />FuelType: renewables","year: 2010<br />Percentage: 10.318<br />FuelType: renewables","year: 2011<br />Percentage: 12.467<br />FuelType: renewables","year: 2012<br />Percentage: 12.184<br />FuelType: renewables","year: 2013<br />Percentage: 12.831<br />FuelType: renewables","year: 2014<br />Percentage: 13.350<br />FuelType: renewables","year: 2015<br />Percentage: 13.626<br />FuelType: renewables","year: 2016<br />Percentage: 15.288<br />FuelType: renewables","year: 2017<br />Percentage: 17.452<br />FuelType: renewables","year: 2018<br />Percentage: 17.450<br />FuelType: renewables","year: 2019<br />Percentage: 18.295<br />FuelType: renewables","year: 2020<br />Percentage: 20.316<br />FuelType: renewables","year: 2021<br />Percentage: 20.750<br />FuelType: renewables"],"type":"scatter","mode":"lines","line":{"width":5.6692913385826778,"color":"rgba(124,174,0,1)","dash":"solid"},"hoveron":"points","name":"renewables","legendgroup":"renewables","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021],"y":[0.012999999999999999,0.014,0.014,0.014,0.014999999999999999,0.014,0.012999999999999999,0.014999999999999999,0.021000000000000001,0.023,0.029000000000000001,0.044999999999999998,0.107,0.223,0.70599999999999996,0.95599999999999996,1.3420000000000001,1.907,2.222,2.5699999999999998,3.2330000000000001,3.96],"text":["year: 2000<br />Percentage:  0.013<br />FuelType: solar","year: 2001<br />Percentage:  0.014<br />FuelType: solar","year: 2002<br />Percentage:  0.014<br />FuelType: solar","year: 2003<br />Percentage:  0.014<br />FuelType: solar","year: 2004<br />Percentage:  0.015<br />FuelType: solar","year: 2005<br />Percentage:  0.014<br />FuelType: solar","year: 2006<br />Percentage:  0.013<br />FuelType: solar","year: 2007<br />Percentage:  0.015<br />FuelType: solar","year: 2008<br />Percentage:  0.021<br />FuelType: solar","year: 2009<br />Percentage:  0.023<br />FuelType: solar","year: 2010<br />Percentage:  0.029<br />FuelType: solar","year: 2011<br />Percentage:  0.045<br />FuelType: solar","year: 2012<br />Percentage:  0.107<br />FuelType: solar","year: 2013<br />Percentage:  0.223<br />FuelType: solar","year: 2014<br />Percentage:  0.706<br />FuelType: solar","year: 2015<br />Percentage:  0.956<br />FuelType: solar","year: 2016<br />Percentage:  1.342<br />FuelType: solar","year: 2017<br />Percentage:  1.907<br />FuelType: solar","year: 2018<br />Percentage:  2.222<br />FuelType: solar","year: 2019<br />Percentage:  2.570<br />FuelType: solar","year: 2020<br />Percentage:  3.233<br />FuelType: solar","year: 2021<br />Percentage:  3.960<br />FuelType: solar"],"type":"scatter","mode":"lines","line":{"width":5.6692913385826778,"color":"rgba(0,191,196,1)","dash":"solid"},"hoveron":"points","name":"solar","legendgroup":"solar","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021],"y":[0.14699999999999999,0.18099999999999999,0.26900000000000002,0.28899999999999998,0.35799999999999998,0.441,0.65700000000000003,0.83199999999999996,1.3480000000000001,1.875,2.3010000000000002,2.9390000000000001,3.4849999999999999,4.1379999999999999,4.4349999999999996,4.6699999999999999,5.5529999999999999,6.2750000000000004,6.4900000000000002,7.1150000000000002,8.3580000000000005,9.1080000000000005],"text":["year: 2000<br />Percentage:  0.147<br />FuelType: wind","year: 2001<br />Percentage:  0.181<br />FuelType: wind","year: 2002<br />Percentage:  0.269<br />FuelType: wind","year: 2003<br />Percentage:  0.289<br />FuelType: wind","year: 2004<br />Percentage:  0.358<br />FuelType: wind","year: 2005<br />Percentage:  0.441<br />FuelType: wind","year: 2006<br />Percentage:  0.657<br />FuelType: wind","year: 2007<br />Percentage:  0.832<br />FuelType: wind","year: 2008<br />Percentage:  1.348<br />FuelType: wind","year: 2009<br />Percentage:  1.875<br />FuelType: wind","year: 2010<br />Percentage:  2.301<br />FuelType: wind","year: 2011<br />Percentage:  2.939<br />FuelType: wind","year: 2012<br />Percentage:  3.485<br />FuelType: wind","year: 2013<br />Percentage:  4.138<br />FuelType: wind","year: 2014<br />Percentage:  4.435<br />FuelType: wind","year: 2015<br />Percentage:  4.670<br />FuelType: wind","year: 2016<br />Percentage:  5.553<br />FuelType: wind","year: 2017<br />Percentage:  6.275<br />FuelType: wind","year: 2018<br />Percentage:  6.490<br />FuelType: wind","year: 2019<br />Percentage:  7.115<br />FuelType: wind","year: 2020<br />Percentage:  8.358<br />FuelType: wind","year: 2021<br />Percentage:  9.108<br />FuelType: wind"],"type":"scatter","mode":"lines","line":{"width":5.6692913385826778,"color":"rgba(199,124,255,1)","dash":"solid"},"hoveron":"points","name":"wind","legendgroup":"wind","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":45.223744292237441,"r":7.3059360730593621,"b":41.643835616438366,"l":37.260273972602747},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Percent of US electricity Generation: Renewables","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[1998.95,2022.05],"tickmode":"array","ticktext":["2000","2005","2010","2015","2020"],"tickvals":[2000,2005,2010,2015,2020],"categoryorder":"array","categoryarray":["2000","2005","2010","2015","2020"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Year","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-1.0238500000000001,21.786850000000001],"tickmode":"array","ticktext":["0","5","10","15","20"],"tickvals":[0,5,10,15,20],"categoryorder":"array","categoryarray":["0","5","10","15","20"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Percent","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"FuelType","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"10a6e4c61925f":{"x":{},"y":{},"colour":{},"type":"scatter"}},"cur_data":"10a6e4c61925f","visdat":{"10a6e4c61925f":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script><figcaption class="figure-caption">Figure&nbsp;4: Timeseries of the percent of total US electricty generation renewable fuels</figcaption></figure>
 </div>
 </div>
-<p>Observations from this plot:</p>
+<p>Observations from this plot (Figure&nbsp;4):</p>
 <ul>
 <li><p>The share of renewable electricity production has increased sharply, approximately doubling from 2008 to 2020.</p></li>
 <li><p>The share of hydro generation has remained relatively constant.</p></li>
@@ -7565,7 +7714,55 @@ font-style: inherit;">)</span></span></code></pre></div>
 <li><p>Solar started increasing around 2012</p></li>
 </ul>
 </li>
-</ul></section></section><section id="references" class="level2">
+</ul></section></section></section><section id="sessioninfo" class="level1"><h1>SessionInfo</h1>
+<div class="cell">
+<details open=""><summary>Code</summary><div class="sourceCode" id="cb15" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span></code></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>R version 4.3.1 (2023-06-16)
+Platform: x86_64-apple-darwin20 (64-bit)
+Running under: macOS Sonoma 14.1.2
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/lib/libRlapack.dylib;  LAPACK version 3.11.0
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+time zone: America/Denver
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices datasets  utils     methods   base     
+
+other attached packages:
+ [1] plotly_4.10.3   lubridate_1.9.3 forcats_1.0.0   stringr_1.5.0  
+ [5] dplyr_1.1.3     purrr_1.0.2     readr_2.1.4     tidyr_1.3.0    
+ [9] tibble_3.2.1    ggplot2_3.4.4   tidyverse_2.0.0
+
+loaded via a namespace (and not attached):
+ [1] utf8_1.2.4        generics_0.1.3    renv_1.0.3        stringi_1.7.12   
+ [5] hms_1.1.3         digest_0.6.33     magrittr_2.0.3    evaluate_0.22    
+ [9] grid_4.3.1        timechange_0.2.0  fastmap_1.1.1     jsonlite_1.8.7   
+[13] httr_1.4.7        fansi_1.0.5       crosstalk_1.2.0   viridisLite_0.4.2
+[17] scales_1.2.1      lazyeval_0.2.2    cli_3.6.1         rlang_1.1.1      
+[21] crayon_1.5.2      ellipsis_0.3.2    bit64_4.0.5       munsell_0.5.0    
+[25] withr_2.5.1       yaml_2.3.7        parallel_4.3.1    tools_4.3.1      
+[29] tzdb_0.4.0        colorspace_2.1-0  curl_5.1.0        vctrs_0.6.4      
+[33] R6_2.5.1          lifecycle_1.0.3   htmlwidgets_1.6.2 bit_4.0.5        
+[37] vroom_1.6.4       pkgconfig_2.0.3   pillar_1.9.0      gtable_0.3.4     
+[41] glue_1.6.2        data.table_1.14.8 xfun_0.40         tidyselect_1.2.0 
+[45] rstudioapi_0.15.0 knitr_1.44        farver_2.1.1      htmltools_0.5.6.1
+[49] labeling_0.4.3    rmarkdown_2.25    compiler_4.3.1   </code></pre>
+</div>
+</div>
+<section id="references" class="level2">
 
 
 <!-- -->
@@ -7575,8 +7772,14 @@ font-style: inherit;">)</span></span></code></pre></div>
 <div id="ref-owidenergy" class="csl-entry">
 Ritchie, Hannah, Max Roser, and Pablo Rosado. 2022. <span>“Energy.”</span> <em>Our World in Data</em>.
 </div>
+<div id="ref-tidyverse-2" class="csl-entry">
+Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy D’Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019. <span>“Welcome to the <span></span>Tidyverse<span></span>”</span> 4: 1686. <a href="https://doi.org/10.21105/joss.01686">https://doi.org/10.21105/joss.01686</a>.
+</div>
 <div id="ref-dplyr" class="csl-entry">
 Wickham, Hadley, Romain François, Lionel Henry, Kirill Müller, and Davis Vaughan. 2023. <span>“Dplyr: A Grammar of Data Manipulation.”</span> <a href="https://CRAN.R-project.org/package=dplyr">https://CRAN.R-project.org/package=dplyr</a>.
+</div>
+<div id="ref-tidyr" class="csl-entry">
+Wickham, Hadley, Davis Vaughan, and Maximilian Girlich. 2023. <span>“Tidyr: Tidy Messy Data.”</span> <a href="https://CRAN.R-project.org/package=tidyr">https://CRAN.R-project.org/package=tidyr</a>.
 </div>
 </div></section></div> ]]></description>
   <category>energy</category>
