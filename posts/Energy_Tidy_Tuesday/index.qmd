@@ -10,6 +10,7 @@ format:
   html:
     code-link: true
     code-fold: show
+    toc: true
 freeze: auto
 ---
 
@@ -66,7 +67,7 @@ usa %>%
   head()
 ```
 
-Now I have a dataframe with just the variables I want to plot, but the format isn't ideal; I would have to specify/plot each variable separately. What I want to do is give a single plot command and group/color the lines by the variable (fuel type). To achieve this, I am going to pivot the data frame from wide to long format. I believe this was previously referred to as *gather* or *melt*.
+Now I have a dataframe with just the variables I want to plot, but the format isn't ideal; I would have to specify/plot each variable separately. What I want to do is give a single plot command and group/color the lines by the variable (fuel type). To achieve this, I am going to pivot the data frame from wide to long format, using the *pivot_longer* function from the *tidyr* (@tidyr) package. I believe this was previously referred to as *gather* or *melt*.
 
 ```{r}
 usa_share <- usa %>%
@@ -117,6 +118,7 @@ g <- usa %>%
     names_to = "FuelType",
     values_to = "Percentage"
   ) %>%
+  mutate(FuelType = str_remove(FuelType,'_share_elec')) |>
   ggplot(aes(year, Percentage)) +
   geom_line(aes(color = FuelType), linewidth = 1.5) +
   ggtitle("Percent of US electricity Generation") +
@@ -154,6 +156,7 @@ g <- usa %>%
     names_to = "FuelType",
     values_to = "Percentage"
   ) %>%
+  mutate(FuelType = str_remove(FuelType,'_share_elec')) |>
   ggplot(aes(year, Percentage)) +
   geom_line(aes(color = FuelType), linewidth = 1.5) +
   ggtitle("Percent of US electricity Generation: Fossil Fuels") +
@@ -193,6 +196,7 @@ g <- usa %>%
     names_to = "FuelType",
     values_to = "Percentage"
   ) %>%
+  mutate(FuelType = str_remove(FuelType,'_share_elec')) |>
   ggplot(aes(year, Percentage)) +
   geom_line(aes(color = FuelType), linewidth = 1.5) +
   ggtitle("Percent of US electricity Generation: Renewables") +
