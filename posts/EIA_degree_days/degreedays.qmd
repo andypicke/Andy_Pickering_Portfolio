@@ -1,0 +1,347 @@
+---
+title: "Analyzing Trends in Heating and Cooling Degree days using R"
+#image: image.png 
+author: Andy Pickering
+date: 2023-12-12
+date-modified: today
+format: 
+  html:
+    code-link: true
+    code-fold: show
+    code-tools: true
+    toc: true
+    fig-width: 10
+editor: visual
+theme: cerulean
+categories: [energy, R, weather, climate]
+freeze: auto
+bibliography: references.bib
+---
+
+# Introduction
+
+[Degree days](https://www.eia.gov/energyexplained/units-and-calculators/degree-days.php) are useful as a measure of building heating and cooling demands. A degree day is calculated as the difference between the average temperature (the average of the high and low temperature for the day) and a reference temperature (in the US 65°F is used). For example, if the average temperature today is 40°F, that would be 25 heating degree days (HDD). A summer day with an average temperature of 85°F would have 20 cooling degree days (CDD). Degree days are usually well correlated with the amount of energy used to heat or cool a home.
+
+I was interested in obtaining and analyzing degree day data; in particular I wanted to see if there were any noticeable trends over time. Given an overall increase in earth's average temperature due to climate change, I would hypothesize that there might be an overall increase in CDD and a decrease in HDD.
+
+Changes in heating or cooling degree days would have implications for the amount of energy needed in the future to heat and cool residential or commercial buildings, resulting changes in demand on the electric grid, and implications for related carbon emissions (either for the power grid or from burning fossil fuels to heat buildings).
+
+# Data
+
+I obtained heating and cooling degree day [data](Short-Term%20Energy%20Outlook%20(STEO)%20Data%20Browser) from the [U.S. Energy Information Administration](https://www.eia.gov/) for the US. Note these data are [*weighted by population*](https://www.eia.gov/tools/glossary/index.php?id=Population-weighted%20Degree%20Days), see details of how the EIA data are calculated [here](https://www.eia.gov/outlooks/steo/special/pdf/2012_sp_04.pdf).
+
+```{r}
+#| label: load-libraries
+
+suppressPackageStartupMessages(library(tidyverse))
+ggplot2::theme_set(theme_grey(base_size = 15))
+suppressPackageStartupMessages(library(janitor))
+library(broom)
+library(DT)
+suppressPackageStartupMessages(library(plotly))
+
+```
+
+I'll only use years we have complete data for (1997-2022).
+
+```{r}
+#| label: load-data
+
+region <- "u_s"
+
+dd <- read_csv(paste0('data/EIA_DegreeDays_Monthly_',region,'.csv'), 
+               skip = 4,
+               show_col_types = FALSE) |>
+  janitor::clean_names() |>
+  rename(CDD = paste0('cooling_degree_days_',region,
+                      '_cooling_degree_days_cooling_degree_days')) |>
+  rename(HDD = paste0('heating_degree_days_',region,
+                      '_heating_degree_days_heating_degree_days')) |>
+  mutate(date = lubridate::my(month)) |>
+  select(-month) |>
+  mutate(month = lubridate::month(date)) |>
+  mutate(year = lubridate::year(date)) |>
+  filter(year > 1996, year < 2023) # keep only complete years
+
+
+dd |>
+  DT::datatable(options = list(pageLength = 5), rownames = FALSE)
+
+
+```
+
+I'll also make a dataframe of the yearly totals:
+
+```{r}
+#| label: dd-yearly
+#| 
+dd_yearly <- dd |>
+  filter(year > 1996) |>
+  group_by(year) |>
+  summarise(HDD = sum(HDD, na.rm = TRUE),
+            CDD = sum(CDD, na.rm = TRUE)
+            )
+
+dd |>
+  DT::datatable(options = list(pageLength = 5), rownames = FALSE)
+```
+
+# Analysis
+
+## Heating Degree Days
+
+@fig-hdd-monthly-boxplot shows the distribution of US heating degree days for each month. Not surprisingly HDD tends to be higher in winter months, although there is a decent amount of variability between years.
+
+### HDD Per Month
+
+```{r}
+#| label: fig-hdd-monthly-boxplot
+#| fig-cap: "Boxplot of US heating degree days for each month"
+
+dd |>
+  mutate(month_name = lubridate::month(date, label = TRUE)) |>
+  ggplot(aes(month_name, HDD, group = month_name)) +
+  geom_boxplot() +
+  labs(title = 'Monthly Heating Degree Days for US (1997-2022)',
+       x = 'Month',
+       y = "Heating Degree Days")
+
+```
+
+### Trends in HDD
+
+Is there a trend in HDD over time? I would expect that HDD might decrease over time due to climate change and the increase in earth's average temperature.
+
+#### Annual
+
+@fig-hdd-yearly shows a timeseries of the annual total heating degree days in the US, along with a linear regression line that shows a negative trend.
+
+```{r}
+#| label: fig-hdd-yearly
+#| fig-cap: "Timeseries of annual US HDD"
+
+g <- dd_yearly |>
+  ggplot(aes(year, HDD)) +
+  geom_point(size = 4, alpha = 0.5) +
+  geom_smooth(method = 'lm', formula = 'y~x') +
+  labs(title = "US Annual Heating Degree Days")
+
+g
+#plotly::ggplotly(g)
+
+```
+
+There is a fair bit of variability, but looking at the fit metrics shows that the negative trend in HDD is statistically significant (p-value \< 0.05):
+
+```{r}
+
+hdd_yearly_fit <- lm(data = dd_yearly, formula = 'HDD ~ year')
+broom::tidy(hdd_yearly_fit) |> mutate_if(is.numeric,~round(.x,digits = 3))
+broom::glance(hdd_yearly_fit) |> mutate_if(is.numeric,~round(.x,digits = 3))
+
+```
+
+#### Monthly
+
+We have seen that there is a negative trend in annual HDD; what are the trends for individual months? @fig-hdd-time-winter shows timeseries of monthly HDD vs year for winter months, with linear regression lines plotted over them. Visually there appears to be a negative trend for some of the months.
+
+```{r}
+#| label: fig-hdd-time-winter
+#| fig-cap: "HDD vs year for winter months"
+
+dd |>
+  filter(month %in% c(11,12,1,2,3,4)) |>
+  mutate(month_name = lubridate::month(date, label = TRUE)) |>
+  ggplot(aes(year, HDD, group = month_name)) +
+  geom_point(size = 3, alpha = 0.5) +
+  geom_smooth(method = 'lm', formula = 'y ~ x') +
+  facet_wrap('month_name', scales = 'free') +
+  guides(x =  guide_axis(angle = 45))
+
+
+```
+
+To better quantify these trends I want to fit a linear regression to the data for each month and examine the results. This could be done with a *for loop*, but I will take advantage of a nice [nested workflow](https://broom.tidymodels.org/articles/broom_and_dplyr.html) using the *tidyr* [@tidyr], \*broom\*[@broom], and *purrr* [@purrr] packages.
+
+```{r}
+
+dd_fit_hdd <- dd |>
+  group_by(month) |>
+  nest() |>
+  mutate(fit = map(data, ~ lm(HDD ~ year, data = .x) ),
+         tidied = map(fit, broom::tidy),
+         glanced = map(fit, broom::glance)
+  ) %>%
+  unnest(tidied)
+
+dd_fit_hdd |>
+  mutate_if(is.numeric,~round(.x,digits = 3)) |>
+  DT::datatable(rownames = FALSE, options = list(pageLength = 5))
+
+```
+
+Now that the data and model fit results are in a tidy data, they can be easily filtered to identify significant fits using p-values. The months with significant trends are June, August, September, and October. These months and the linear regression lines are shown in @fig-hdd-months-sigfit
+
+```{r}
+
+dd_fit_hdd  |>
+  filter(term == 'year') |>
+  filter(p.value < 0.05) |>
+  mutate_if(is.numeric,~round(.x,digits = 3)) |>
+  DT::datatable(rownames = FALSE)
+
+```
+
+```{r}
+#| label: fig-hdd-months-sigfit
+#| fig-cap: "HDD vs year for months with signficant trends"
+
+
+dd |>
+  filter(month %in% c(6,8,9,10)) |>
+  mutate(month_name = lubridate::month(date, label = TRUE)) |>
+  ggplot(aes(year, HDD, group = month_name)) +
+  geom_point(size = 4, alpha = 0.5) +
+  geom_smooth(method = 'lm', formula = 'y ~ x') +
+  facet_wrap('month_name', scales = 'free') 
+
+
+```
+
+## Cooling Degree Days
+
+### CDD Per Month
+
+@fig-cdd-monthly-boxplot shows the distribution of US heating degree days for each month. Not surprisingly CDD tends to be higher in summer months, although there is a decent amount of variability between years.
+
+```{r}
+#| label: fig-cdd-monthly-boxplot
+#| fig-cap: "Boxplot of US cooling degree days for each month"
+
+
+dd |>
+  mutate(month_name = lubridate::month(date, label = TRUE)) |>
+  ggplot(aes(month_name, CDD, group = month_name)) +
+  geom_boxplot() +
+  labs(title = 'Monthly Cooling Degree Days for US',
+       x = 'Month',
+       y = "Cooling Degree Days")
+
+```
+
+### Trends in CDD
+
+#### Annual
+
+Is there a trend in CDD over time? I would expect that CDD might increase over time due to climate change and the increase in earth's average temperature.
+
+@fig-cdd-yearly shows a timeseries of the annual total heating degree days in the US, along with a linear regression line showing a positive trend.
+
+```{r}
+#| label: fig-cdd-yearly
+#| fig-cap: "Timeseries of annual US CDD"
+
+g <- dd_yearly |>
+  ggplot(aes(year, CDD)) +
+  geom_point(size = 4, alpha = 0.5) +
+  geom_smooth(method = 'lm', formula = 'y~x') +
+  labs(title = "US Annual Cooling Degree Days")
+
+g
+#plotly::ggplotly(g)
+
+```
+
+Looking at the fit metrics shows that the positive trend in CDD is indeed statistically significant:
+
+```{r}
+
+cdd_yearly_fit <- lm(data = dd_yearly, formula = 'CDD ~ year')
+broom::tidy(cdd_yearly_fit) |> mutate_if(is.numeric,~round(.x,digits = 3))
+broom::glance(cdd_yearly_fit) |> mutate_if(is.numeric,~round(.x,digits = 3))
+
+```
+
+#### Monthly
+
+@fig-cdd-time-summer shows timeseries of monthly CDD vs year for the 4 summer months with the highest CDD, with linear regression lines plotted over them. Visually there appears to be a positive trend for each month.
+
+```{r}
+#| label: fig-cdd-time-summer
+#| fig-cap: "CDD vs year for summer month"
+
+dd |>
+  filter(month %in% c(6,7,8,9)) |>
+  mutate(month_name = lubridate::month(date, label = TRUE)) |>
+  ggplot(aes(year, CDD, group = month_name)) +
+  geom_point(size = 4, alpha = 0.5) +
+  geom_smooth(method = 'lm', formula = 'y ~ x') +
+  facet_wrap('month_name')
+
+
+```
+
+Next i'll apply a linear regression to each month using the same workflow used for HDD.
+
+```{r}
+
+dd_fit_cdd <- dd |>
+  group_by(month) |>
+  nest() |>
+  mutate(fit = map(data, ~ lm(CDD ~ year, data = .x) ),
+         tidied = map(fit, broom::tidy)
+  ) %>%
+  unnest(tidied)
+
+dd_fit_cdd |>
+ mutate_if(is.numeric,~round(.x,digits = 3)) |>
+  DT::datatable(options = list(pageLength = 5), rownames = FALSE)
+```
+
+I find that there are significant positive trends in CDD for July, August, September, October, and December. @fig-cdd-monthly-sigfit shows the data and fits for these months in detail.
+
+```{r}
+#| label: tbl-cdd-sigfits
+#| tbl-cap: "Table of significant CDD fits"
+
+dd_fit_cdd  |>
+  filter(term == 'year') |>
+  filter(p.value < 0.05) |>
+  mutate_if(is.numeric,~round(.x,digits = 3)) |>
+  DT::datatable(rownames = FALSE,options = list(pageLength = 5))
+
+```
+
+```{r}
+#| label: fig-cdd-monthly-sigfit
+#| fig-cap: "CDD vs year for Months with significant trends"
+
+dd |>
+  filter(month %in% c(7,8,9,10,12)) |>
+  mutate(month_name = lubridate::month(date, label = TRUE)) |>
+  ggplot(aes(year, CDD, group = month_name)) +
+  geom_point(size = 4, alpha = 0.5) +
+  geom_smooth(method = 'lm', formula = 'y ~ x') +
+  facet_wrap('month_name', scales = 'free') +
+  guides(x =  guide_axis(angle = 45))
+
+
+```
+
+# Summary
+
+Annual and monthly heating and cooling degree days for the US 1997-2022 were analyzed. A linear regression was applied to the annual data, and to each month, to determine if there was a trend. Model fits with a p-value less than 0.05 were considered significant.
+
+-   There are significant negative (positive) trends in annual HDD (CDD).
+
+-   There are significant negative trends in HDD for the months of June, August, September, and October.
+
+-   There are significant positive trends in CDD for the months of July, August, September, October, and December.
+
+# SessionInfo
+
+```{r}
+sessionInfo()
+```
+
+# References
