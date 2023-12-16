@@ -5,7 +5,9 @@ image: image.jpg
 date: "2023-06-17"
 date-modified: today
 categories: [energy, TidyTuesday, R, visualization]
-fig-width: 8
+fig-width: 10
+fig-height: 8
+tbl-cap-location: bottom
 format: 
   html:
     code-link: true
@@ -28,6 +30,7 @@ I'll start by loading the *tidyverse* (@tidyverse-2) library and the data set. T
 
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(plotly))
+ggplot2::theme_set(theme_grey(base_size = 15))
 
 owid_energy <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-06-06/owid-energy.csv", show_col_types = FALSE)
 
@@ -45,31 +48,42 @@ That's a lot! I'll focus on just the United States for now.
 -   I also noticed that the data set goes back to 1900 but a a lot of the data for earlier years are missing/NA so I'll filter those out as well.
 -   It looks like we have data for the USA from 2000-2021.
 
-Make a new dataframe for just the USA data and remove years without data.
+Make a new dataframe for just the USA data and remove years without data:
 
 ```{r}
 usa <- owid_energy %>%
   filter(country == "United States") %>%
   filter(!is.na(electricity_demand))
 
-head(usa)
+usa |>
+  DT::datatable(rownames = FALSE, options = list(pageLength = 5))
 ```
 
 ### Share of electricity generation by fuel type
 
 For this analysis, I've chosen to investigate how the mix of fuel types used to generate electricity has changed over time. We need to reduce carbon emissions in order to prevent or mitigate the effects of climate change, and electricity generation is a large component of these emissions. I'm interested to see what progress has been made in transitioning to more renewable/low-carbon fuels for electricity generation.
 
-Conveniently, the data already contain fields for the share of total electricity generation for each fuel type! I'll make a new data frame with just these fields. I can select these columns (all ending in *share_elec*), using the *ends_with* function from the *dplyr* @dplyr package.
+Conveniently, the data already contain fields for the share of total electricity generation for each fuel type! I'll make a new data frame with just these fields. I can select these columns (all ending in *share_elec*), using the *ends_with* function from the *dplyr* (@dplyr) package.
 
 ```{r}
+#| label: tbl-perc-wide
+#| tbl-cap: "Percent of electricity generation by fueltype"
+
 usa %>%
   select(year, dplyr::ends_with("share_elec")) %>%
-  head()
+  DT::datatable(rownames = FALSE, options = list(pageLength = 5))
 ```
 
-Now I have a dataframe with just the variables I want to plot, but the format isn't ideal; I would have to specify/plot each variable separately. What I want to do is give a single plot command and group/color the lines by the variable (fuel type). To achieve this, I am going to pivot the data frame from wide to long format, using the *pivot_longer* function from the *tidyr* (@tidyr) package. I believe this was previously referred to as *gather* or *melt*.
+Now I have a dataframe (@tbl-perc-wide) with just the variables I want to plot, but the format isn't ideal; I would have to specify/plot each variable separately. What I want to do is give a single plot command and group/color the lines by the variable (fuel type). To achieve this, I am going to pivot the data frame from wide to long format, using the *pivot_longer* function from the *tidyr* (@tidyr) package.
+
+::: callout-note
+The *pivot\_* functions in *tidyr* (@tidyr) package were previously referred to as *gather* or *melt*.
+:::
 
 ```{r}
+#| label: tbl-perc-long
+#| tbl-cap: "Percent of electricity generation by fueltype"
+
 usa_share <- usa %>%
   select(year, ends_with("share_elec")) %>%
   tidyr::pivot_longer(
@@ -78,10 +92,11 @@ usa_share <- usa %>%
     values_to = "Percentage") |>
   mutate(FuelType = str_remove(FuelType,'_share_elec')) 
 
-head(usa_share)
+usa_share |>
+    DT::datatable(rownames = FALSE, options = list(pageLength = 5))
 ```
 
-Now my dataframe has a row for each year, fuel type, and value, and I can simply group or color by the fuel type when I plot.
+Now my dataframe (@tbl-perc-long) has a row for each year, fuel type, and value, and I can simply group or color by the fuel type when I plot.
 
 ```{r}
 #| label: fig-share-all
