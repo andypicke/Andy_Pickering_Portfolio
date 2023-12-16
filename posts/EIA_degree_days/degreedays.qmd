@@ -1,6 +1,6 @@
 ---
 title: "Analyzing Trends in Heating and Cooling Degree days using R"
-#image: image.png 
+image: CopyOffig-cdd-yearly-1.png 
 author: Andy Pickering
 date: 2023-12-12
 date-modified: today
@@ -11,8 +11,9 @@ format:
     code-tools: true
     toc: true
     fig-width: 10
+    fig-height: 8
+    tbl-cap-location: bottom
 editor: visual
-theme: cerulean
 categories: [energy, R, weather, climate]
 freeze: auto
 bibliography: references.bib
@@ -28,21 +29,22 @@ Changes in heating or cooling degree days would have implications for the amount
 
 # Data
 
-I obtained heating and cooling degree day [data](Short-Term%20Energy%20Outlook%20(STEO)%20Data%20Browser) from the [U.S. Energy Information Administration](https://www.eia.gov/) for the US. Note these data are [*weighted by population*](https://www.eia.gov/tools/glossary/index.php?id=Population-weighted%20Degree%20Days), see details of how the EIA data are calculated [here](https://www.eia.gov/outlooks/steo/special/pdf/2012_sp_04.pdf).
+I obtained heating and cooling degree day [data](https://www.eia.gov/outlooks/steo/data/browser/#/?v=28&f=M&s=&start=199701&end=202412&id=&linechart=ZWCDPUS~ZWHDPUS&maptype=0&ctype=linechart&map=) from the [U.S. Energy Information Administration](https://www.eia.gov/) for the US. Note these data are [*weighted by population*](https://www.eia.gov/tools/glossary/index.php?id=Population-weighted%20Degree%20Days), to reflect the effect of both temperature and population on energy demands for cooling and heating. You can see details of how the EIA data are calculated [here](https://www.eia.gov/outlooks/steo/special/pdf/2012_sp_04.pdf).
 
 ```{r}
 #| label: load-libraries
+#| code-fold: true
 
 suppressPackageStartupMessages(library(tidyverse))
 ggplot2::theme_set(theme_grey(base_size = 15))
 suppressPackageStartupMessages(library(janitor))
 library(broom)
-library(DT)
+suppressPackageStartupMessages(library(DT))
 suppressPackageStartupMessages(library(plotly))
 
 ```
 
-I'll only use years we have complete data for (1997-2022).
+I'll only use years we have complete data for (1997-2022). @tbl-dd-monthly shows the data after being loaded and cleaned up.
 
 ```{r}
 #| label: load-data
@@ -64,17 +66,26 @@ dd <- read_csv(paste0('data/EIA_DegreeDays_Monthly_',region,'.csv'),
   filter(year > 1996, year < 2023) # keep only complete years
 
 
-dd |>
-  DT::datatable(options = list(pageLength = 5), rownames = FALSE)
 
 
 ```
 
-I'll also make a dataframe of the yearly totals:
+```{r}
+#| label: tbl-dd-monthly
+#| tbl-cap: "Table of monthly degree day data for US"
+#| code-fold: true
+
+dd |>
+  DT::datatable(options = list(pageLength = 5), rownames = FALSE)
+
+```
+
+I'll also make a dataframe of the yearly totals (@tbl-dd-yearly)
 
 ```{r}
-#| label: dd-yearly
-#| 
+#| label: tbl-dd-yearly
+#| tbl-cap: "Table of yearly degree days for the US"
+
 dd_yearly <- dd |>
   filter(year > 1996) |>
   group_by(year) |>
@@ -90,7 +101,7 @@ dd |>
 
 ## Heating Degree Days
 
-@fig-hdd-monthly-boxplot shows the distribution of US heating degree days for each month. Not surprisingly HDD tends to be higher in winter months, although there is a decent amount of variability between years.
+@fig-hdd-monthly-boxplot shows the distribution (using a [boxplot](https://en.wikipedia.org/wiki/Box_plot)) of US heating degree days for each month. Not surprisingly HDD tends to be higher in winter months, although there is a decent amount of variability between years.
 
 ### HDD Per Month
 
@@ -126,20 +137,23 @@ g <- dd_yearly |>
   geom_smooth(method = 'lm', formula = 'y~x') +
   labs(title = "US Annual Heating Degree Days")
 
-g
-#plotly::ggplotly(g)
+
+plotly::ggplotly(g)
 
 ```
-
-There is a fair bit of variability, but looking at the fit metrics shows that the negative trend in HDD is statistically significant (p-value \< 0.05):
 
 ```{r}
+#| label: tbl-hdd-annual-fit
+#| tbl-cap: "Results of linear regression for annual HDD"
 
 hdd_yearly_fit <- lm(data = dd_yearly, formula = 'HDD ~ year')
-broom::tidy(hdd_yearly_fit) |> mutate_if(is.numeric,~round(.x,digits = 3))
-broom::glance(hdd_yearly_fit) |> mutate_if(is.numeric,~round(.x,digits = 3))
+
+broom::tidy(hdd_yearly_fit) |> mutate_if(is.numeric,~round(.x,digits = 3)) |>
+  DT::datatable()
 
 ```
+
+There is a fair bit of variability, but looking at the fit metrics (@tbl-hdd-annual-fit) shows that the negative trend in HDD is statistically significant (p-value \< 0.05). Annual heating degree days are decreasing at a rate of `r -round(hdd_yearly_fit$coefficients['year'])` HDD per year.
 
 #### Monthly
 
@@ -161,9 +175,11 @@ dd |>
 
 ```
 
-To better quantify these trends I want to fit a linear regression to the data for each month and examine the results. This could be done with a *for loop*, but I will take advantage of a nice [nested workflow](https://broom.tidymodels.org/articles/broom_and_dplyr.html) using the *tidyr* [@tidyr], \*broom\*[@broom], and *purrr* [@purrr] packages.
+To better quantify these trends I want to fit a linear regression to the data for each month and examine the results. This could be done with a *for loop*, but I will take advantage of a nice [nested workflow](https://broom.tidymodels.org/articles/broom_and_dplyr.html) using the *tidyr* [@tidyr], *broom* [@broom], and *purrr* [@purrr] packages.
 
 ```{r}
+#| label: tbl-hdd-monthly-fits
+#| tbl-cap: "Results of linear regression fits of heating degree days for each month"
 
 dd_fit_hdd <- dd |>
   group_by(month) |>
@@ -172,7 +188,8 @@ dd_fit_hdd <- dd |>
          tidied = map(fit, broom::tidy),
          glanced = map(fit, broom::glance)
   ) %>%
-  unnest(tidied)
+  unnest(tidied) |>
+  ungroup()
 
 dd_fit_hdd |>
   mutate_if(is.numeric,~round(.x,digits = 3)) |>
@@ -180,14 +197,17 @@ dd_fit_hdd |>
 
 ```
 
-Now that the data and model fit results are in a tidy data, they can be easily filtered to identify significant fits using p-values. The months with significant trends are June, August, September, and October. These months and the linear regression lines are shown in @fig-hdd-months-sigfit
+Now that the data and model fit results are in a tidy dataframe (@tbl-hdd-monthly-fits), they can be easily filtered to identify significant fits using p-values (@tbl-hdd-sigfits). The months with significant trends are June, August, September, and October. These months and the linear regression lines are shown in @fig-hdd-months-sigfit
 
 ```{r}
+#| label: tbl-hdd-sigfits
+#| tbl-cap: "Table of significant HDD fits (based on p-value < 0.05)"
 
 dd_fit_hdd  |>
   filter(term == 'year') |>
   filter(p.value < 0.05) |>
   mutate_if(is.numeric,~round(.x,digits = 3)) |>
+  select(-c(data, fit, term, glanced)) |>
   DT::datatable(rownames = FALSE)
 
 ```
@@ -247,20 +267,23 @@ g <- dd_yearly |>
   geom_smooth(method = 'lm', formula = 'y~x') +
   labs(title = "US Annual Cooling Degree Days")
 
-g
-#plotly::ggplotly(g)
+plotly::ggplotly(g)
 
 ```
-
-Looking at the fit metrics shows that the positive trend in CDD is indeed statistically significant:
 
 ```{r}
+#| label: tbl-cdd-annual-fit
+#| tbl-cap: "Results of linear regression for annual CDD"
 
 cdd_yearly_fit <- lm(data = dd_yearly, formula = 'CDD ~ year')
-broom::tidy(cdd_yearly_fit) |> mutate_if(is.numeric,~round(.x,digits = 3))
-broom::glance(cdd_yearly_fit) |> mutate_if(is.numeric,~round(.x,digits = 3))
+
+broom::tidy(cdd_yearly_fit) |> 
+  mutate_if(is.numeric,~round(.x,digits = 3)) |>
+  DT::datatable()
 
 ```
+
+Looking at the fit metrics shows that the positive trend in CDD is indeed statistically significant (@tbl-cdd-annual-fit), with CDD increasing at a rate of `r round(cdd_yearly_fit$coefficients['year'],2)`
 
 #### Monthly
 
@@ -281,7 +304,7 @@ dd |>
 
 ```
 
-Next i'll apply a linear regression to each month using the same workflow used for HDD.
+Next I'll apply a linear regression to each month using the same workflow used for HDD.
 
 ```{r}
 
@@ -291,23 +314,25 @@ dd_fit_cdd <- dd |>
   mutate(fit = map(data, ~ lm(CDD ~ year, data = .x) ),
          tidied = map(fit, broom::tidy)
   ) %>%
-  unnest(tidied)
+  unnest(tidied) |>
+  ungroup()
 
-dd_fit_cdd |>
- mutate_if(is.numeric,~round(.x,digits = 3)) |>
-  DT::datatable(options = list(pageLength = 5), rownames = FALSE)
+
 ```
 
-I find that there are significant positive trends in CDD for July, August, September, October, and December. @fig-cdd-monthly-sigfit shows the data and fits for these months in detail.
+There are significant positive trends in CDD for July, August, September, October, and December (@tbl-cdd-sigfits). @fig-cdd-monthly-sigfit shows the data and fits for these months in detail.
 
 ```{r}
 #| label: tbl-cdd-sigfits
 #| tbl-cap: "Table of significant CDD fits"
+#| code-fold: true
+
 
 dd_fit_cdd  |>
   filter(term == 'year') |>
   filter(p.value < 0.05) |>
   mutate_if(is.numeric,~round(.x,digits = 3)) |>
+  select(-c(data, fit, term)) |>
   DT::datatable(rownames = FALSE,options = list(pageLength = 5))
 
 ```
@@ -315,6 +340,7 @@ dd_fit_cdd  |>
 ```{r}
 #| label: fig-cdd-monthly-sigfit
 #| fig-cap: "CDD vs year for Months with significant trends"
+#| code-fold: true
 
 dd |>
   filter(month %in% c(7,8,9,10,12)) |>
@@ -332,13 +358,23 @@ dd |>
 
 Annual and monthly heating and cooling degree days for the US 1997-2022 were analyzed. A linear regression was applied to the annual data, and to each month, to determine if there was a trend. Model fits with a p-value less than 0.05 were considered significant.
 
--   There are significant negative (positive) trends in annual HDD (CDD).
+-   There is a negative trend in annual HDD (@fig-hdd-yearly, @tbl-hdd-annual-fit), with HDD decreasing at a rate of `r -round(hdd_yearly_fit$coefficients['year'],2)` HDD per year.
 
--   There are significant negative trends in HDD for the months of June, August, September, and October.
+-   There is a positive trend in annual CDD (@fig-cdd-yearly, @tbl-cdd-annual-fit), with CDD increasing at a rate of `r round(cdd_yearly_fit$coefficients['year'],2)` CDD per year.
 
--   There are significant positive trends in CDD for the months of July, August, September, October, and December.
+-   There are significant negative trends in HDD for the months of June, August, September, and October (@tbl-hdd-sigfits).
+
+-   There are significant positive trends in CDD for the months of July, August, September, October, and December (@tbl-cdd-sigfits).
+
+# Future Research Questions
+
+## Implications for energy use
+
+-   How much actual energy use (kWh, therms, etc.) corresponds to a degree day? This will depend on many factors, but we could make a rough estimate by comparing degree days to energy demand or consumption.
 
 # SessionInfo
+
+To enhance reproducibility, my *sessionInfo* is included below:
 
 ```{r}
 sessionInfo()
