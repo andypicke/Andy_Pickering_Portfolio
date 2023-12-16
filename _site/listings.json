@@ -2,6 +2,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/EIA_degree_days/degreedays.html",
       "/posts/Ember_US_Electric_Total/Ember_US_elec_total.html",
       "/posts/EV_station_mapping/ev_station_mapping.html",
       "/posts/EIA_Electric_Fuel_Breakdown/index.html",

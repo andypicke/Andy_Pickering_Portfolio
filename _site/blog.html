@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.361">
+<meta name="generator" content="quarto-1.4.527">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -82,7 +82,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -91,6 +96,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -129,16 +135,43 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
 <link rel="stylesheet" href="styles.css">
-<link rel="alternate" type="application/rss+xml" title="Andy Pickering" href="blog.xml"></head>
+<link rel="alternate" type="application/rss+xml" title="Andy Pickering" href="blog.xml" data-external="1"></head>
 
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">Andy Pickering</span>
     </a>
@@ -150,59 +183,59 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html" rel="" target="">
- <span class="menu-text">Home</span></a>
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./projects.html" rel="" target="">
- <span class="menu-text">Projects</span></a>
+    <a class="nav-link" href="./projects.html"> 
+<span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./blog.html" rel="" target="" aria-current="page">
- <span class="menu-text">Blog</span></a>
+    <a class="nav-link active" href="./blog.html" aria-current="page"> 
+<span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./resume.html" rel="" target="">
- <span class="menu-text">Resume</span></a>
+    <a class="nav-link" href="./resume.html"> 
+<span class="menu-text">Resume</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./resources.html" rel="" target="">
- <span class="menu-text">Resources</span></a>
+    <a class="nav-link" href="./resources.html"> 
+<span class="menu-text">Resources</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./publications.html" rel="" target="">
- <span class="menu-text">Publications</span></a>
+    <a class="nav-link" href="./publications.html"> 
+<span class="menu-text">Publications</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html" rel="" target="">
- <span class="menu-text">About</span></a>
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/andypicke/" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/andypicke/"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://www.linkedin.com/in/andypicke/" rel="" target=""><i class="bi bi-linkedin" role="img">
+    <a class="nav-link" href="https://www.linkedin.com/in/andypicke/"> <i class="bi bi-linkedin" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com/andypicke" rel="" target=""><i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://twitter.com/andypicke"> <i class="bi bi-twitter" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="./blog.xml" rel="" target=""><i class="bi bi-rss" role="img">
+    <a class="nav-link" href="./blog.xml"> <i class="bi bi-rss" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools">
-</div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -215,7 +248,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
     
   
-  <div class="quarto-title-meta">
+  <div class="quarto-title-meta column-page-left">
 
       
     
@@ -228,9 +261,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(7)</span></div><div class="category" data-category="API">API <span class="quarto-category-count">(3)</span></div><div class="category" data-category="EIA">EIA <span class="quarto-category-count">(1)</span></div><div class="category" data-category="EV">EV <span class="quarto-category-count">(2)</span></div><div class="category" data-category="R">R <span class="quarto-category-count">(6)</span></div><div class="category" data-category="TidyTuesday">TidyTuesday <span class="quarto-category-count">(1)</span></div><div class="category" data-category="energy">energy <span class="quarto-category-count">(4)</span></div><div class="category" data-category="geospatial">geospatial <span class="quarto-category-count">(1)</span></div><div class="category" data-category="leaflet">leaflet <span class="quarto-category-count">(1)</span></div><div class="category" data-category="mapping">mapping <span class="quarto-category-count">(2)</span></div><div class="category" data-category="news">news <span class="quarto-category-count">(1)</span></div><div class="category" data-category="visualization">visualization <span class="quarto-category-count">(6)</span></div><div class="category" data-category="weather">weather <span class="quarto-category-count">(1)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(8)</span></div><div class="category" data-category="API">API <span class="quarto-category-count">(3)</span></div><div class="category" data-category="EIA">EIA <span class="quarto-category-count">(1)</span></div><div class="category" data-category="EV">EV <span class="quarto-category-count">(2)</span></div><div class="category" data-category="R">R <span class="quarto-category-count">(7)</span></div><div class="category" data-category="TidyTuesday">TidyTuesday <span class="quarto-category-count">(1)</span></div><div class="category" data-category="climate">climate <span class="quarto-category-count">(1)</span></div><div class="category" data-category="energy">energy <span class="quarto-category-count">(5)</span></div><div class="category" data-category="geospatial">geospatial <span class="quarto-category-count">(1)</span></div><div class="category" data-category="leaflet">leaflet <span class="quarto-category-count">(1)</span></div><div class="category" data-category="mapping">mapping <span class="quarto-category-count">(2)</span></div><div class="category" data-category="news">news <span class="quarto-category-count">(1)</span></div><div class="category" data-category="visualization">visualization <span class="quarto-category-count">(6)</span></div><div class="category" data-category="weather">weather <span class="quarto-category-count">(2)</span></div></div></div>
 <!-- main -->
 <main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+
 
 
 
@@ -268,19 +302,61 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </div>
 </div>
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="energy,R,visualization" data-listing-date-sort="1700377200000" data-listing-file-modified-sort="1701291469685" data-listing-date-modified-sort="1701673200000" data-listing-reading-time-sort="5">
+<div class="quarto-post image-right" data-index="0" data-categories="energy,R,weather,climate" data-listing-date-sort="1702364400000" data-listing-file-modified-sort="1702744664768" data-listing-date-modified-sort="1702710000000" data-listing-reading-time-sort="10" data-listing-word-count-sort="1849">
 <div class="thumbnail">
-<p><a href="./posts/Ember_US_Electric_Total/Ember_US_elec_total.html"> <img src="./posts/Ember_US_Electric_Total/image.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/EIA_degree_days/degreedays.html" class="no-external"></a></p><a href="./posts/EIA_degree_days/degreedays.html" class="no-external">
+<p><img src="./posts/EIA_degree_days/CopyOffig-cdd-yearly-1.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/EIA_degree_days/degreedays.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/Ember_US_Electric_Total/Ember_US_elec_total.html">
 <h3 class="no-anchor listing-title">
-Trends in US Electricity Generation and CO2 Emissions
+<a href="./posts/EIA_degree_days/degreedays.html" class="no-external">Analyzing Trends in Heating and Cooling Degree days using R</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/EIA_degree_days/degreedays.html" class="no-external"></a>
+</div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('energy'); return false;">
+energy
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
+R
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('weather'); return false;">
+weather
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('climate'); return false;">
+climate
+</div>
+</div>
+<div class="listing-description">
+<a href="./posts/EIA_degree_days/degreedays.html" class="no-external">Degree days are useful as a measure of building heating and cooling demands. A degree day is calculated as the difference between the average temperature (the average of the…</a>
+</div>
+</div>
+<div class="metadata">
+<a href="./posts/EIA_degree_days/degreedays.html" class="no-external">
+<div class="listing-date">
+Dec 12, 2023
+</div>
+<div class="listing-author">
+Andy Pickering
 </div>
 </a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="1" data-categories="energy,R,visualization" data-listing-date-sort="1700377200000" data-listing-file-modified-sort="1701291469685" data-listing-date-modified-sort="1702710000000" data-listing-reading-time-sort="5" data-listing-word-count-sort="867">
+<div class="thumbnail">
+<p><a href="./posts/Ember_US_Electric_Total/Ember_US_elec_total.html" class="no-external"></a></p><a href="./posts/Ember_US_Electric_Total/Ember_US_elec_total.html" class="no-external">
+<p><img src="./posts/Ember_US_Electric_Total/image.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/Ember_US_Electric_Total/Ember_US_elec_total.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/Ember_US_Electric_Total/Ember_US_elec_total.html" class="no-external">Trends in US Electricity Generation and CO2 Emissions</a>
+</h3>
+<div class="listing-subtitle">
+<a href="./posts/Ember_US_Electric_Total/Ember_US_elec_total.html" class="no-external"></a>
+</div>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('energy'); return false;">
 energy
@@ -292,14 +368,12 @@ R
 visualization
 </div>
 </div>
-<a href="./posts/Ember_US_Electric_Total/Ember_US_elec_total.html">
 <div class="listing-description">
-In this analysis I look at trends in US electricity generation and associated CO2 emissions, using a nice data set available from Ember. Ember provides monthly and yearly data on US electricity generation and emissions for the total US as well as by state, both in total and broken down by fuel types. In…
+<a href="./posts/Ember_US_Electric_Total/Ember_US_elec_total.html" class="no-external">In this analysis I look at trends in US electricity generation and associated CO2 emissions, using a nice data set available from Ember. Ember provides monthly and yearly…</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/Ember_US_Electric_Total/Ember_US_elec_total.html">
+<a href="./posts/Ember_US_Electric_Total/Ember_US_elec_total.html" class="no-external">
 <div class="listing-date">
 Nov 19, 2023
 </div>
@@ -309,19 +383,19 @@ Andy Pickering
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-categories="EV,R,visualization,mapping,API" data-listing-date-sort="1690869600000" data-listing-file-modified-sort="1691079856238" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6">
+<div class="quarto-post image-right" data-index="2" data-categories="EV,R,visualization,mapping,API" data-listing-date-sort="1690869600000" data-listing-file-modified-sort="1691079856238" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1195">
 <div class="thumbnail">
-<p><a href="./posts/EV_station_mapping/ev_station_mapping.html"> <img src="./posts/EV_station_mapping/image.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/EV_station_mapping/ev_station_mapping.html" class="no-external"></a></p><a href="./posts/EV_station_mapping/ev_station_mapping.html" class="no-external">
+<p><img src="./posts/EV_station_mapping/image.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/EV_station_mapping/ev_station_mapping.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/EV_station_mapping/ev_station_mapping.html">
 <h3 class="no-anchor listing-title">
-Mapping the Number of EV Charging Stations by County in Colorado Using R
+<a href="./posts/EV_station_mapping/ev_station_mapping.html" class="no-external">Mapping the Number of EV Charging Stations by County in Colorado Using R</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/EV_station_mapping/ev_station_mapping.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('EV'); return false;">
 EV
@@ -339,14 +413,12 @@ mapping
 API
 </div>
 </div>
-<a href="./posts/EV_station_mapping/ev_station_mapping.html">
 <div class="listing-description">
-As you may know from a previous post I am interested in electric-vehicle (EV)…
+<a href="./posts/EV_station_mapping/ev_station_mapping.html" class="no-external">As you may know from a previous post I am interested in electric-vehicle (EV) trends and the transition to a more electrified transportation fleet. I wanted to do some…</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/EV_station_mapping/ev_station_mapping.html">
+<a href="./posts/EV_station_mapping/ev_station_mapping.html" class="no-external">
 <div class="listing-date">
 Aug 1, 2023
 </div>
@@ -356,19 +428,19 @@ Andy Pickering
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-categories="energy,EIA,R,visualization,API" data-listing-date-sort="1689314400000" data-listing-file-modified-sort="1689808340897" data-listing-date-modified-sort="1689660000000" data-listing-reading-time-sort="9">
+<div class="quarto-post image-right" data-index="3" data-categories="energy,EIA,R,visualization,API" data-listing-date-sort="1689314400000" data-listing-file-modified-sort="1689808340897" data-listing-date-modified-sort="1689660000000" data-listing-reading-time-sort="9" data-listing-word-count-sort="1641">
 <div class="thumbnail">
-<p><a href="./posts/EIA_Electric_Fuel_Breakdown/index.html"> <img src="./posts/EIA_Electric_Fuel_Breakdown/image.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/EIA_Electric_Fuel_Breakdown/index.html" class="no-external"></a></p><a href="./posts/EIA_Electric_Fuel_Breakdown/index.html" class="no-external">
+<p><img src="./posts/EIA_Electric_Fuel_Breakdown/image.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/EIA_Electric_Fuel_Breakdown/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/EIA_Electric_Fuel_Breakdown/index.html">
 <h3 class="no-anchor listing-title">
-Calculating State Electricity Generation By Fuel Type using R
+<a href="./posts/EIA_Electric_Fuel_Breakdown/index.html" class="no-external">Calculating State Electricity Generation By Fuel Type using R</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/EIA_Electric_Fuel_Breakdown/index.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('energy'); return false;">
 energy
@@ -386,14 +458,12 @@ visualization
 API
 </div>
 </div>
-<a href="./posts/EIA_Electric_Fuel_Breakdown/index.html">
 <div class="listing-description">
-Electricity generation is a major source of carbon emissions, and transitioning to cleaner and/or renewable sources of power generation is important to lowering greenhouse…
+<a href="./posts/EIA_Electric_Fuel_Breakdown/index.html" class="no-external">Electricity generation is a major source of carbon emissions, and transitioning to cleaner and/or renewable sources of power generation is important to lowering greenhouse…</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/EIA_Electric_Fuel_Breakdown/index.html">
+<a href="./posts/EIA_Electric_Fuel_Breakdown/index.html" class="no-external">
 <div class="listing-date">
 Jul 14, 2023
 </div>
@@ -403,19 +473,19 @@ Andy Pickering
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="3" data-categories="weather,R,visualization,mapping,geospatial,leaflet" data-listing-date-sort="1688018400000" data-listing-file-modified-sort="1688660183606" data-listing-date-modified-sort="1688623200000" data-listing-reading-time-sort="5">
+<div class="quarto-post image-right" data-index="4" data-categories="weather,R,visualization,mapping,geospatial,leaflet" data-listing-date-sort="1688018400000" data-listing-file-modified-sort="1688660183606" data-listing-date-modified-sort="1688623200000" data-listing-reading-time-sort="5" data-listing-word-count-sort="802">
 <div class="thumbnail">
-<p><a href="./posts/Storm_Prediction_Center/Severe_Weather_Mapping.html"> <img src="./posts/Storm_Prediction_Center/image.jpg" class="thumbnail-image"> </a></p>
+<p><a href="./posts/Storm_Prediction_Center/Severe_Weather_Mapping.html" class="no-external"></a></p><a href="./posts/Storm_Prediction_Center/Severe_Weather_Mapping.html" class="no-external">
+<p><img src="./posts/Storm_Prediction_Center/image.jpg" class="thumbnail-image"></p>
+</a><p><a href="./posts/Storm_Prediction_Center/Severe_Weather_Mapping.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/Storm_Prediction_Center/Severe_Weather_Mapping.html">
 <h3 class="no-anchor listing-title">
-Mapping Severe Thunderstorm Outlook in R using Leaflet
+<a href="./posts/Storm_Prediction_Center/Severe_Weather_Mapping.html" class="no-external">Mapping Severe Thunderstorm Outlook in R using Leaflet</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/Storm_Prediction_Center/Severe_Weather_Mapping.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('weather'); return false;">
 weather
@@ -436,33 +506,31 @@ geospatial
 leaflet
 </div>
 </div>
-<a href="./posts/Storm_Prediction_Center/Severe_Weather_Mapping.html">
 <div class="listing-description">
-Living on the Colorado front range in summer means dealing with a chance of thunderstorms almost every afternoon, some of which can become severe.
+<a href="./posts/Storm_Prediction_Center/Severe_Weather_Mapping.html" class="no-external">Living on the Colorado front range in summer means dealing with a chance of thunderstorms almost every afternoon, some of which can become severe.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/Storm_Prediction_Center/Severe_Weather_Mapping.html">
+<a href="./posts/Storm_Prediction_Center/Severe_Weather_Mapping.html" class="no-external">
 <div class="listing-date">
 Jun 29, 2023
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="4" data-categories="energy,EV,R,visualization,API" data-listing-date-sort="1687240800000" data-listing-file-modified-sort="1701299870506" data-listing-date-modified-sort="1701673200000" data-listing-reading-time-sort="6">
+<div class="quarto-post image-right" data-index="5" data-categories="energy,EV,R,visualization,API" data-listing-date-sort="1687240800000" data-listing-file-modified-sort="1701299870506" data-listing-date-modified-sort="1702710000000" data-listing-reading-time-sort="6" data-listing-word-count-sort="1045">
 <div class="thumbnail">
-<p><a href="./posts/EV_Stations/index.html"> <img src="./posts/EV_Stations/image.jpg" class="thumbnail-image"> </a></p>
+<p><a href="./posts/EV_Stations/index.html" class="no-external"></a></p><a href="./posts/EV_Stations/index.html" class="no-external">
+<p><img src="./posts/EV_Stations/image.jpg" class="thumbnail-image"></p>
+</a><p><a href="./posts/EV_Stations/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/EV_Stations/index.html">
 <h3 class="no-anchor listing-title">
-EV Charging Stations Analysis
+<a href="./posts/EV_Stations/index.html" class="no-external">EV Charging Stations Analysis</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/EV_Stations/index.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('energy'); return false;">
 energy
@@ -480,33 +548,31 @@ visualization
 API
 </div>
 </div>
-<a href="./posts/EV_Stations/index.html">
 <div class="listing-description">
-Recently I’ve been interested in analyzing trends in electric vehicle (EV) charging stations, using data from the Alternative Fuels Data Center’s Alternative Fuel Stations data…
+<a href="./posts/EV_Stations/index.html" class="no-external">Recently I’ve been interested in analyzing trends in electric vehicle (EV) charging stations, using data from the Alternative Fuels Data Center’s Alternative Fuel Stations da…</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/EV_Stations/index.html">
+<a href="./posts/EV_Stations/index.html" class="no-external">
 <div class="listing-date">
 Jun 20, 2023
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="5" data-categories="energy,TidyTuesday,R,visualization" data-listing-date-sort="1686981600000" data-listing-file-modified-sort="1701711237553" data-listing-date-modified-sort="1701673200000" data-listing-reading-time-sort="6">
+<div class="quarto-post image-right" data-index="6" data-categories="energy,TidyTuesday,R,visualization" data-listing-date-sort="1686981600000" data-listing-file-modified-sort="1701711237553" data-listing-date-modified-sort="1702710000000" data-listing-reading-time-sort="6" data-listing-word-count-sort="1109">
 <div class="thumbnail">
-<p><a href="./posts/Energy_Tidy_Tuesday/index.html"> <img src="./posts/Energy_Tidy_Tuesday/image.jpg" class="thumbnail-image"> </a></p>
+<p><a href="./posts/Energy_Tidy_Tuesday/index.html" class="no-external"></a></p><a href="./posts/Energy_Tidy_Tuesday/index.html" class="no-external">
+<p><img src="./posts/Energy_Tidy_Tuesday/image.jpg" class="thumbnail-image"></p>
+</a><p><a href="./posts/Energy_Tidy_Tuesday/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/Energy_Tidy_Tuesday/index.html">
 <h3 class="no-anchor listing-title">
-Tidy Tuesday Energy Analysis
+<a href="./posts/Energy_Tidy_Tuesday/index.html" class="no-external">Tidy Tuesday Energy Analysis</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/Energy_Tidy_Tuesday/index.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('energy'); return false;">
 energy
@@ -521,46 +587,42 @@ R
 visualization
 </div>
 </div>
-<a href="./posts/Energy_Tidy_Tuesday/index.html">
 <div class="listing-description">
-In this document I’ll analyze and visualize some energy data that were the focus of Tidy Tuesday 2023 week 23. The data comes from Our World In Data and…<span class="citation" data-cites="owidenergy"></span>
+<a href="./posts/Energy_Tidy_Tuesday/index.html" class="no-external">In this document I’ll analyze and visualize some energy data that were the focus of Tidy Tuesday 2023 week 23. The data comes from Our World In Data and the full data set is…<span class="citation" data-cites="owidenergy"></span></a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/Energy_Tidy_Tuesday/index.html">
+<a href="./posts/Energy_Tidy_Tuesday/index.html" class="no-external">
 <div class="listing-date">
 Jun 17, 2023
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="6" data-categories="news" data-listing-date-sort="1686722400000" data-listing-file-modified-sort="1686775329422" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
+<div class="quarto-post image-right" data-index="7" data-categories="news" data-listing-date-sort="1686722400000" data-listing-file-modified-sort="1686775329422" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="55">
 <div class="thumbnail">
-<p><a href="./posts/welcome/index.html"> <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div> </a></p>
+<p><a href="./posts/welcome/index.html" class="no-external"></a></p><a href="./posts/welcome/index.html" class="no-external">
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+</a><p><a href="./posts/welcome/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/welcome/index.html">
 <h3 class="no-anchor listing-title">
-Welcome To My Blog
+<a href="./posts/welcome/index.html" class="no-external">Welcome To My Blog</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/welcome/index.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('news'); return false;">
 news
 </div>
 </div>
-<a href="./posts/welcome/index.html">
 <div class="listing-description">
-Welcome to my (new) data science portfolio and blog, made with Quarto and RStudio.
+<a href="./posts/welcome/index.html" class="no-external">Welcome to my (new) data science portfolio and blog, made with Quarto and RStudio.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/welcome/index.html">
+<a href="./posts/welcome/index.html" class="no-external">
 <div class="listing-date">
 Jun 14, 2023
 </div>
@@ -705,10 +767,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   if (showAllCode) {
     showAllCode.addEventListener("click", toggleCodeHandler(true));
   }
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -718,8 +779,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -732,6 +802,120 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -775,6 +959,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -800,6 +985,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -875,6 +1086,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
+
 
 
 

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.361">
+<meta name="generator" content="quarto-1.4.527">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="dcterms.date" content="2023-06-20">
 <title>Andy Pickering - EV Charging Stations Analysis</title>
@@ -20,7 +20,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -56,6 +56,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -95,7 +96,12 @@ div.csl-indent {
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -104,6 +110,7 @@ div.csl-indent {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -115,8 +122,8 @@ div.csl-indent {
 <body class="nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Andy Pickering</span>
     </a>
@@ -128,59 +135,59 @@ div.csl-indent {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
 <li class="nav-item">
-    <a class="nav-link" href="../../index.html" rel="" target="">
- <span class="menu-text">Home</span></a>
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../projects.html" rel="" target="">
- <span class="menu-text">Projects</span></a>
+    <a class="nav-link" href="../../projects.html"> 
+<span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../blog.html" rel="" target="">
- <span class="menu-text">Blog</span></a>
+    <a class="nav-link" href="../../blog.html"> 
+<span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../resume.html" rel="" target="">
- <span class="menu-text">Resume</span></a>
+    <a class="nav-link" href="../../resume.html"> 
+<span class="menu-text">Resume</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../resources.html" rel="" target="">
- <span class="menu-text">Resources</span></a>
+    <a class="nav-link" href="../../resources.html"> 
+<span class="menu-text">Resources</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../publications.html" rel="" target="">
- <span class="menu-text">Publications</span></a>
+    <a class="nav-link" href="../../publications.html"> 
+<span class="menu-text">Publications</span></a>
   </li>  
 </ul>
 <ul class="navbar-nav navbar-nav-scroll ms-auto">
 <li class="nav-item">
-    <a class="nav-link" href="../../about.html" rel="" target="">
- <span class="menu-text">About</span></a>
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/andypicke/" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/andypicke/"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://www.linkedin.com/in/andypicke/" rel="" target=""><i class="bi bi-linkedin" role="img">
+    <a class="nav-link" href="https://www.linkedin.com/in/andypicke/"> <i class="bi bi-linkedin" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com/andypicke" rel="" target=""><i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://twitter.com/andypicke"> <i class="bi bi-twitter" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="../../blog.xml" rel="" target=""><i class="bi bi-rss" role="img">
+    <a class="nav-link" href="../../blog.xml"> <i class="bi bi-rss" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
-<div class="quarto-navbar-tools">
+</div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
 </div>
-          </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav></header><!-- content --><header id="title-block-header" class="quarto-title-block default page-columns page-full"><div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
@@ -209,7 +216,7 @@ div.csl-indent {
       <div>
       <div class="quarto-title-meta-heading">Modified</div>
       <div class="quarto-title-meta-contents">
-        <p class="date-modified">December 4, 2023</p>
+        <p class="date-modified">December 16, 2023</p>
       </div>
     </div>
       
@@ -231,7 +238,7 @@ div.csl-indent {
 <li><p>I’ll retrieve the data from the API using the <em>httr</em> <span class="citation" data-cites="httr">(<a href="#ref-httr" role="doc-biblioref">Wickham 2023</a>)</span> package.</p></li>
 </ul>
 <div class="cell">
-<details open=""><summary>Code</summary><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># API key is stored in my .Renviron file</span></span>
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># API key is stored in my .Renviron file</span></span>
 <span><span class="va">api_key</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span><span class="op">(</span><span class="st">"AFDC_KEY"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># base url for AFDC alternative fuel stations API</span></span>
@@ -258,13 +265,13 @@ div.csl-indent {
 <li><p>I’ll use the <em>jsonlite</em> <span class="citation" data-cites="jsonlite">(<a href="#ref-jsonlite" role="doc-biblioref">Ooms 2014</a>)</span> package to convert the JSON to R.</p></li>
 </ul>
 <div class="cell">
-<details open=""><summary>Code</summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ev_dat</span> <span class="op">&lt;-</span> <span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html">fromJSON</a></span><span class="op">(</span><span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/content.html">content</a></span><span class="op">(</span><span class="va">response</span>,<span class="st">"text"</span><span class="op">)</span><span class="op">)</span></span>
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ev_dat</span> <span class="op">&lt;-</span> <span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html">fromJSON</a></span><span class="op">(</span><span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/content.html">content</a></span><span class="op">(</span><span class="va">response</span>,<span class="st">"text"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">ev_dat</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
 <pre><code>[1] "list"</code></pre>
 </div>
-<details open=""><summary>Code</summary><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">ev_dat</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">ev_dat</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
 <pre><code>[1] "station_locator_url" "total_results"       "station_counts"     
 [4] "fuel_stations"      </code></pre>
@@ -275,7 +282,7 @@ div.csl-indent {
 <li><p>The <em>total_results</em> field gives the total number of fuel station records that match your requested query (regardless of any limit applied).</p></li>
 </ul>
 <div class="cell">
-<details open=""><summary>Code</summary><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ev_dat</span><span class="op">$</span><span class="va">total_results</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ev_dat</span><span class="op">$</span><span class="va">total_results</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
 <pre><code>[1] 2303</code></pre>
 </div>
@@ -290,7 +297,7 @@ div.csl-indent {
 </li>
 </ul>
 <div class="cell">
-<details open=""><summary>Code</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ev_dat</span><span class="op">$</span><span class="va">station_counts</span><span class="op">$</span><span class="va">fuels</span><span class="op">$</span><span class="va">ELEC</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ev_dat</span><span class="op">$</span><span class="va">station_counts</span><span class="op">$</span><span class="va">fuels</span><span class="op">$</span><span class="va">ELEC</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
 <pre><code>$total
 [1] 5695
@@ -302,13 +309,13 @@ $stations$total
 </div>
 <p>Finally, the data we want to analyze is in the <em>fuel_stations</em> data frame.</p>
 <div class="cell">
-<details open=""><summary>Code</summary><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ev</span> <span class="op">&lt;-</span> <span class="va">ev_dat</span><span class="op">$</span><span class="va">fuel_stations</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ev</span> <span class="op">&lt;-</span> <span class="va">ev_dat</span><span class="op">$</span><span class="va">fuel_stations</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <section id="filter-out-non-ev-data-columns" class="level3"><h3 class="anchored" data-anchor-id="filter-out-non-ev-data-columns">Filter out non-EV data columns</h3>
 <p>The returned data contains many non-electric fields that we don’t need (they will all be NA since we requested electric fuel type only), so I’ll remove the non-relevant fields from the data frame to clean things up a bit, using the <em>starts_with</em> function from the <span class="citation" data-cites="dplyr">Wickham et al. (<a href="#ref-dplyr" role="doc-biblioref">2023</a>)</span> package. - I’ll also change the date column type and add a variable for year opened, since I want to look at how many stations were opened over time.</p>
 <div class="cell">
-<details open=""><summary>Code</summary><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># filter out non-EV related fields</span></span>
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># filter out non-EV related fields</span></span>
 <span><span class="va">ev</span> <span class="op">&lt;-</span> <span class="va">ev</span> <span class="op">%&gt;%</span> <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with</a></span><span class="op">(</span><span class="st">"lng"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="fu">starts_with</span><span class="op">(</span><span class="st">"cng"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="fu">starts_with</span><span class="op">(</span><span class="st">"lpg"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
@@ -332,13 +339,13 @@ $stations$total
 <section id="how-many-stations-opened-each-year" class="level4"><h4 class="anchored" data-anchor-id="how-many-stations-opened-each-year">How many stations opened each year?</h4>
 <p>First I’d like to look at how many EV stations opened over time, so I’ll make a new data frame summarizing the number of stations opened by year.</p>
 <div class="cell">
-<details open=""><summary>Code</summary><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ev_opened</span> <span class="op">&lt;-</span> <span class="va">ev</span> <span class="op">%&gt;%</span> </span>
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ev_opened</span> <span class="op">&lt;-</span> <span class="va">ev</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">count</span><span class="op">(</span><span class="va">open_year</span>,name <span class="op">=</span> <span class="st">"nopened"</span><span class="op">)</span>  <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">open_year</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
-<details open=""><summary>Code</summary><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ev_opened</span> <span class="op">%&gt;%</span> <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">open_year</span>, <span class="va">nopened</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ev_opened</span> <span class="op">%&gt;%</span> <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">open_year</span>, <span class="va">nopened</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">geom_col</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">xlab</span><span class="op">(</span><span class="st">"Year Opened"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ylab</span><span class="op">(</span><span class="st">"# Stations Opened"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -346,25 +353,33 @@ $stations$total
 <span>  <span class="fu">theme_grey</span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">15</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_text</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>label <span class="op">=</span> <span class="va">nopened</span><span class="op">)</span>, vjust <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output-display">
-<div id="fig-nopened-bar" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure"><p><img src="index_files/figure-html/fig-nopened-bar-1.png" class="img-fluid figure-img" width="768"></p>
-<figcaption class="figure-caption">Figure&nbsp;1: Number of EV Charging Stations Opened In Colorado each year</figcaption></figure>
+<div id="fig-nopened-bar" class="quarto-figure quarto-figure-center anchored" width="768">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-nopened-bar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-nopened-bar-1.png" class="img-fluid figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-nopened-bar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Number of EV Charging Stations Opened In Colorado each year
+</figcaption></figure>
 </div>
 </div>
 </div>
 </section><section id="cumulative-sum-of-stations-opened-over-time" class="level4"><h4 class="anchored" data-anchor-id="cumulative-sum-of-stations-opened-over-time">Cumulative sum of stations opened over time</h4>
 <p>We can also look at the cumulative sum of stations opened over time</p>
 <div class="cell">
-<details open=""><summary>Code</summary><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ev_opened</span> <span class="op">%&gt;%</span> <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">open_year</span>,<span class="fu"><a href="https://rdrr.io/r/base/cumsum.html">cumsum</a></span><span class="op">(</span><span class="va">nopened</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ev_opened</span> <span class="op">%&gt;%</span> <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">open_year</span>,<span class="fu"><a href="https://rdrr.io/r/base/cumsum.html">cumsum</a></span><span class="op">(</span><span class="va">nopened</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">xlab</span><span class="op">(</span><span class="st">"Year"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ylab</span><span class="op">(</span><span class="st">"# Stations"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Cumulative sum of EV stations opened in CO"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">theme_grey</span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">15</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output-display">
-<div id="fig-nopen-cumsum" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure"><p><img src="index_files/figure-html/fig-nopen-cumsum-1.png" class="img-fluid figure-img" width="768"></p>
-<figcaption class="figure-caption">Figure&nbsp;2: Cumulative sum of EV stations opened in CO</figcaption></figure>
+<div id="fig-nopen-cumsum" class="quarto-figure quarto-figure-center anchored" width="768">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-nopen-cumsum-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-nopen-cumsum-1.png" class="img-fluid figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-nopen-cumsum-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Cumulative sum of EV stations opened in CO
+</figcaption></figure>
 </div>
 </div>
 </div>
@@ -375,7 +390,7 @@ $stations$total
 <em>Note</em> here I’m working with the number of <em>chargers</em> of each level, not the number of <em>stations</em>.</li>
 </ul>
 <div class="cell">
-<details open=""><summary>Code</summary><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ev_opened_level</span> <span class="op">&lt;-</span> <span class="va">ev</span> <span class="op">%&gt;%</span> </span>
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ev_opened_level</span> <span class="op">&lt;-</span> <span class="va">ev</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">select</span><span class="op">(</span><span class="va">id</span>,<span class="va">open_date</span>,</span>
 <span>         <span class="va">open_year</span>,</span>
 <span>         <span class="va">ev_dc_fast_num</span>,</span>
@@ -401,7 +416,7 @@ $stations$total
 </div>
 <p>To make plotting easier, I’ll pivot the dataframe from wide to long format so I can group by charging level:</p>
 <div class="cell">
-<details open=""><summary>Code</summary><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ev_opened_level_long</span> <span class="op">&lt;-</span> <span class="va">ev_opened_level</span> <span class="op">%&gt;%</span> </span>
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ev_opened_level_long</span> <span class="op">&lt;-</span> <span class="va">ev_opened_level</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'n_DC'</span>,<span class="st">'n_L2'</span>,<span class="st">'n_L1'</span><span class="op">)</span>,</span>
 <span>                      names_to <span class="op">=</span> <span class="st">"Level"</span>,</span>
 <span>                      names_prefix <span class="op">=</span> <span class="st">"n_"</span>,</span>
@@ -422,7 +437,7 @@ $stations$total
 </div>
 <p>Now I can go ahead and plot the number of chargers opened over time, by level.</p>
 <div class="cell">
-<details open=""><summary>Code</summary><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">g</span> <span class="op">&lt;-</span> <span class="va">ev_opened_level_long</span> <span class="op">%&gt;%</span> </span>
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">g</span> <span class="op">&lt;-</span> <span class="va">ev_opened_level_long</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">open_year</span>, <span class="va">n_opened</span>, group <span class="op">=</span> <span class="va">Level</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_line</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>col <span class="op">=</span> <span class="va">Level</span><span class="op">)</span>, linewidth <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_point</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>col <span class="op">=</span> <span class="va">Level</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -431,14 +446,19 @@ $stations$total
 <span>  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Number of Chargers Opened Per Year By Level"</span><span class="op">)</span></span>
 <span>  </span>
 <span><span class="fu">plotly</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/plotly/man/ggplotly.html">ggplotly</a></span><span class="op">(</span><span class="va">g</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details><div id="fig-nopened-level" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure"><div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-8e7548e7ab53ef8e54aa" style="width:100%;height:406px;"></div>
-<script type="application/json" data-for="htmlwidget-8e7548e7ab53ef8e54aa">{"x":{"data":[{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[1,1,9,20,24,29,0,13,44,52,146,180,142,229],"text":["open_year: 2010<br />n_opened:    1<br />Level: DC<br />Level: DC","open_year: 2011<br />n_opened:    1<br />Level: DC<br />Level: DC","open_year: 2012<br />n_opened:    9<br />Level: DC<br />Level: DC","open_year: 2013<br />n_opened:   20<br />Level: DC<br />Level: DC","open_year: 2014<br />n_opened:   24<br />Level: DC<br />Level: DC","open_year: 2015<br />n_opened:   29<br />Level: DC<br />Level: DC","open_year: 2016<br />n_opened:    0<br />Level: DC<br />Level: DC","open_year: 2017<br />n_opened:   13<br />Level: DC<br />Level: DC","open_year: 2018<br />n_opened:   44<br />Level: DC<br />Level: DC","open_year: 2019<br />n_opened:   52<br />Level: DC<br />Level: DC","open_year: 2020<br />n_opened:  146<br />Level: DC<br />Level: DC","open_year: 2021<br />n_opened:  180<br />Level: DC<br />Level: DC","open_year: 2022<br />n_opened:  142<br />Level: DC<br />Level: DC","open_year: 2023<br />n_opened:  229<br />Level: DC<br />Level: DC"],"type":"scatter","mode":"lines+markers","line":{"width":5.6692913385826778,"color":"rgba(248,118,109,1)","dash":"solid"},"hoveron":"points","name":"DC","legendgroup":"DC","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(248,118,109,1)"}},"frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[18,0,0,28,0,0,0,11,8,0,0,25,0,0],"text":["open_year: 2010<br />n_opened:   18<br />Level: L1<br />Level: L1","open_year: 2011<br />n_opened:    0<br />Level: L1<br />Level: L1","open_year: 2012<br />n_opened:    0<br />Level: L1<br />Level: L1","open_year: 2013<br />n_opened:   28<br />Level: L1<br />Level: L1","open_year: 2014<br />n_opened:    0<br />Level: L1<br />Level: L1","open_year: 2015<br />n_opened:    0<br />Level: L1<br />Level: L1","open_year: 2016<br />n_opened:    0<br />Level: L1<br />Level: L1","open_year: 2017<br />n_opened:   11<br />Level: L1<br />Level: L1","open_year: 2018<br />n_opened:    8<br />Level: L1<br />Level: L1","open_year: 2019<br />n_opened:    0<br />Level: L1<br />Level: L1","open_year: 2020<br />n_opened:    0<br />Level: L1<br />Level: L1","open_year: 2021<br />n_opened:   25<br />Level: L1<br />Level: L1","open_year: 2022<br />n_opened:    0<br />Level: L1<br />Level: L1","open_year: 2023<br />n_opened:    0<br />Level: L1<br />Level: L1"],"type":"scatter","mode":"lines+markers","line":{"width":5.6692913385826778,"color":"rgba(0,186,56,1)","dash":"solid"},"hoveron":"points","name":"L1","legendgroup":"L1","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(0,186,56,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,186,56,1)"}},"frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[21,22,42,36,63,124,115,367,245,300,614,1052,807,594],"text":["open_year: 2010<br />n_opened:   21<br />Level: L2<br />Level: L2","open_year: 2011<br />n_opened:   22<br />Level: L2<br />Level: L2","open_year: 2012<br />n_opened:   42<br />Level: L2<br />Level: L2","open_year: 2013<br />n_opened:   36<br />Level: L2<br />Level: L2","open_year: 2014<br />n_opened:   63<br />Level: L2<br />Level: L2","open_year: 2015<br />n_opened:  124<br />Level: L2<br />Level: L2","open_year: 2016<br />n_opened:  115<br />Level: L2<br />Level: L2","open_year: 2017<br />n_opened:  367<br />Level: L2<br />Level: L2","open_year: 2018<br />n_opened:  245<br />Level: L2<br />Level: L2","open_year: 2019<br />n_opened:  300<br />Level: L2<br />Level: L2","open_year: 2020<br />n_opened:  614<br />Level: L2<br />Level: L2","open_year: 2021<br />n_opened: 1052<br />Level: L2<br />Level: L2","open_year: 2022<br />n_opened:  807<br />Level: L2<br />Level: L2","open_year: 2023<br />n_opened:  594<br />Level: L2<br />Level: L2"],"type":"scatter","mode":"lines+markers","line":{"width":5.6692913385826778,"color":"rgba(97,156,255,1)","dash":"solid"},"hoveron":"points","name":"L2","legendgroup":"L2","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(97,156,255,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(97,156,255,1)"}},"frame":null}],"layout":{"margin":{"t":55.850560398505607,"r":9.9626400996264035,"b":56.787048567870499,"l":66.749688667496898},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":19.925280199252807},"title":{"text":"Number of Chargers Opened Per Year By Level","font":{"color":"rgba(0,0,0,1)","family":"","size":23.910336239103362},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[2009.3499999999999,2023.6500000000001],"tickmode":"array","ticktext":["2012","2016","2020"],"tickvals":[2012,2016,2020],"categoryorder":"array","categoryarray":["2012","2016","2020"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":4.9813200498132018,"tickwidth":0.90569455451149117,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":15.940224159402241},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.90569455451149117,"zeroline":false,"anchor":"y","title":{"text":"Year Opened","font":{"color":"rgba(0,0,0,1)","family":"","size":19.925280199252807}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-52.600000000000001,1104.5999999999999],"tickmode":"array","ticktext":["0","250","500","750","1000"],"tickvals":[0,249.99999999999997,500,750,999.99999999999989],"categoryorder":"array","categoryarray":["0","250","500","750","1000"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":4.9813200498132018,"tickwidth":0.90569455451149117,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":15.940224159402243},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.90569455451149117,"zeroline":false,"anchor":"x","title":{"text":"# Charges Opened","font":{"color":"rgba(0,0,0,1)","family":"","size":19.925280199252807}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":2.5769506084466713,"font":{"color":"rgba(0,0,0,1)","family":"","size":15.940224159402241},"title":{"text":"Level","font":{"color":"rgba(0,0,0,1)","family":"","size":19.925280199252807}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"1785147528be6":{"x":{},"y":{},"colour":{},"type":"scatter"},"178517c5ecd9e":{"x":{},"y":{},"colour":{}}},"cur_data":"1785147528be6","visdat":{"1785147528be6":["function (y) ","x"],"178517c5ecd9e":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script><figcaption class="figure-caption">Figure&nbsp;3: Number of Chargers Opened Per Year By Level</figcaption></figure>
+</details><div id="fig-nopened-level" class="cell-output-display quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-nopened-level-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-8e7548e7ab53ef8e54aa" style="width:100%;height:406px;"></div>
+<script type="application/json" data-for="htmlwidget-8e7548e7ab53ef8e54aa">{"x":{"data":[{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[1,1,9,20,24,29,0,13,44,52,146,180,142,229],"text":["open_year: 2010<br />n_opened:    1<br />Level: DC<br />Level: DC","open_year: 2011<br />n_opened:    1<br />Level: DC<br />Level: DC","open_year: 2012<br />n_opened:    9<br />Level: DC<br />Level: DC","open_year: 2013<br />n_opened:   20<br />Level: DC<br />Level: DC","open_year: 2014<br />n_opened:   24<br />Level: DC<br />Level: DC","open_year: 2015<br />n_opened:   29<br />Level: DC<br />Level: DC","open_year: 2016<br />n_opened:    0<br />Level: DC<br />Level: DC","open_year: 2017<br />n_opened:   13<br />Level: DC<br />Level: DC","open_year: 2018<br />n_opened:   44<br />Level: DC<br />Level: DC","open_year: 2019<br />n_opened:   52<br />Level: DC<br />Level: DC","open_year: 2020<br />n_opened:  146<br />Level: DC<br />Level: DC","open_year: 2021<br />n_opened:  180<br />Level: DC<br />Level: DC","open_year: 2022<br />n_opened:  142<br />Level: DC<br />Level: DC","open_year: 2023<br />n_opened:  229<br />Level: DC<br />Level: DC"],"type":"scatter","mode":"lines+markers","line":{"width":5.6692913385826778,"color":"rgba(248,118,109,1)","dash":"solid"},"hoveron":"points","name":"DC","legendgroup":"DC","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(248,118,109,1)"}},"frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[18,0,0,28,0,0,0,11,8,0,0,25,0,0],"text":["open_year: 2010<br />n_opened:   18<br />Level: L1<br />Level: L1","open_year: 2011<br />n_opened:    0<br />Level: L1<br />Level: L1","open_year: 2012<br />n_opened:    0<br />Level: L1<br />Level: L1","open_year: 2013<br />n_opened:   28<br />Level: L1<br />Level: L1","open_year: 2014<br />n_opened:    0<br />Level: L1<br />Level: L1","open_year: 2015<br />n_opened:    0<br />Level: L1<br />Level: L1","open_year: 2016<br />n_opened:    0<br />Level: L1<br />Level: L1","open_year: 2017<br />n_opened:   11<br />Level: L1<br />Level: L1","open_year: 2018<br />n_opened:    8<br />Level: L1<br />Level: L1","open_year: 2019<br />n_opened:    0<br />Level: L1<br />Level: L1","open_year: 2020<br />n_opened:    0<br />Level: L1<br />Level: L1","open_year: 2021<br />n_opened:   25<br />Level: L1<br />Level: L1","open_year: 2022<br />n_opened:    0<br />Level: L1<br />Level: L1","open_year: 2023<br />n_opened:    0<br />Level: L1<br />Level: L1"],"type":"scatter","mode":"lines+markers","line":{"width":5.6692913385826778,"color":"rgba(0,186,56,1)","dash":"solid"},"hoveron":"points","name":"L1","legendgroup":"L1","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(0,186,56,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,186,56,1)"}},"frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[21,22,42,36,63,124,115,367,245,300,614,1052,807,594],"text":["open_year: 2010<br />n_opened:   21<br />Level: L2<br />Level: L2","open_year: 2011<br />n_opened:   22<br />Level: L2<br />Level: L2","open_year: 2012<br />n_opened:   42<br />Level: L2<br />Level: L2","open_year: 2013<br />n_opened:   36<br />Level: L2<br />Level: L2","open_year: 2014<br />n_opened:   63<br />Level: L2<br />Level: L2","open_year: 2015<br />n_opened:  124<br />Level: L2<br />Level: L2","open_year: 2016<br />n_opened:  115<br />Level: L2<br />Level: L2","open_year: 2017<br />n_opened:  367<br />Level: L2<br />Level: L2","open_year: 2018<br />n_opened:  245<br />Level: L2<br />Level: L2","open_year: 2019<br />n_opened:  300<br />Level: L2<br />Level: L2","open_year: 2020<br />n_opened:  614<br />Level: L2<br />Level: L2","open_year: 2021<br />n_opened: 1052<br />Level: L2<br />Level: L2","open_year: 2022<br />n_opened:  807<br />Level: L2<br />Level: L2","open_year: 2023<br />n_opened:  594<br />Level: L2<br />Level: L2"],"type":"scatter","mode":"lines+markers","line":{"width":5.6692913385826778,"color":"rgba(97,156,255,1)","dash":"solid"},"hoveron":"points","name":"L2","legendgroup":"L2","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(97,156,255,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(97,156,255,1)"}},"frame":null}],"layout":{"margin":{"t":55.850560398505607,"r":9.9626400996264035,"b":56.787048567870499,"l":66.749688667496898},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":19.925280199252807},"title":{"text":"Number of Chargers Opened Per Year By Level","font":{"color":"rgba(0,0,0,1)","family":"","size":23.910336239103362},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[2009.3499999999999,2023.6500000000001],"tickmode":"array","ticktext":["2012","2016","2020"],"tickvals":[2012,2016,2020],"categoryorder":"array","categoryarray":["2012","2016","2020"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":4.9813200498132018,"tickwidth":0.90569455451149117,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":15.940224159402241},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.90569455451149117,"zeroline":false,"anchor":"y","title":{"text":"Year Opened","font":{"color":"rgba(0,0,0,1)","family":"","size":19.925280199252807}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-52.600000000000001,1104.5999999999999],"tickmode":"array","ticktext":["0","250","500","750","1000"],"tickvals":[0,249.99999999999997,500,750,999.99999999999989],"categoryorder":"array","categoryarray":["0","250","500","750","1000"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":4.9813200498132018,"tickwidth":0.90569455451149117,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":15.940224159402243},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.90569455451149117,"zeroline":false,"anchor":"x","title":{"text":"# Charges Opened","font":{"color":"rgba(0,0,0,1)","family":"","size":19.925280199252807}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":2.5769506084466713,"font":{"color":"rgba(0,0,0,1)","family":"","size":15.940224159402241},"title":{"text":"Level","font":{"color":"rgba(0,0,0,1)","family":"","size":19.925280199252807}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"1785147528be6":{"x":{},"y":{},"colour":{},"type":"scatter"},"178517c5ecd9e":{"x":{},"y":{},"colour":{}}},"cur_data":"1785147528be6","visdat":{"1785147528be6":["function (y) ","x"],"178517c5ecd9e":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-nopened-level-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Number of Chargers Opened Per Year By Level
+</figcaption></figure>
 </div>
 </div>
 </section></section><section id="session-info" class="level2"><h2 class="anchored" data-anchor-id="session-info">Session Info</h2>
 <div class="cell">
-<details open=""><summary>Code</summary><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output cell-output-stdout">
 <pre><code>R version 4.3.1 (2023-06-16)
 Platform: x86_64-apple-darwin20 (64-bit)
@@ -481,7 +501,7 @@ loaded via a namespace (and not attached):
 <!-- -->
 
 
-</section></section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+</section></section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-jsonlite" class="csl-entry" role="listitem">
 Ooms, Jeroen. 2014. <span>“The Jsonlite Package: A Practical and Consistent Mapping Between JSON Data and r Objects.”</span> <a href="https://arxiv.org/abs/1403.2805">https://arxiv.org/abs/1403.2805</a>.
 </div>
@@ -621,10 +641,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   if (showAllCode) {
     showAllCode.addEventListener("click", toggleCodeHandler(true));
   }
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -634,8 +653,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -648,6 +676,120 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -691,6 +833,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -716,6 +859,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -795,16 +964,16 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>Recently I've been interested in analyzing trends in electric vehicle (EV) charging stations, using data from the <span class="co">[</span><span class="ot">Alternative Fuels Data Center</span><span class="co">](https://afdc.energy.gov/)</span>'s Alternative Fuel Stations <span class="co">[</span><span class="ot">database</span><span class="co">](https://developer.nrel.gov/docs/transportation/alt-fuel-stations-v1/)</span>. In this first post I'll go over retrieving the data via an API, getting it into a tidy format, and some initial analysis and visualization.</span>
 <span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a><span class="in">```{r setup, include=FALSE}</span></span>
-<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a><span class="in">knitr::opts_chunk$set(echo = TRUE)</span></span>
 <span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a><span class="in">```{r Load Libraries, echo=FALSE, message=FALSE}</span></span>
 <span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(httr)</span>
-<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(jsonlite)</span>
-<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_grey</span>(<span class="at">base_size =</span> <span class="dv">15</span>))</span>
-<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a><span class="in">library(httr)</span></span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a><span class="in">library(jsonlite)</span></span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a><span class="in">library(ggplot2)</span></span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a><span class="in">theme_set(theme_grey(base_size = 15))</span></span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a><span class="in">library(dplyr)</span></span>
 <span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a></span>
@@ -820,24 +989,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb23-43"><a href="#cb23-43" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-44"><a href="#cb23-44" aria-hidden="true" tabindex="-1"></a><span class="in">```{r Load Data from API}</span></span>
 <span id="cb23-45"><a href="#cb23-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-46"><a href="#cb23-46" aria-hidden="true" tabindex="-1"></a><span class="co"># API key is stored in my .Renviron file</span></span>
-<span id="cb23-47"><a href="#cb23-47" aria-hidden="true" tabindex="-1"></a>api_key <span class="ot">&lt;-</span> <span class="fu">Sys.getenv</span>(<span class="st">"AFDC_KEY"</span>)</span>
+<span id="cb23-46"><a href="#cb23-46" aria-hidden="true" tabindex="-1"></a><span class="in"># API key is stored in my .Renviron file</span></span>
+<span id="cb23-47"><a href="#cb23-47" aria-hidden="true" tabindex="-1"></a><span class="in">api_key &lt;- Sys.getenv("AFDC_KEY")</span></span>
 <span id="cb23-48"><a href="#cb23-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-49"><a href="#cb23-49" aria-hidden="true" tabindex="-1"></a><span class="co"># base url for AFDC alternative fuel stations API</span></span>
-<span id="cb23-50"><a href="#cb23-50" aria-hidden="true" tabindex="-1"></a>target <span class="ot">&lt;-</span> <span class="st">"https://developer.nrel.gov/api/alt-fuel-stations/v1"</span></span>
+<span id="cb23-49"><a href="#cb23-49" aria-hidden="true" tabindex="-1"></a><span class="in"># base url for AFDC alternative fuel stations API</span></span>
+<span id="cb23-50"><a href="#cb23-50" aria-hidden="true" tabindex="-1"></a><span class="in">target &lt;- "https://developer.nrel.gov/api/alt-fuel-stations/v1"</span></span>
 <span id="cb23-51"><a href="#cb23-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-52"><a href="#cb23-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Return data for all electric stations in Colorado</span></span>
-<span id="cb23-53"><a href="#cb23-53" aria-hidden="true" tabindex="-1"></a>api_path <span class="ot">&lt;-</span> <span class="st">".json?&amp;fuel_type=ELEC&amp;state=CO&amp;limit=all"</span></span>
+<span id="cb23-52"><a href="#cb23-52" aria-hidden="true" tabindex="-1"></a><span class="in"># Return data for all electric stations in Colorado</span></span>
+<span id="cb23-53"><a href="#cb23-53" aria-hidden="true" tabindex="-1"></a><span class="in">api_path &lt;- ".json?&amp;fuel_type=ELEC&amp;state=CO&amp;limit=all"</span></span>
 <span id="cb23-54"><a href="#cb23-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-55"><a href="#cb23-55" aria-hidden="true" tabindex="-1"></a>complete_api_path <span class="ot">&lt;-</span> <span class="fu">paste0</span>(target,api_path,<span class="st">'&amp;api_key='</span>,api_key)</span>
+<span id="cb23-55"><a href="#cb23-55" aria-hidden="true" tabindex="-1"></a><span class="in">complete_api_path &lt;- paste0(target,api_path,'&amp;api_key=',api_key)</span></span>
 <span id="cb23-56"><a href="#cb23-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-57"><a href="#cb23-57" aria-hidden="true" tabindex="-1"></a>response <span class="ot">&lt;-</span> httr<span class="sc">::</span><span class="fu">GET</span>(<span class="at">url =</span> complete_api_path)</span>
+<span id="cb23-57"><a href="#cb23-57" aria-hidden="true" tabindex="-1"></a><span class="in">response &lt;- httr::GET(url = complete_api_path)</span></span>
 <span id="cb23-58"><a href="#cb23-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-59"><a href="#cb23-59" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (response<span class="sc">$</span>status_code <span class="sc">!=</span> <span class="dv">200</span>) {</span>
-<span id="cb23-60"><a href="#cb23-60" aria-hidden="true" tabindex="-1"></a> <span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">'Warning, API call returned error code'</span>,response<span class="sc">$</span>status_code))</span>
-<span id="cb23-61"><a href="#cb23-61" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb23-59"><a href="#cb23-59" aria-hidden="true" tabindex="-1"></a><span class="in">if (response$status_code != 200) {</span></span>
+<span id="cb23-60"><a href="#cb23-60" aria-hidden="true" tabindex="-1"></a><span class="in"> print(paste('Warning, API call returned error code',response$status_code))</span></span>
+<span id="cb23-61"><a href="#cb23-61" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
 <span id="cb23-62"><a href="#cb23-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-63"><a href="#cb23-63" aria-hidden="true" tabindex="-1"></a>response<span class="sc">$</span>status_code</span>
+<span id="cb23-63"><a href="#cb23-63" aria-hidden="true" tabindex="-1"></a><span class="in">response$status_code</span></span>
 <span id="cb23-64"><a href="#cb23-64" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-65"><a href="#cb23-65" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb23-66"><a href="#cb23-66" aria-hidden="true" tabindex="-1"></a></span>
@@ -884,23 +1053,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb23-115"><a href="#cb23-115" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-116"><a href="#cb23-116" aria-hidden="true" tabindex="-1"></a><span class="in">```{r remove fields}</span></span>
 <span id="cb23-117"><a href="#cb23-117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-118"><a href="#cb23-118" aria-hidden="true" tabindex="-1"></a><span class="co"># filter out non-EV related fields</span></span>
-<span id="cb23-119"><a href="#cb23-119" aria-hidden="true" tabindex="-1"></a>ev <span class="ot">&lt;-</span> ev <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>dplyr<span class="sc">::</span><span class="fu">starts_with</span>(<span class="st">"lng"</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb23-120"><a href="#cb23-120" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">starts_with</span>(<span class="st">"cng"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb23-121"><a href="#cb23-121" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">starts_with</span>(<span class="st">"lpg"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb23-122"><a href="#cb23-122" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">starts_with</span>(<span class="st">"hy"</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb23-123"><a href="#cb23-123" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">starts_with</span>(<span class="st">"ng"</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb23-124"><a href="#cb23-124" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">starts_with</span>(<span class="st">"e85"</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb23-125"><a href="#cb23-125" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">starts_with</span>(<span class="st">"bd"</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb23-126"><a href="#cb23-126" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">starts_with</span>(<span class="st">"rd"</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb23-127"><a href="#cb23-127" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(status_code <span class="sc">==</span> <span class="st">'E'</span>)</span>
+<span id="cb23-118"><a href="#cb23-118" aria-hidden="true" tabindex="-1"></a><span class="in"># filter out non-EV related fields</span></span>
+<span id="cb23-119"><a href="#cb23-119" aria-hidden="true" tabindex="-1"></a><span class="in">ev &lt;- ev %&gt;% select(-dplyr::starts_with("lng")) %&gt;% </span></span>
+<span id="cb23-120"><a href="#cb23-120" aria-hidden="true" tabindex="-1"></a><span class="in">  select(-starts_with("cng")) %&gt;%</span></span>
+<span id="cb23-121"><a href="#cb23-121" aria-hidden="true" tabindex="-1"></a><span class="in">  select(-starts_with("lpg")) %&gt;%</span></span>
+<span id="cb23-122"><a href="#cb23-122" aria-hidden="true" tabindex="-1"></a><span class="in">  select(-starts_with("hy")) %&gt;% </span></span>
+<span id="cb23-123"><a href="#cb23-123" aria-hidden="true" tabindex="-1"></a><span class="in">  select(-starts_with("ng")) %&gt;% </span></span>
+<span id="cb23-124"><a href="#cb23-124" aria-hidden="true" tabindex="-1"></a><span class="in">  select(-starts_with("e85")) %&gt;% </span></span>
+<span id="cb23-125"><a href="#cb23-125" aria-hidden="true" tabindex="-1"></a><span class="in">  select(-starts_with("bd")) %&gt;% </span></span>
+<span id="cb23-126"><a href="#cb23-126" aria-hidden="true" tabindex="-1"></a><span class="in">  select(-starts_with("rd")) %&gt;% </span></span>
+<span id="cb23-127"><a href="#cb23-127" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(status_code == 'E')</span></span>
 <span id="cb23-128"><a href="#cb23-128" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-129"><a href="#cb23-129" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-130"><a href="#cb23-130" aria-hidden="true" tabindex="-1"></a><span class="co"># change date field to date type and add a year opened variable</span></span>
-<span id="cb23-131"><a href="#cb23-131" aria-hidden="true" tabindex="-1"></a>ev<span class="sc">$</span>open_date <span class="ot">&lt;-</span> lubridate<span class="sc">::</span><span class="fu">ymd</span>(ev<span class="sc">$</span>open_date)</span>
-<span id="cb23-132"><a href="#cb23-132" aria-hidden="true" tabindex="-1"></a>ev<span class="sc">$</span>open_year <span class="ot">&lt;-</span> lubridate<span class="sc">::</span><span class="fu">year</span>(ev<span class="sc">$</span>open_date)</span>
+<span id="cb23-130"><a href="#cb23-130" aria-hidden="true" tabindex="-1"></a><span class="in"># change date field to date type and add a year opened variable</span></span>
+<span id="cb23-131"><a href="#cb23-131" aria-hidden="true" tabindex="-1"></a><span class="in">ev$open_date &lt;- lubridate::ymd(ev$open_date)</span></span>
+<span id="cb23-132"><a href="#cb23-132" aria-hidden="true" tabindex="-1"></a><span class="in">ev$open_year &lt;- lubridate::year(ev$open_date)</span></span>
 <span id="cb23-133"><a href="#cb23-133" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-134"><a href="#cb23-134" aria-hidden="true" tabindex="-1"></a><span class="co">#colnames(ev)</span></span>
+<span id="cb23-134"><a href="#cb23-134" aria-hidden="true" tabindex="-1"></a><span class="in">#colnames(ev)</span></span>
 <span id="cb23-135"><a href="#cb23-135" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-136"><a href="#cb23-136" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb23-137"><a href="#cb23-137" aria-hidden="true" tabindex="-1"></a></span>
@@ -914,25 +1083,25 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb23-145"><a href="#cb23-145" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-146"><a href="#cb23-146" aria-hidden="true" tabindex="-1"></a><span class="in">```{r }</span></span>
 <span id="cb23-147"><a href="#cb23-147" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-148"><a href="#cb23-148" aria-hidden="true" tabindex="-1"></a>ev_opened <span class="ot">&lt;-</span> ev <span class="sc">%&gt;%</span> </span>
-<span id="cb23-149"><a href="#cb23-149" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(open_year,<span class="at">name =</span> <span class="st">"nopened"</span>)  <span class="sc">%&gt;%</span> </span>
-<span id="cb23-150"><a href="#cb23-150" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(open_year))</span>
+<span id="cb23-148"><a href="#cb23-148" aria-hidden="true" tabindex="-1"></a><span class="in">ev_opened &lt;- ev %&gt;% </span></span>
+<span id="cb23-149"><a href="#cb23-149" aria-hidden="true" tabindex="-1"></a><span class="in">  count(open_year,name = "nopened")  %&gt;% </span></span>
+<span id="cb23-150"><a href="#cb23-150" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(!is.na(open_year))</span></span>
 <span id="cb23-151"><a href="#cb23-151" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-152"><a href="#cb23-152" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb23-153"><a href="#cb23-153" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-154"><a href="#cb23-154" aria-hidden="true" tabindex="-1"></a><span class="in">```{r }</span></span>
-<span id="cb23-155"><a href="#cb23-155" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-nopened-bar</span></span>
-<span id="cb23-156"><a href="#cb23-156" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 8</span></span>
-<span id="cb23-157"><a href="#cb23-157" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: Number of EV Charging Stations Opened In Colorado each year</span></span>
-<span id="cb23-158"><a href="#cb23-158" aria-hidden="true" tabindex="-1"></a><span class="co">#| </span></span>
+<span id="cb23-155"><a href="#cb23-155" aria-hidden="true" tabindex="-1"></a><span class="in">#| label: fig-nopened-bar</span></span>
+<span id="cb23-156"><a href="#cb23-156" aria-hidden="true" tabindex="-1"></a><span class="in">#| fig-width: 8</span></span>
+<span id="cb23-157"><a href="#cb23-157" aria-hidden="true" tabindex="-1"></a><span class="in">#| fig-cap: Number of EV Charging Stations Opened In Colorado each year</span></span>
+<span id="cb23-158"><a href="#cb23-158" aria-hidden="true" tabindex="-1"></a><span class="in">#| </span></span>
 <span id="cb23-159"><a href="#cb23-159" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-160"><a href="#cb23-160" aria-hidden="true" tabindex="-1"></a>ev_opened <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(open_year, nopened)) <span class="sc">+</span> </span>
-<span id="cb23-161"><a href="#cb23-161" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
-<span id="cb23-162"><a href="#cb23-162" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Year Opened"</span>) <span class="sc">+</span></span>
-<span id="cb23-163"><a href="#cb23-163" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"# Stations Opened"</span>) <span class="sc">+</span></span>
-<span id="cb23-164"><a href="#cb23-164" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">'EV Stations Opened in Colorado Each Year'</span>) <span class="sc">+</span></span>
-<span id="cb23-165"><a href="#cb23-165" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_grey</span>(<span class="at">base_size =</span> <span class="dv">15</span>) <span class="sc">+</span></span>
-<span id="cb23-166"><a href="#cb23-166" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> nopened), <span class="at">vjust =</span> <span class="dv">0</span>)</span>
+<span id="cb23-160"><a href="#cb23-160" aria-hidden="true" tabindex="-1"></a><span class="in">ev_opened %&gt;% ggplot(aes(open_year, nopened)) + </span></span>
+<span id="cb23-161"><a href="#cb23-161" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_col() +</span></span>
+<span id="cb23-162"><a href="#cb23-162" aria-hidden="true" tabindex="-1"></a><span class="in">  xlab("Year Opened") +</span></span>
+<span id="cb23-163"><a href="#cb23-163" aria-hidden="true" tabindex="-1"></a><span class="in">  ylab("# Stations Opened") +</span></span>
+<span id="cb23-164"><a href="#cb23-164" aria-hidden="true" tabindex="-1"></a><span class="in">  ggtitle('EV Stations Opened in Colorado Each Year') +</span></span>
+<span id="cb23-165"><a href="#cb23-165" aria-hidden="true" tabindex="-1"></a><span class="in">  theme_grey(base_size = 15) +</span></span>
+<span id="cb23-166"><a href="#cb23-166" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_text(aes(label = nopened), vjust = 0)</span></span>
 <span id="cb23-167"><a href="#cb23-167" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-168"><a href="#cb23-168" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb23-169"><a href="#cb23-169" aria-hidden="true" tabindex="-1"></a></span>
@@ -993,19 +1162,19 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb23-230"><a href="#cb23-230" aria-hidden="true" tabindex="-1"></a>Now I can go ahead and plot the number of chargers opened over time, by level.</span>
 <span id="cb23-231"><a href="#cb23-231" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-232"><a href="#cb23-232" aria-hidden="true" tabindex="-1"></a><span class="in">```{r }</span></span>
-<span id="cb23-233"><a href="#cb23-233" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-nopened-level</span></span>
-<span id="cb23-234"><a href="#cb23-234" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Number of Chargers Opened Per Year By Level"</span></span>
-<span id="cb23-235"><a href="#cb23-235" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 8</span></span>
+<span id="cb23-233"><a href="#cb23-233" aria-hidden="true" tabindex="-1"></a><span class="in">#| label: fig-nopened-level</span></span>
+<span id="cb23-234"><a href="#cb23-234" aria-hidden="true" tabindex="-1"></a><span class="in">#| fig-cap: "Number of Chargers Opened Per Year By Level"</span></span>
+<span id="cb23-235"><a href="#cb23-235" aria-hidden="true" tabindex="-1"></a><span class="in">#| fig-width: 8</span></span>
 <span id="cb23-236"><a href="#cb23-236" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-237"><a href="#cb23-237" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> ev_opened_level_long <span class="sc">%&gt;%</span> </span>
-<span id="cb23-238"><a href="#cb23-238" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(open_year, n_opened, <span class="at">group =</span> Level)) <span class="sc">+</span></span>
-<span id="cb23-239"><a href="#cb23-239" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">col =</span> Level), <span class="at">linewidth =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
-<span id="cb23-240"><a href="#cb23-240" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">col =</span> Level)) <span class="sc">+</span></span>
-<span id="cb23-241"><a href="#cb23-241" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Year Opened"</span>) <span class="sc">+</span></span>
-<span id="cb23-242"><a href="#cb23-242" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"# Charges Opened"</span>) <span class="sc">+</span></span>
-<span id="cb23-243"><a href="#cb23-243" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Number of Chargers Opened Per Year By Level"</span>)</span>
-<span id="cb23-244"><a href="#cb23-244" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb23-245"><a href="#cb23-245" aria-hidden="true" tabindex="-1"></a>plotly<span class="sc">::</span><span class="fu">ggplotly</span>(g)</span>
+<span id="cb23-237"><a href="#cb23-237" aria-hidden="true" tabindex="-1"></a><span class="in">g &lt;- ev_opened_level_long %&gt;% </span></span>
+<span id="cb23-238"><a href="#cb23-238" aria-hidden="true" tabindex="-1"></a><span class="in">  ggplot(aes(open_year, n_opened, group = Level)) +</span></span>
+<span id="cb23-239"><a href="#cb23-239" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_line(aes(col = Level), linewidth = 1.5) +</span></span>
+<span id="cb23-240"><a href="#cb23-240" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_point(aes(col = Level)) +</span></span>
+<span id="cb23-241"><a href="#cb23-241" aria-hidden="true" tabindex="-1"></a><span class="in">  xlab("Year Opened") +</span></span>
+<span id="cb23-242"><a href="#cb23-242" aria-hidden="true" tabindex="-1"></a><span class="in">  ylab("# Charges Opened") +</span></span>
+<span id="cb23-243"><a href="#cb23-243" aria-hidden="true" tabindex="-1"></a><span class="in">  ggtitle("Number of Chargers Opened Per Year By Level")</span></span>
+<span id="cb23-244"><a href="#cb23-244" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb23-245"><a href="#cb23-245" aria-hidden="true" tabindex="-1"></a><span class="in">plotly::ggplotly(g)</span></span>
 <span id="cb23-246"><a href="#cb23-246" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-247"><a href="#cb23-247" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb23-248"><a href="#cb23-248" aria-hidden="true" tabindex="-1"></a></span>
