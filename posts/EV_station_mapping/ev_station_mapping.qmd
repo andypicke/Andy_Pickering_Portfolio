@@ -91,28 +91,33 @@ Next I need shape files for the Colorado counties to make the map; these are obt
 #| label: get-county-data
 
 options(tigris_use_cache = TRUE)
-co_counties <- tigris::counties("CO",cb = TRUE)
+co_counties <- tigris::counties("CO",cb = TRUE, progress_bar = FALSE)
 head(co_counties)
 
 ```
 
 ## Zip codes
 
-I have the EV station data and the county shape files, so the next step is to join them together. However, I have a **problem**: the EV stations data does not contain the county name or code, so I can't join them yet without a common column. There are probably a lot of different solutions to this problem (for example the EV data contains addresses so I could geo-code these to get the county). In this case, I decided the easiest solution was to download the [zip code database](https://www.unitedstateszipcodes.org/zip-code-database/){.uri} from the USPS (free for personal use), which contains both zip codes and their corresponding county.
+I have the EV station data and the county shape files, so the next step is to join them together. However, I have a **problem**: the EV stations data does not contain the county name or code, so I can't join them yet without a common column. There are probably a lot of different solutions to this problem (for example the EV data contains addresses so I could geo-code these to get the county). In this case, I decided the easiest solution was to download the [zip code database](https://www.unitedstateszipcodes.org/zip-code-database/){.uri} from the USPS (free for personal use), which contains both zip codes and their corresponding county (@tbl-zip-codes).
 
-```{r Load zip code database}
+```{r }
+#| label: tbl-zip-codes
+#| tbl-cap: Zip code data from USPS
 
 zips <- readr::read_csv("data/zip_code_database.csv",
                         show_col_types = FALSE) %>% 
   filter(state == "CO") %>% 
   select(zip, primary_city, county)
 
-head(zips)
+zips |>
+  DT::datatable(options = list(pageLength = 5), rownames = FALSE)
 ```
 
-Next I compute the number of stations per zip code in the EV data, and join to the zip code database to add the county column.
+Next I compute the number of stations per zip code in the EV data, and join to the zip code database to add the county column (@tbl-ev-county-counts).
 
-```{r EV counts by county}
+```{r }
+#| label: tbl-ev-county-counts
+#| tbl-cap: Number of EV charging stations per county
 
 ev_county_counts <- ev %>% 
   select(id,zip,city) %>% 
