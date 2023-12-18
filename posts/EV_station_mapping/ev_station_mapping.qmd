@@ -7,6 +7,7 @@ format:
     code-link: true
     code-fold: show
 date: "2023-08-01"
+date-modified: today
 categories: [EV, R, visualization, mapping, API]
 toc: true
 bibliography: references.bib
@@ -23,14 +24,19 @@ As you may know from a [previous post](https://andypicke.quarto.pub/portfolio/po
 
 # Data & Analysis
 
-```{r Load libraries}
+```{r }
+#| label: load-libraries
+#| code-fold: true
+#| code-summary: Load Libraries
 
 suppressPackageStartupMessages(library(tidyverse))
 library(httr)
 suppressPackageStartupMessages(library(jsonlite))
 ggplot2::theme_set(theme_grey(base_size = 15))
 library(leaflet)
-suppressPackageStartupMessages(library(tigris))
+suppressPackageStartupMessages(library(tigris)) # to get county shapefiles for maps
+library(ggspatial) # for adding basemaps to ggplot2 maps
+library(DT) # make nice data tables
 
 ```
 
@@ -38,12 +44,16 @@ suppressPackageStartupMessages(library(tigris))
 
 Data on EV stations is obtained from the [Alternative Fuels Data Center](https://afdc.energy.gov/)'s Alternative Fuel Stations [database](https://developer.nrel.gov/docs/transportation/alt-fuel-stations-v1/). See my [previous post](https://andypicke.quarto.pub/portfolio/posts/EV_Stations/){.uri} for more details on getting the data from the [API](https://developer.nrel.gov/docs/transportation/alt-fuel-stations-v1/all/).
 
-```{r Get EV Stations Data}
+```{r }
+#| label: load-data
+#| code-fold: true
+#| code-summary: Load EV stations data from API
 
 # API key is stored in my .Renviron file
 api_key <- Sys.getenv("AFDC_KEY")
 
 target <- "https://developer.nrel.gov/api/alt-fuel-stations/v1"
+
 # Return data for all electric stations in Colorado
 api_path <- ".json?&fuel_type=ELEC&state=CO&limit=all"
 
@@ -75,9 +85,10 @@ ev <- ev %>% select(-dplyr::starts_with("lng")) %>%
 
 ## County data
 
-Next I need shape files for the Colorado counties to make the map; these are obtained from the [tigris](https://github.com/walkerke/tigris) package.
+Next I need shape files for the Colorado counties to make the map; these are obtained from the [tigris](https://github.com/walkerke/tigris) [@tigris] package.
 
-```{r Get County Data}
+```{r }
+#| label: get-county-data
 
 options(tigris_use_cache = TRUE)
 co_counties <- tigris::counties("CO",cb = TRUE)
@@ -109,7 +120,8 @@ ev_county_counts <- ev %>%
   dplyr::count(county) %>% 
   arrange(desc(n))
 
-head(ev_county_counts)
+ev_county_counts |>
+  DT::datatable(options = list(pageLength = 5), rownames = FALSE)
 ```
 
 ## Combining data
@@ -121,6 +133,8 @@ Now we can finally join the data we want to plot (# EV stations per county) in *
 co_ev_counts <- co_counties %>% 
   left_join(ev_county_counts, by = c("NAMELSAD" = "county"))
 
+co_ev_counts <- sf::st_transform(co_ev_counts, 4326)
+
 head(co_ev_counts)
 ```
 
@@ -130,16 +144,19 @@ I'm going to make choropleth maps using two of the more popular mapping packages
 
 ## ggplot
 
--   ggplot2 makes it relatively easy to plot spatial data in an sf object with *geom_sf*
+-   ggplot2 makes it relatively easy to plot spatial data in an sf object with the *geom_sf* function
+-   The *scales* [@scales] package is used to format the numbers in the legend
+-   The *ggspatial* [@ggspatial]
 
--   I'm also use the *scales* [@scales] package to format the numbers in the legend
-
-```{r ggplot choropleth}
-#| fig-cap: Choropleth map of number of EV charging stations by county
+```{r }
+#| label: fig-ggplot-choropleth
+#| fig-cap: Choropleth map of number of EV charging stations by county, made with ggplot2
 
 ggplot() +
+  ggspatial::annotation_map_tile(progress = "none") +
   geom_sf(data = co_ev_counts,
-          aes(fill = n)) +
+          aes(fill = n),
+          alpha = 0.5) +
   scale_fill_viridis_c(labels = scales::number_format(big.mark = ","),
                        name = '# Ev Stations') +
   ggtitle("Number of EV Stations by Colorado County") +
@@ -150,7 +167,7 @@ ggplot() +
 
 Using leaflet requires a little more code but allows you to create an interactive map that can be more useful to the reader.\
 
--   In the map below I've set the *popup* to display the county name and number of stations when you **click on the map**.
+-   In the map below (@fig-leaflet-choropleth) I've set the *popup* to display the county name and number of stations when you **click on the map**.
 
 -   You can also **drag the map around and zoom in/out**.
 
@@ -158,8 +175,9 @@ Using leaflet requires a little more code but allows you to create an interactiv
 
 -   Note I've also included some code using from the [Creating Maps in R](https://www.linkedin.com/learning-login/share?forceAccount=false&redirect=https%3A%2F%2Fwww.linkedin.com%2Flearning%2Fcreating-maps-with-r%3Ftrk%3Dshare_ent_url%26shareId%3DQgGBGCunSQyanayy1A%252Fffg%253D%253D) course to fix an issue in the legend where the NA entry overlaps with the other entries.
 
-```{r Leaflet choropleth}
-#| fig-cap: Choropleth map of number of EV charging stations by county
+```{r }
+#| label: fig-leaflet-choropleth
+#| fig-cap: Interactive choropleth map of number of EV charging stations by county
 
 # create color palette
 pal_ev <- leaflet::colorNumeric(palette = "viridis",
