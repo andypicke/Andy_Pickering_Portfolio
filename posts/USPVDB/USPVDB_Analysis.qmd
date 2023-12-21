@@ -1,0 +1,342 @@
+---
+title: "Analysis of the U.S. Large-Scale Solar Photovoltaic Database (USPVDB)"
+author: "Andy Pickering"
+date: "2023-12-21"
+date-modified: today
+format: 
+  html:
+    code-fold: true
+    code-tools: true
+    toc: true
+    fig-cap-location: bottom
+    tbl-cap-location: bottom
+    fig-width: 10
+    fig-height: 7
+editor: visual
+freeze: auto
+draft: true
+#categories: [R, visualization, mapping, energy]
+bibliography: references.bib
+---
+
+# Introduction
+
+I recently learned of the [U.S. Large-Scale Solar Photovoltaic Database](https://eerscmap.usgs.gov/uspvdb/){.uri} [@fujita2023] via the [Data Is Plural](https://www.data-is-plural.com/) newsletter, and was excited to explore the data. The database includes information about U.S. ground-mounted photovoltaic (PV) facilities with capacity of 1 megawatt or more. Note that there is an [online data viewer](https://eerscmap.usgs.gov/uspvdb/viewer/#3/37.25/-96.25){.uri} available as well.
+
+# Data
+
+The data are available via an [API](https://eerscmap.usgs.gov/uspvdb/api-doc/), but for this analysis I chose to just download the entire [data set as a csv file](https://eerscmap.usgs.gov/uspvdb/data/). The database version I am using here is *Version: USPVDB_V1_0_20231108*. A [data codebook](https://emp.lbl.gov/publications/us-large-scale-solar-photovoltaic) is also available and gives a detailed description of all the data fields.
+
+```{r}
+#| label: libraries-read-data
+#| code-summary: Load Libraries and read data
+
+suppressPackageStartupMessages(library(tidyverse))
+ggplot2::theme_set(theme_grey(base_size = 15))
+library(DT) # nbice data tables
+suppressPackageStartupMessages(library(tigris)) # get state shapefiles for mapping
+options(tigris_use_cache = TRUE)
+library(leaflet) # interactive maps
+suppressPackageStartupMessages(library(cowplot)) # make multi-panel plots
+
+
+pv <- read_csv('data/uspvdb_v1_0_20231108.csv', show_col_types = FALSE)
+
+
+```
+
+```{r}
+#| label: tbl-all-data
+#| tbl-cap: Table of full USPVDB dataset from csv file.
+#| code-summary: Make Data table
+
+pv |>
+  DT::datatable(rownames = FALSE, options = list(pageLength = 5))
+
+```
+
+# Interactive map of sites
+
+First I will make an interactive map (@fig-map-sites) of all the sites, using the *leaflet* [@leaflet] package.
+
+```{r}
+#| label: fig-map-sites
+#| fig-cap: Interactive map of PV sites in USPVDB database
+#| code-summary: Make leaflet map of PV sites
+
+  leaflet(data = pv) %>% 
+  addTiles() %>% 
+  addMarkers(lng = ~xlong, lat = ~ylat, 
+             label = ~p_name,
+             popup = paste(pv$p_name, "<br>",
+                           "Opened", pv$p_year, "<br>",
+                           "DC Cap =", pv$p_cap_dc, "MW", "<br>",
+                           "AC Cap =", pv$p_cap_ac, "MW"),
+             clusterOptions = markerClusterOptions()
+             )
+
+```
+
+# Analysis
+
+## Total
+
+### Number of sites opened per year
+
+```{r}
+#| label: tbl-yearly
+#| tbl-cap: Data aggregated/summarized by year
+#| code-summary: Summarize data by year
+
+pv_yearly <- pv |>
+  filter(p_year >= 2002) |> # only 1 site opened before 2002 (in 1986)
+  group_by(p_year) |>
+  summarize(tot_cap_dc = sum(p_cap_dc, na.rm = TRUE),
+            tot_cap_ac = sum(p_cap_ac, na.rm = TRUE),
+            n_sites = n(),
+            ) |>
+  mutate(cum_cap_dc = cumsum(tot_cap_dc),
+        cum_n_sites = cumsum(n_sites)
+         )
+
+pv_yearly |>
+  DT::datatable(rownames = FALSE, options = list(pageLength = 5))
+
+
+```
+
+### Number of sites opened and capacity added per year
+
+```{r}
+#| label: fig-yearly-nsites-cap
+#| fig-cap: (A) Number of sites opened per year (B) Total capacity opened per year
+
+
+p1 <- pv_yearly |>
+  ggplot(aes(p_year, n_sites)) +
+  geom_col() +
+  labs(title = "Number of sites opened by year",
+       x = "Year")
+
+p2 <- pv_yearly |>
+  ggplot(aes(p_year, tot_cap_dc)) +
+  geom_col() +
+  labs(title = "Total DC capacity opened by year",
+       x = "Year",
+       y = "DC Capacity [MW]")
+
+cowplot::plot_grid(p1, p2, labels = "AUTO")
+
+```
+
+### Cumulative sums
+
+```{r}
+#| label: fig-yearly-cumsum-nsites-cap
+#| fig-cap: (A) Cumulative sum of total number of sites over time (B) Cumulative sum of total capacity over time
+
+p1 <- pv_yearly |>
+  filter(p_year > 2006) |>
+  ggplot(aes(p_year, cum_n_sites)) +
+  geom_line(linewidth = 2) +
+  geom_area(fill = 'gray') +
+  labs(title = "Number of PV Sites",
+       x = 'Year',
+       y = "# Sites")
+
+p2 <- pv_yearly |>
+  filter(p_year > 2006) |>
+  ggplot(aes(p_year, cum_cap_dc)) +
+  geom_line(linewidth = 2) +
+    geom_area(fill = 'gray') +
+  labs(title = "PV Capacity",
+       x = 'Year',
+       y = "DC Capacity [MW]")
+
+cowplot::plot_grid(p1, p2, labels = "AUTO")
+```
+
+@fig-yearly-cumsum-nsites-cap shows the cumulative sum of PV capacity over time. PV capacity began to increase around 2010 and has increased rapidly since then.
+
+## Per-State Analysis
+
+```{r}
+#| label: tbl-pv-group-by-state
+#| tbl-cap: Table of data grouped and summarized by state
+
+
+# summarize pv data by state
+pv_states <- pv |>
+  group_by(p_state) |>
+  summarise(n_pv = n(),
+            tot_cap_dc = sum(p_cap_dc, na.rm = TRUE),
+            tot_cap_ac = sum(p_cap_ac, na.rm = TRUE),
+            avg_cap_dc = round(mean(p_cap_dc, na.rm = TRUE),2)
+            )
+
+
+pv_states |>
+  DT::datatable(rownames = FALSE, options = list(pageLength = 5))
+
+```
+
+### Number of sites and total capacity per state
+
+-   Interesting MA has 4th most sites, but is 12th in terms of total capacity (ie it has more, smaller sites than other states). Similar for MN
+
+```{r}
+#| label: fig-n-sites-cap-per-state
+#| fig-cap: (A) Number of PV sites per state (top 10 shown) (B) Total Capacity of PV sites per state (top 10 shown)
+
+p1 <- pv_states |>
+  mutate(p_state = fct_reorder(p_state, n_pv)) |>
+  slice_max(order_by = n_pv, n = 10) |>
+  ggplot(aes(p_state, n_pv)) +
+  geom_col() +
+  coord_flip() +
+  labs(y = "Number of sites",
+       x = "State")
+
+p2 <- pv_states |>
+  mutate(p_state = fct_reorder(p_state, tot_cap_dc)) |>
+  slice_max(order_by = tot_cap_dc, n = 10) |>
+  ggplot(aes(p_state, tot_cap_dc)) +
+  geom_col() +
+  coord_flip() +
+  labs(y = "Total capacity of PV sites",
+       x = "State")
+
+cowplot::plot_grid(p1, p2, labels = "AUTO")
+
+```
+
+## Choropleths
+
+```{r}
+#| label: get-states-data
+#| code-summary: Get shapefiles for states
+#| echo: false
+
+# get states shapefiles
+states <- tigris::states(cb = TRUE, progress_bar = FALSE) |>
+    filter(!STUSPS %in% c('AK','HI','GU','PR','VI','AS','MP')) |># continental 48 only
+    sf::st_transform(crs = 4326)
+
+
+# combine shapefiles data with data to plot
+df_comb <- states |>
+  left_join(pv_states, by = c('STUSPS' = 'p_state')) 
+
+
+```
+
+### Number of sites per state
+
+```{r}
+#| label: fig-choropleth-n-states
+#| fig-cap: Choropleth of the number of PV sites per state (lower 48 only)
+
+map_val <- "n_pv"
+dat_to_map <- df_comb |>
+  rename(val_to_map = all_of(map_val))
+
+# make color palette
+col_pal <- leaflet::colorNumeric(palette = "viridis",
+                                 domain = dat_to_map$val_to_map)
+
+leaflet() %>% 
+#  addTiles() %>% # adds OpenStretMap basemap
+  addPolygons(data = dat_to_map,
+              weight = 1,
+              color = "black",
+              popup = paste(dat_to_map$STUSPS, "<br>",
+                            " # Sites: ", dat_to_map$val_to_map, "<br>"),
+              fillColor = ~col_pal(val_to_map),
+              fillOpacity = 0.6) %>% 
+  addLegend(data = dat_to_map,
+            pal = col_pal,
+            values = ~val_to_map,
+            opacity = 1,
+            title = "# Sites <br>
+            Per State"
+            )
+
+
+```
+
+### Total Capacity per state
+
+```{r}
+#| label: fig-choropleth-capacity-states
+#| fig-cap: Choropleth of total PV capacity (DC) per state (lower 48 only)
+
+map_val <- "tot_cap_dc"
+dat_to_map <- df_comb |>
+  rename(val_to_map = all_of(map_val))
+
+# make color palette
+col_pal <- leaflet::colorNumeric(palette = "viridis",
+                                 domain = dat_to_map$val_to_map)
+
+leaflet() %>% 
+#  addTiles() %>% # adds OpenStretMap basemap
+  addPolygons(data = dat_to_map,
+              weight = 1,
+              color = "black",
+              popup = paste(dat_to_map$STUSPS, "<br>",
+                            " PV Cap DC: ", dat_to_map$val_to_map,"MW", "<br>"),
+              fillColor = ~col_pal(val_to_map),
+              fillOpacity = 0.6) %>% 
+  addLegend(data = dat_to_map,
+            pal = col_pal,
+            values = ~val_to_map,
+            opacity = 1,
+            title = "DC Capacity [MW] <br>
+            Per State"
+            )
+
+```
+
+### Average capacity per state
+
+Some states tend to have fewer but larger sites, and vice-versa
+
+```{r}
+#| label: fig-choropleth-avg-capacity-states
+#| fig-cap: Choropleth of average site capacity (MW DC) per state (lower 48 only)
+
+map_val <- "avg_cap_dc"
+dat_to_map <- df_comb |>
+  rename(val_to_map = all_of(map_val))
+
+# make color palette
+col_pal <- leaflet::colorNumeric(palette = "viridis",
+                                 domain = dat_to_map$val_to_map)
+
+leaflet() %>% 
+#  addTiles() %>% # adds OpenStretMap basemap
+  addPolygons(data = dat_to_map,
+              weight = 1,
+              color = "black",
+              popup = paste(dat_to_map$STUSPS, "<br>",
+                            " Avg Cap: ", dat_to_map$val_to_map,"MW" ,"<br>"),
+              fillColor = ~col_pal(val_to_map),
+              fillOpacity = 0.6) %>% 
+  addLegend(data = dat_to_map,
+            pal = col_pal,
+            values = ~val_to_map,
+            opacity = 1,
+            title = "Average Cap [MW] <br>
+            Per State"
+            )
+
+
+```
+
+# SessionInfo
+
+```{r}
+sessionInfo()
+```
+
+# References
