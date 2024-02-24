@@ -5,24 +5,24 @@ image: image.png
 format: 
   html:
     code-link: true
-    code-fold: show
+    code-fold: true
     fig-width: 10
+    fig-height: 7
+    tbl-cap-location: bottom
 date: "2023-11-19"
 date-modified: today
 categories: [energy, R, visualization]
 toc: true
-#bibliography: references.bib
 freeze: auto
-draft: false
 ---
 
 # Introduction
 
-In this analysis I look at trends in US electricity generation and associated CO2 emissions, using a nice [data set](https://ember-climate.org/data-catalogue/us-electricity-data/) available from [Ember](https://ember-climate.org/). Ember provides monthly and yearly data on US electricity generation and emissions for the total US as well as by state, both in total and broken down by fuel types. In this first look at the data, I will limit my analysis to yearly data and total US generation/emissions.
+In this analysis I will look at trends in US electricity generation and associated CO2 emissions, using a nice [data set](https://ember-climate.org/data-catalogue/us-electricity-data/) available from [Ember](https://ember-climate.org/). Ember provides monthly and yearly data on US electricity generation and emissions for the total US as well as by state, both in total and broken down by fuel types. In this post, I will limit my analysis to yearly data and total (all fuel types) US generation and emissions.
 
 # Data
 
-Data was downloaded from <https://ember-climate.org/data-catalogue/us-electricity-data/> as a csv file and read into R. Some unnecessary columns were dropped, and the data is sub-setted into separate data frames for total US generation and emissions.
+Data was downloaded on Nov. 7, 2023 from <https://ember-climate.org/data-catalogue/us-electricity-data/> as a csv file and read into R. Some unnecessary columns were dropped, and the data is sub-setted into separate data frames for total US generation (@tbl-gen) and emissions (@tbl-us-emis).
 
 ```{r }
 #| label: data prep
@@ -30,7 +30,7 @@ Data was downloaded from <https://ember-climate.org/data-catalogue/us-electricit
 #| 
 
 suppressPackageStartupMessages(library(tidyverse))
-library(gt)
+suppressPackageStartupMessages(library(gt))
 theme_set(theme_gray(base_size = 16))
 suppressPackageStartupMessages(library(plotly))
 
@@ -68,6 +68,7 @@ df_emis_yearly_UStot <- df_yearly |>
 
 ```{r}
 #| label: tbl-gen
+#| tbl-cap: Annual electricity generation data for USA
 
 df_gen_yearly_UStot |>
   gt::gt() |> 
@@ -80,6 +81,7 @@ df_gen_yearly_UStot |>
 
 ```{r}
 #| label: tbl-us-emis
+#| tbl-cap: Annual US power-sector emissions.
 
 df_emis_yearly_UStot |> 
   gt::gt() |> 
@@ -127,9 +129,11 @@ plotly::ggplotly(g)
 
 # Emissions vs Generation
 
-So far we have sen that electricity generation has been generally increasing over time, while the associated CO2 emissions have been decreasing.
+So far we have sen that electricity generation has been generally increasing over time, while the associated CO2 emissions have been decreasing. Next I will join the generation and emissions data to compare them directly.
 
-```{r Combine gen and emis data}
+```{r }
+#| label: Combine gen and emis data
+#| 
 
 df1 <- df_emis_yearly_UStot |> 
   select(Year, emissions)

@@ -8,7 +8,8 @@ format:
     code-link: true
     code-fold: show
 draft: false
-date-modified: "2023-07-06"
+freeze: true
+date-modified: today
 bibliography: references.bib
 ---
 
@@ -58,7 +59,7 @@ get_all_links <- function(page_url){
   
 }
 
-links <- get_all_links(page_url=paste0(base_url,"/products/outlook/day1otlk.html"))
+links <- get_all_links(page_url = paste0(base_url,"/products/outlook/day1otlk.html"))
 
 # find the link for the shapefile (they only one that ends in 'shp.zip') 
 shp_link <- links[which(stringr::str_ends(links,'shp.zip'))]
@@ -88,7 +89,7 @@ Now that we have the link for the latest forecast, we can download the file (zip
 # destination to save downloaded file to
 dest_file <- file.path('.','data',shp_fname)
 # download the zip file containing shapefiles
-download.file(url=shp_url,destfile = dest_file, method="curl",quiet = TRUE)
+download.file(url = shp_url,destfile = dest_file, method = "curl",quiet = TRUE)
 
 # unzip into a separate folder using base filename
 unzip(dest_file,exdir = file.path('.','data',basefname) )
@@ -115,7 +116,7 @@ Now that we have the shapefile converted into a R object, we can make our map. I
 -   *NOTE this map is for the forecast at the time this post was rendered, not when you are reading it*
 
 ```{r}
-
+#| label: fig-swp-map
 #| fig-cap: Map Showing Severe Weather Prediction Risk
 
 # extract bounding box values from shapefile to set map bounds
@@ -126,15 +127,15 @@ m <- leaflet() %>%
       addTiles()
 
 # add layers (1 for each risk category present in forecast)
-for (i in 1:length(dat$geometry)){
+for (i in 1:length(dat$geometry)) {
 m <- addPolygons(map = m, data = dat$geometry[i],
-                 color=dat$fill[i],
+                 color = dat$fill[i],
                  label = dat$LABEL2[i])  
 }
 
 m <- m %>% 
-  setMaxBounds(lng1 = bb$xmin,lng2 = bb$xmax,lat1 = bb$ymin, lat2=bb$ymax) %>% 
-  addLegend(labels=dat$LABEL2,colors = dat$fill)
+  setMaxBounds(lng1 = bb$xmin,lng2 = bb$xmax,lat1 = bb$ymin, lat2 = bb$ymax) %>% 
+  addLegend(labels = dat$LABEL2,colors = dat$fill)
 
 m
 ```

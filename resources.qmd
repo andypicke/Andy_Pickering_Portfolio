@@ -39,9 +39,14 @@ about:
 
 -   [U.S. Energy Information Administration (EIA)](https://www.eia.gov/opendata/)
 
+-   [Our World in Data](https://ourworldindata.org/energy)
+
+-   [Ember](https://ember-climate.org/data/)
+
 ### Other
 
 -   [Data Is Plural](https://www.data-is-plural.com/)
+-   [Tidy Tuesday](https://github.com/rfordatascience/tidytuesday)
 
 ## Miscellaneous
 

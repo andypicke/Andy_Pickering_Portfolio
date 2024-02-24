@@ -2,6 +2,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/USPVDB/USPVDB_Analysis.html",
       "/posts/EIA_degree_days/degreedays.html",
       "/posts/Ember_US_Electric_Total/Ember_US_elec_total.html",
       "/posts/EV_station_mapping/ev_station_mapping.html",

@@ -1,5 +1,5 @@
 ---
-title: "Analysis of the U.S. Large-Scale Solar Photovoltaic Database (USPVDB)"
+title: "Analysis of the U.S. Large-Scale Solar Photovoltaic Database (USPVDB) in R"
 author: "Andy Pickering"
 date: "2023-12-21"
 date-modified: today
@@ -12,27 +12,31 @@ format:
     tbl-cap-location: bottom
     fig-width: 10
     fig-height: 7
-editor: visual
 freeze: auto
-draft: true
-#categories: [R, visualization, mapping, energy]
+categories: [visualization, mapping, energy, R]
 bibliography: references.bib
 ---
 
 # Introduction
 
-I recently learned of the [U.S. Large-Scale Solar Photovoltaic Database](https://eerscmap.usgs.gov/uspvdb/){.uri} [@fujita2023] via the [Data Is Plural](https://www.data-is-plural.com/) newsletter, and was excited to explore the data. The database includes information about U.S. ground-mounted photovoltaic (PV) facilities with capacity of 1 megawatt or more. Note that there is an [online data viewer](https://eerscmap.usgs.gov/uspvdb/viewer/#3/37.25/-96.25){.uri} available as well.
+I recently learned of the [U.S. Large-Scale Solar Photovoltaic Database](https://eerscmap.usgs.gov/uspvdb/){.uri} [@fujita2023] via the [Data Is Plural](https://www.data-is-plural.com/) newsletter, and was excited to explore the data. The database includes information about U.S. ground-mounted photovoltaic (PV) facilities with capacity of 1 megawatt or more. Note that there is an [online data viewer](https://eerscmap.usgs.gov/uspvdb/viewer/#3/37.25/-96.25){.uri} available as well; here I will explore the data using R and Quarto.
 
 # Data
 
-The data are available via an [API](https://eerscmap.usgs.gov/uspvdb/api-doc/), but for this analysis I chose to just download the entire [data set as a csv file](https://eerscmap.usgs.gov/uspvdb/data/). The database version I am using here is *Version: USPVDB_V1_0_20231108*. A [data codebook](https://emp.lbl.gov/publications/us-large-scale-solar-photovoltaic) is also available and gives a detailed description of all the data fields.
+The data are available via an [API](https://eerscmap.usgs.gov/uspvdb/api-doc/), but for this analysis I chose to just download the entire [data set as a csv file](https://eerscmap.usgs.gov/uspvdb/data/).
+
+-   The database version I am using here is *Version: USPVDB_V1_0_20231108*.
+
+-    A [data codebook](https://emp.lbl.gov/publications/us-large-scale-solar-photovoltaic) is also available and gives a detailed description of all the data fields.
+
+I'll first read the data into R and take a look at the complete table (@tbl-all-data).
 
 ```{r}
 #| label: libraries-read-data
 #| code-summary: Load Libraries and read data
 
 suppressPackageStartupMessages(library(tidyverse))
-ggplot2::theme_set(theme_grey(base_size = 15))
+ggplot2::theme_set(theme_grey(base_size = 16))
 library(DT) # nbice data tables
 suppressPackageStartupMessages(library(tigris)) # get state shapefiles for mapping
 options(tigris_use_cache = TRUE)
@@ -57,7 +61,7 @@ pv |>
 
 # Interactive map of sites
 
-First I will make an interactive map (@fig-map-sites) of all the sites, using the *leaflet* [@leaflet] package.
+Before analyzing the data, I wanted to make an interactive map (@fig-map-sites) of all the sites, using the *leaflet* [@leaflet] package.
 
 ```{r}
 #| label: fig-map-sites
@@ -79,9 +83,11 @@ First I will make an interactive map (@fig-map-sites) of all the sites, using th
 
 # Analysis
 
+I chose to break my analysis into two sections: *Total* (all states added together) and *Per-State* (data aggregated by individual states).
+
 ## Total
 
-### Number of sites opened per year
+For the total analysis, I will group the data by year and summarize some of the fields (@tbl-yearly), including the number of sites opened and the total capacity of all sites.
 
 ```{r}
 #| label: tbl-yearly
@@ -96,6 +102,7 @@ pv_yearly <- pv |>
             n_sites = n(),
             ) |>
   mutate(cum_cap_dc = cumsum(tot_cap_dc),
+         cum_cap_ac = cumsum(tot_cap_ac),
         cum_n_sites = cumsum(n_sites)
          )
 
@@ -107,10 +114,11 @@ pv_yearly |>
 
 ### Number of sites opened and capacity added per year
 
-```{r}
-#| label: fig-yearly-nsites-cap
-#| fig-cap: (A) Number of sites opened per year (B) Total capacity opened per year
+The number of PV sites opened per year (@fig-yearly-nsites-cap-dc) began to increase rapidly around 2007 and has remained high (more than 400) since 2015. The total capacity added is more variable, reflecting the fact that some sites are much larger than others.
 
+```{r}
+#| label: fig-yearly-nsites-cap-dc
+#| fig-cap: (A) Number of sites opened per year (B) Total capacity (DC) opened per year
 
 p1 <- pv_yearly |>
   ggplot(aes(p_year, n_sites)) +
@@ -131,15 +139,17 @@ cowplot::plot_grid(p1, p2, labels = "AUTO")
 
 ### Cumulative sums
 
+Next we can look at the cumulative sum of the number of PV sites and total capacity (@fig-yearly-cumsum-nsites-cap-dc). Both began to increase around 2007, and really took off starting around 2012.
+
 ```{r}
-#| label: fig-yearly-cumsum-nsites-cap
-#| fig-cap: (A) Cumulative sum of total number of sites over time (B) Cumulative sum of total capacity over time
+#| label: fig-yearly-cumsum-nsites-cap-dc
+#| fig-cap: (A) Cumulative sum of total number of sites over time (B) Cumulative sum of total capacity (DC) over time
 
 p1 <- pv_yearly |>
   filter(p_year > 2006) |>
   ggplot(aes(p_year, cum_n_sites)) +
-  geom_line(linewidth = 2) +
   geom_area(fill = 'gray') +
+  geom_line(linewidth = 2) +
   labs(title = "Number of PV Sites",
        x = 'Year',
        y = "# Sites")
@@ -147,8 +157,8 @@ p1 <- pv_yearly |>
 p2 <- pv_yearly |>
   filter(p_year > 2006) |>
   ggplot(aes(p_year, cum_cap_dc)) +
+  geom_area(fill = 'gray') +
   geom_line(linewidth = 2) +
-    geom_area(fill = 'gray') +
   labs(title = "PV Capacity",
        x = 'Year',
        y = "DC Capacity [MW]")
@@ -156,13 +166,14 @@ p2 <- pv_yearly |>
 cowplot::plot_grid(p1, p2, labels = "AUTO")
 ```
 
-@fig-yearly-cumsum-nsites-cap shows the cumulative sum of PV capacity over time. PV capacity began to increase around 2010 and has increased rapidly since then.
-
 ## Per-State Analysis
+
+In this section I will analyze the data per state, so I will group by state and compute totals (@tbl-pv-group-by-state). I've chosen not to also group by year in this sections, so the summary values are the total for all years included in the data (basically the current status).
 
 ```{r}
 #| label: tbl-pv-group-by-state
 #| tbl-cap: Table of data grouped and summarized by state
+#| code-summary: Summarize data by State
 
 
 # summarize pv data by state
@@ -171,7 +182,7 @@ pv_states <- pv |>
   summarise(n_pv = n(),
             tot_cap_dc = sum(p_cap_dc, na.rm = TRUE),
             tot_cap_ac = sum(p_cap_ac, na.rm = TRUE),
-            avg_cap_dc = round(mean(p_cap_dc, na.rm = TRUE),2)
+            avg_site_cap_dc = round(mean(p_cap_dc, na.rm = TRUE),2)
             )
 
 
@@ -182,11 +193,13 @@ pv_states |>
 
 ### Number of sites and total capacity per state
 
--   Interesting MA has 4th most sites, but is 12th in terms of total capacity (ie it has more, smaller sites than other states). Similar for MN
+@fig-n-sites-cap-per-state shows the top ten states by number of PV sites and total capacity.
+
+-   It is interesting to note that the states with the most sites do not always have the most capacity, reflecting that some states tend to have fewer but larger PV sites. For example, MA has 4th most sites, but is 12th in terms of total capacity.
 
 ```{r}
 #| label: fig-n-sites-cap-per-state
-#| fig-cap: (A) Number of PV sites per state (top 10 shown) (B) Total Capacity of PV sites per state (top 10 shown)
+#| fig-cap: (A) Number of PV sites per state (top 10 shown) (B) Total Capacity (DC) of PV sites per state (top 10 shown)
 
 p1 <- pv_states |>
   mutate(p_state = fct_reorder(p_state, n_pv)) |>
@@ -203,7 +216,7 @@ p2 <- pv_states |>
   ggplot(aes(p_state, tot_cap_dc)) +
   geom_col() +
   coord_flip() +
-  labs(y = "Total capacity of PV sites",
+  labs(y = "Total capacity of PV sites [MW]",
        x = "State")
 
 cowplot::plot_grid(p1, p2, labels = "AUTO")
@@ -212,13 +225,18 @@ cowplot::plot_grid(p1, p2, labels = "AUTO")
 
 ## Choropleths
 
+Next I will make some choropleth maps to help visualize the state data. In these figures, the color of each state corresponds to a variable. For now I will restrict the maps to the lower 48 US states to make the plotting easier.
+
+-   The maps are made using the *leaflet* [@leaflet-2] package and are interactive; you can drag the map and zoom in/out, and clicking on a state will display some information about it.
+-   I will get the state shapefiles for plotting from the *tigris* [@tigris] package.
+
 ```{r}
 #| label: get-states-data
 #| code-summary: Get shapefiles for states
 #| echo: false
 
 # get states shapefiles
-states <- tigris::states(cb = TRUE, progress_bar = FALSE) |>
+states <- suppressMessages(tigris::states(cb = TRUE, progress_bar = FALSE)) |>
     filter(!STUSPS %in% c('AK','HI','GU','PR','VI','AS','MP')) |># continental 48 only
     sf::st_transform(crs = 4326)
 
@@ -257,7 +275,7 @@ leaflet() %>%
             pal = col_pal,
             values = ~val_to_map,
             opacity = 1,
-            title = "# Sites <br>
+            title = "# PV Sites <br>
             Per State"
             )
 
@@ -299,13 +317,13 @@ leaflet() %>%
 
 ### Average capacity per state
 
-Some states tend to have fewer but larger sites, and vice-versa
+Some states tend to have fewer but larger sites, and vice-versa. @fig-choropleth-avg-capacity-states shows the average site capacity for each state.
 
 ```{r}
 #| label: fig-choropleth-avg-capacity-states
 #| fig-cap: Choropleth of average site capacity (MW DC) per state (lower 48 only)
 
-map_val <- "avg_cap_dc"
+map_val <- "avg_site_cap_dc"
 dat_to_map <- df_comb |>
   rename(val_to_map = all_of(map_val))
 
@@ -326,14 +344,22 @@ leaflet() %>%
             pal = col_pal,
             values = ~val_to_map,
             opacity = 1,
-            title = "Average Cap [MW] <br>
+            title = "Average Site Cap [MW] <br>
             Per State"
             )
 
 
 ```
 
+# Future Analysis/Questions
+
+-   The USPVDB only includes ground-based PV sites with a capacity greater than 1MW. It would be interesting to also examine other PV sources such as residential or commerical rooftop arrays.
+
+-   I assume that the PV site capacities listed in database are the maximum capacity under ideal conditions (ie full sun, clear skies); it would be interesting to know what the actual annual outputs are considering latitude, weather, etc..
+
 # SessionInfo
+
+To enhance reproducibility, I have included my *SessionInfo* output below. There is also a *renv* file available in the github repo for my site.
 
 ```{r}
 sessionInfo()

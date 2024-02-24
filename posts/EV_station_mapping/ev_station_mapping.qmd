@@ -6,6 +6,7 @@ format:
   html:
     code-link: true
     code-fold: show
+    tbl-cap-location: bottom
 date: "2023-08-01"
 date-modified: today
 categories: [EV, R, visualization, mapping, API]
@@ -151,7 +152,7 @@ I'm going to make choropleth maps using two of the more popular mapping packages
 
 -   ggplot2 makes it relatively easy to plot spatial data in an sf object with the *geom_sf* function
 -   The *scales* [@scales] package is used to format the numbers in the legend
--   The *ggspatial* [@ggspatial]
+-   The *ggspatial* [@ggspatial] package is used to add a base map showing some of the major cities and roads
 
 ```{r }
 #| label: fig-ggplot-choropleth

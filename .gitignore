@@ -14,3 +14,5 @@ posts/EV_station_mapping/ev_station_mapping/data/
 posts/Ember_US_Electric_Total/data/
 posts/EIA_degree_days/data/
 *.html
+posts/USPVDB/data/
+posts/Time_of_use_electricity/data/

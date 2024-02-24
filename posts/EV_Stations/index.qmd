@@ -9,7 +9,10 @@ format:
   html:
     code-link: true
     code-fold: show
-    fig-width: 8
+    fig-width: 10
+    fig-height: 7
+    tbl-cap-location: bottom
+    toc: true
 freeze: auto
 ---
 
@@ -37,6 +40,10 @@ I'll retrieve the EV station data using the AFDC API. The documentation for the 
 
 -   You can obtain a free API key at: \[<https://developer.nrel.gov/signup/>\]. I've saved my API key in my local .Renviron file so I can load it without exposing the key in my code.
 
+    ::: callout-tip
+    I find the easiest way to store an API key in your .Renviron file is with the *usethis* [@usethis] package. Simply call the `usethis::edit_r_environ()` function to open the .Renviron file, add your key in the form *API_KEY="xxxxx"*, and save. After you restart R, you will be able to load the key in your code using `Sys.getenv("API_KEY")`.
+    :::
+
 -   I will request data for all EV stations in **Colorado**.
 
 -   I'll retrieve the data from the API using the *httr* [@httr] package.
@@ -60,7 +67,8 @@ if (response$status_code != 200) {
  print(paste('Warning, API call returned error code',response$status_code))
 }
 
-response$status_code
+print(paste("Data last downloaded on", response$date, "with response code of",response$status_code))
+
 
 ```
 
@@ -98,13 +106,16 @@ ev_dat$station_counts$fuels$ELEC
 Finally, the data we want to analyze is in the *fuel_stations* data frame.
 
 ```{r}
+
 ev <- ev_dat$fuel_stations
 
 ```
 
 ### Filter out non-EV data columns
 
-The returned data contains many non-electric fields that we don't need (they will all be NA since we requested electric fuel type only), so I'll remove the non-relevant fields from the data frame to clean things up a bit, using the *starts_with* function from the @dplyr package. - I'll also change the date column type and add a variable for year opened, since I want to look at how many stations were opened over time.
+The returned data contains many non-electric fields that we don't need (they will all be NA since we requested electric fuel type only), so I'll remove the non-relevant fields from the data frame to clean things up a bit, using the *starts_with* function from the *dplyr* [@dplyr] package.
+
+I'll also change the date column type and add a variable for year opened, since I want to look at how many stations were opened over time.
 
 ```{r remove fields}
 
@@ -117,14 +128,14 @@ ev <- ev %>% select(-dplyr::starts_with("lng")) %>%
   select(-starts_with("e85")) %>% 
   select(-starts_with("bd")) %>% 
   select(-starts_with("rd")) %>% 
-  filter(status_code == 'E')
+  filter(status_code == 'E') |>
+  select(-ends_with("_fr")) # drop french language columns
 
 
 # change date field to date type and add a year opened variable
 ev$open_date <- lubridate::ymd(ev$open_date)
 ev$open_year <- lubridate::year(ev$open_date)
 
-#colnames(ev)
 
 ```
 
@@ -137,10 +148,15 @@ ev$open_year <- lubridate::year(ev$open_date)
 First I'd like to look at how many EV stations opened over time, so I'll make a new data frame summarizing the number of stations opened by year.
 
 ```{r }
+#| label: tbl-nopened-per-year
+#| tbl-cap: "Number of charging stations opened per year."
 
 ev_opened <- ev %>% 
   count(open_year,name = "nopened")  %>% 
-  filter(!is.na(open_year))
+  filter(!is.na(open_year)) 
+
+ev_opened |>
+  DT::datatable(rownames = FALSE, options = list(pageLength = 5))
 
 ```
 
@@ -154,7 +170,7 @@ ev_opened %>% ggplot(aes(open_year, nopened)) +
   geom_col() +
   xlab("Year Opened") +
   ylab("# Stations Opened") +
-  ggtitle('EV Stations Opened in Colorado Each Year') +
+  ggtitle('EV Stations Opened in Colorado Each Year',subtitle = paste("Data downloaded on", response$date)) +
   theme_grey(base_size = 15) +
   geom_text(aes(label = nopened), vjust = 0)
 
@@ -185,6 +201,8 @@ Next I want to dig a little deeper and break down the station openings by charge
 -   *Note* here I'm working with the number of *chargers* of each level, not the number of *stations*.
 
 ```{r}
+#| label: tbl-ev-opened-by-level
+#| tbl-cap: "Number of EV chargers opened per year, by charging level"
 
 ev_opened_level <- ev %>% 
   select(id,open_date,
@@ -197,13 +215,17 @@ ev_opened_level <- ev %>%
             n_L1 = sum(ev_level1_evse_num,na.rm = TRUE) ) %>% 
   filter(!is.na(open_year))
 
-head(ev_opened_level)
+ev_opened_level |>
+  DT::datatable(rownames = FALSE, options = list(pageLength = 5))
 
 ```
 
 To make plotting easier, I'll pivot the dataframe from wide to long format so I can group by charging level:
 
 ```{r}
+#| label: tbl-ev-opened-by-level-long
+#| tbl-cap: "Number of EV chargers opened per year by charging level, in long format for plotting."
+
 
 ev_opened_level_long <- ev_opened_level %>% 
   tidyr::pivot_longer(cols = c('n_DC','n_L2','n_L1'),
@@ -211,7 +233,8 @@ ev_opened_level_long <- ev_opened_level %>%
                       names_prefix = "n_",
                       values_to = "n_opened")
 
-head(ev_opened_level_long)
+ev_opened_level_long |>
+  DT::datatable(rownames = FALSE, options = list(pageLength = 5))
 
 
 ```
@@ -221,12 +244,11 @@ Now I can go ahead and plot the number of chargers opened over time, by level.
 ```{r }
 #| label: fig-nopened-level
 #| fig-cap: "Number of Chargers Opened Per Year By Level"
-#| fig-width: 8
 
 g <- ev_opened_level_long %>% 
   ggplot(aes(open_year, n_opened, group = Level)) +
   geom_line(aes(col = Level), linewidth = 1.5) +
-  geom_point(aes(col = Level)) +
+  geom_point(aes(col = Level), size = 4) +
   xlab("Year Opened") +
   ylab("# Charges Opened") +
   ggtitle("Number of Chargers Opened Per Year By Level")
