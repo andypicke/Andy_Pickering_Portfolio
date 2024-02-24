@@ -1,0 +1,267 @@
+---
+title: "How has time-of-use pricing affected our home electricity use?"
+author: Andy Pickering
+date: today
+date-modified: today
+format: 
+  html:
+    code-link: true
+    code-fold: true
+    code-tools: true
+    toc: true
+    fig-width: 10
+    fig-height: 8
+    tbl-cap-location: bottom
+editor: visual
+draft: true
+freeze: auto
+---
+
+# Introduction
+
+Analysis of our home electricity usage, using hourly data from our smart meter. Our electricity provider (Xcel) currently offers Time-Of-Use (TOU) pricing, where electricity costs more in the weekday afternoon-early evening period when demand tends to be higher.
+
+Our current Xcel TOU rate categories are:
+
+-   Weekdays 1-3pm: mid-peak
+
+-   Weekdays 3-7pm: peak
+
+-   All other times (and holidays): off-peak
+
+I was interested in quantifying how much the TOU pricing has affected our electricity usage patterns. Qualitatively I know we have tried to modify our behavior to take advantage of the TOU rate structure:
+
+-   We try to avoid using large appliances (dishwasher, oven, washer and dryer) during peak periods.
+
+-   We have two electric vehicles; one full EV and one plug-in hybrid. We typically charge these at home on a level 1 (120V) charger. They both have charge timers that we have set to turn off during peak periods (3-7 pm weekdays).
+
+## Questions/Objectives
+
+-   How consistent is our electricity usage?
+-   How has the TOU pricing affected our usage patterns?
+-   Is TOU pricing creating a spike in demand at the end of peak periods?
+    -   <https://www.energyhub.com/blog/avoiding-gridlock-why-time-of-use-tou-rates-arent-the-long-term-solution-for-managing-local-ev-load>
+
+## Downloading data
+
+Unfortunately xcel does not have an API or a way to request a date-range of data, so I had to download data file for each day individually.
+
+Raw data files are processed in *process_xcel_hourly.R*
+
+# Load data
+
+```{r}
+#| code-summary: Load libraries and read data
+
+# read hourly electric usage data downloaded from myxcel account
+
+suppressPackageStartupMessages(library(tidyverse))
+ggplot2::theme_set(theme_grey(base_size = 16))
+suppressPackageStartupMessages(library(here))
+suppressPackageStartupMessages(library(DT))
+
+df <- readRDS('data/hourly_elec_xcel_combined') |>
+  select(-c(category)) |>
+  mutate(rate_category = as.factor(rate_category)) |>
+  mutate(rate_category = forcats::fct_relevel(rate_category, c("on_peak","mid_peak","off_peak"))) 
+#  mutate(rate_category = forcats::fct_recode(On Peak = "on_peak", Mid Peak = "mid_peak", Off Peak = "off_peak" ))
+
+
+```
+
+```{r}
+#| label: tbl-hourly-elec
+#| tbl-cap: Hourly electricity usage data
+
+df |>
+  DT::datatable(options = list(pageLength = 5), rownames = FALSE)
+
+
+```
+
+# Analysis
+
+## Daily
+
+@fig-daily-kwh-rate shows total daily electricity use, with the colors indicating the rate category.
+
+```{r}
+#| label: fig-daily-kwh-rate
+#| fig-cap: Stacked bar chart of daily electricity usage [kWh], colored by rate category.
+
+df_daily <- df |>
+  group_by(date, rate_category) |>
+  summarise(kwh = sum(kwh), .groups = 'drop')
+
+
+df_daily |>
+  ggplot(aes(date, kwh)) +
+  geom_col(aes(fill = rate_category),position = "stack") +
+  labs(x = "Date",
+       y = "kWh",
+       title = "Hourly Electricity Use") +
+  theme(legend.title = element_blank())
+
+```
+
+@fig-kwh-all-ratecolor shows all hourly values, colored by the rate category. This figure shows that nearly all the larger values (greater than \~2 kWh) are during off-peak times. @fig-histogram-rate-category and @fig-boxplots-rate-category also demonstrate this pattern.
+
+```{r}
+#| label: fig-kwh-all-ratecolor
+#| fig-cap: Hourly electricity usage [kWh] vs time, colored by rate category
+
+df |>
+  ggplot(aes(datetime, kwh)) +
+  geom_point(size = 4, alpha = 0.4, aes(color = rate_category)) +
+    labs( x = '',
+        y = 'kWh',
+        title = "Hourly Electriciy Usage") +
+  theme(legend.title = element_blank())
+
+
+```
+
+```{r}
+#| label: fig-histogram-rate-category
+#| fig-cap: Histogram of all data
+
+
+df |>
+  ggplot(aes(x = kwh)) +
+  geom_histogram(binwidth = 0.25) +
+  geom_rug() +
+  facet_grid(~rate_category) +
+  labs(x = "kWh",
+       y = '',
+       title = "Histograms of hourly electric usage ")
+
+```
+
+```{r}
+# #| label: fig-boxplots-rate-category
+# #| fig-cap: Boxplots of hourly data for each rate category.
+# #| 
+# df |>
+#   ggplot(aes(rate_category,kwh)) +
+#   geom_boxplot() +
+#   coord_flip()
+
+```
+
+## Hourly
+
+```{r}
+
+df |> 
+  group_by(rate_category) |>
+  summarize(tot_elec = sum(kwh),
+            avg_elec = round(mean(kwh),2),
+            med_elec = round(median(kwh),2),
+            max_elec = round(max(kwh),2)
+            )
+            
+
+```
+
+```{r}
+
+df |> 
+  filter(is_weekend == 0) |>
+  group_by(rate_category) |>
+  summarize(tot_elec_per_rate = sum(kwh)) |>
+  mutate(total = sum(tot_elec_per_rate)) |>
+  mutate(pct = tot_elec_per_rate/total*100)
+
+
+```
+
+### Electricity usage for a single day
+
+@fig-usage-oneday shows hourly electricity usage for a single day. Note the sharp increase at 7pm, likely due to EV charging timer.
+
+```{r}
+#| label: fig-usage-oneday
+#| fig-cap: Hourly electricity usage for a single day. 
+
+the_date <- '2024-01-26'
+
+df |>
+  filter(date == the_date) |>
+  ggplot(aes(hour, kwh)) +
+  geom_col(aes(fill = rate_category)) +
+  labs(x = "Hour of Day",
+       y = "Electricity Used [kWh]",
+       title = the_date,
+       subtitle = lubridate::wday(the_date, label = TRUE, abbr = FALSE)) +
+  theme(legend.title = element_blank())
+
+```
+
+### Boxplot of hourly usage, for weekend/weekday separate
+
+```{r}
+#| label: fig-boxplot-weekday-weekend
+#| fig-cap: Boxplots of hourly electricity usage for weekdays and weekends. Red lines indicate peak hours (weekdays)
+
+df |>
+  ggplot(aes(hour,kwh, group = hour)) +
+  geom_boxplot() +
+  facet_grid(~is_weekend) +
+  geom_vline(xintercept = c(15,19),linetype = 'dashed', color = 'red') +
+  labs(y = 'kWh',
+       x = 'Hour',
+       title = 'Hourly electric usage',
+       subtitle = "Weekday/Weekend")
+
+```
+
+@fig-avg-usage_weekday-weekend shows the average hourly electricity usage for weekdays and weekends. Dashed vertical lines indicate peak pricing hours (weekdays only).
+
+```{# {r}
+# #| label: fig-avg-usage_weekday-weekend
+# #| fig-cap: Average hourly electricity usage for weekdays and weekends.Red lines indicate peak hours (weekdays)
+# 
+# df |>
+#   group_by(hour, is_weekend) |>
+#   summarize(usage = mean(kwh), .groups = 'drop') |>
+#   ggplot(aes(hour, usage)) +
+#   geom_col(fill = 'darkgreen') +
+#   geom_vline(xintercept = c(13,15,19),linetype = 'dashed', color = 'red') +
+#   facet_grid(~is_weekend) +
+#    labs(y = 'kWh',
+#        x = 'Hour',
+#        title = 'Average Hourly electric usage',
+#        subtitle = "Weekday/Weekend")
+
+```
+
+```{r}
+#| label: fig-avg-usage_weekday-weekend
+#| fig-cap: Average hourly electricity usage for weekdays and weekends.Red lines indicate peak hours (weekdays)
+
+df |>
+  mutate(wday_label = if_else(is_weekend == 0, 'Weekdays','Weekends')) |>
+  group_by(hour, wday_label) |>
+  summarize(usage = mean(kwh)) |>
+  ggplot(aes(hour, usage, group = wday_label)) +
+  geom_line(aes(color = wday_label), linewidth = 1.5) +
+  geom_vline(xintercept = c(13,15,19),linetype = 'dashed', color = 'black') +
+  theme(legend.title = element_blank()) +
+  labs(y = 'kWh',
+       x = 'Hour',
+       title = 'Average Hourly electric usage',
+       subtitle = "Weekday/Weekend")
+
+```
+
+# Summary and next steps
+
+-   
+
+# SessionInfo
+
+```{r}
+
+sessionInfo()
+
+```
