@@ -118,9 +118,6 @@ df |>
 ```{r}
 #| label: fig-histogram-rate-category
 #| fig-cap: Histogram of all data
-#| fig-width: 7
-#| fig-height: 5
-#| 
 
 df |>
   ggplot(aes(x = kwh)) +
@@ -139,11 +136,12 @@ df |>
 
 df |> 
   group_by(rate_category) |>
-  summarize(tot_kwh = sum(kwh),
-            avg_kwh = round(mean(kwh),2),
-            med_kwh = round(median(kwh),2),
+  summarize(total_kwh = sum(kwh),
+            average_kwh = round(mean(kwh),2),
+            median_kwh = round(median(kwh),2),
             max_kwh = round(max(kwh),2)
             ) |>
+  rename(`Rate Category` = rate_category) |>
   DT::datatable(options = list(pageLength = 5), rownames = FALSE)
             
 
@@ -180,7 +178,7 @@ df |>
        title = "Hourly Electricity Use For 1 Day",
        subtitle = lubridate::wday(the_date, label = TRUE, abbr = FALSE)) +
   theme(legend.title = element_blank()) +
-    geom_vline(xintercept = c(13,15,19),linetype = 'dashed', color = 'black') 
+  geom_vline(xintercept = c(13,15,19),linetype = 'dashed', color = 'black') 
 
 ```
 
@@ -191,9 +189,10 @@ df |>
 #| fig-cap: Boxplots of hourly electricity usage for weekdays and weekends. Red lines indicate peak hours (weekdays)
 
 df |>
+  mutate(wday_label = if_else(is_weekend == 0, 'Weekdays','Weekends')) |>
   ggplot(aes(hour,kwh, group = hour)) +
   geom_boxplot() +
-  facet_grid(~is_weekend) +
+  facet_grid(~wday_label) +
   geom_vline(xintercept = c(15,19),linetype = 'dashed', color = 'red') +
   labs(y = 'kWh',
        x = 'Hour',
@@ -220,8 +219,8 @@ g <- df |>
        x = 'Hour',
        title = 'Average Hourly electric usage',
        subtitle = "Weekday/Weekend")
-
-plotly::ggplotly(g)
+g
+#plotly::ggplotly(g)
 ```
 
 ## Summary
@@ -232,9 +231,15 @@ plotly::ggplotly(g)
 
 ### Questions and further analysis
 
+-   How does the TOU peak period line up with emissions/ renewable energy generation?
+
+-   What is the effect of this artificial spike when aggregated over many households?
+
+-   We are using Level 1 charging, this effect would be larger for those with home Level 2 chargers.
+
 # SessionInfo
 
-To enhance reproduciblity, the R *sessionInfo* is included below.
+To enhance reproducibility, the R *sessionInfo* is included below. A renv file is also available on the github repo for the site.
 
 ```{r}
 
