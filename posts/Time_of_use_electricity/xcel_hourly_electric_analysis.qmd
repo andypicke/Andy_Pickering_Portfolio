@@ -14,13 +14,19 @@ format:
     tbl-cap-location: bottom
 editor: visual
 categories: [EV, R, visualization, energy]
-draft: true
+draft: false
 freeze: auto
 ---
 
+# TL;DR
+
+-   Time of Use electricity pricing can shift customer usage patterns and help manage supply-demand imbalances
+
+-   *But* it may also introduce artificial spikes in demand that could strain the local grid.
+
 # Introduction
 
-In this blog post, I'll analyze our home electricity usage, using hourly data from our "[smart meter](https://coloradosun.com/2021/07/01/xcel-energy-smart-meters-time-of-use-billing/)". Our electricity provider ([Xcel](https://www.xcelenergy.com/)) currently bills us according to [Time-Of-Use (TOU) pricing](https://co.my.xcelenergy.com/s/billing-payment/residential-rates/time-of-use-pricing), where electricity costs more in the weekday afternoon-early evening period when demand tends to be higher.
+In this blog post, I'll analyze our home electricity usage, using hourly data from our "[smart meter](https://coloradosun.com/2021/07/01/xcel-energy-smart-meters-time-of-use-billing/)". Our electricity provider ([Xcel](https://www.xcelenergy.com/)) currently bills us according to [Time-Of-Use (TOU) pricing](https://co.my.xcelenergy.com/s/billing-payment/residential-rates/time-of-use-pricing), where electricity costs more in the weekday afternoon-early evening period when demand tends to be higher and solar energy generation is falling.
 
 I was interested in quantifying how much the TOU pricing has affected our electricity usage patterns. Qualitatively I know we have tried to modify our behavior to take advantage of the TOU rate structure in a couple ways:
 
@@ -28,28 +34,29 @@ I was interested in quantifying how much the TOU pricing has affected our electr
 
 -   We currently have two electric vehicles; one full EV and one plug-in hybrid. We typically charge these at home on a level 1 (120V) charger. They both have charge timers that we have programmed to turn off during peak periods (3-7 pm weekdays).
 
-In addition to seeing how the TOU pricing has affected our electricity usage patterns, I am curious about how it might be introducing an artificial spike in electricity demand if everyone turns on their appliances or starts charging their EVs right at 7pm when the peak pricing ends. This issue is discussed in a recent [blog post from EnergyHub](https://www.energyhub.com/blog/avoiding-gridlock-why-time-of-use-tou-rates-arent-the-long-term-solution-for-managing-local-ev-load){.uri}.
+In addition to seeing how the TOU pricing has affected our electricity usage patterns, I am curious about how it might be introducing an artificial spike in electricity demand if everyone turns on their appliances or starts charging their EVs right at 7pm when the peak pricing ends. This issue was discussed in a recent [blog post from EnergyHub](https://www.energyhub.com/blog/avoiding-gridlock-why-time-of-use-tou-rates-arent-the-long-term-solution-for-managing-local-ev-load){.uri}.
 
 # Data
 
 ## Downloading data
 
-Unfortunately Xcel does not have a public API or a way to request a date-range of data, so I had to download a hourly data file for each day individually. I downloaded data for a \~ 1 month period and combined the files into a single data frame in a separate script. Our current Xcel TOU rate categories are:
+Unfortunately Xcel does not have a public API or a way to request a date-range of data, so I had to download a hourly data file for each day individually. I downloaded hourly data for a \~ 1 month period and combined the files into a single data frame in a separate script.
 
--   Weekdays 1-3pm: *mid-peak*
+Our current Xcel TOU rate categories during the winter are :
 
--   Weekdays 3-7pm: *peak*
+-   Weekdays 1-3pm: *mid-peak* (\$0.15/kWh)
 
--   All other times (and holidays): *off-peak*
+-   Weekdays 3-7pm: *peak* (\$0.19/kWh)
 
-@tbl-hourly-elec shows the data I working with. I've added columns for the hour, day of week, and an indicator for whether it is a weekday or weekend. Ideally I would have data from before TOU pricing was implemented to compare to, but this is not possible because TOU pricing began soon after we got our smart meter. I will instead compare weekdays and weekends, since there is no peak pricing on weekends.
+-   All other times (and holidays): *off-peak* (\$0.12/kWh)
+
+@tbl-hourly-elec shows an example of the data I working with. I've added columns for the hour, day of week, and an indicator for whether it is a weekday or weekend. Ideally I would have data from before TOU pricing was implemented to compare to, but this is not possible because TOU pricing began soon after we got our smart meter. I will instead compare weekdays and weekends, since there is no peak pricing on weekends.
 
 ```{r}
 #| code-summary: Load libraries and read data
 
-# read hourly electric usage data downloaded from myxcel account
 
-suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(tidyverse, quietly = TRUE))
 ggplot2::theme_set(theme_grey(base_size = 16))
 suppressPackageStartupMessages(library(here))
 suppressPackageStartupMessages(library(DT))
@@ -58,8 +65,6 @@ df <- readRDS('data/hourly_elec_xcel_combined') |>
   select(-c(category)) |>
   mutate(rate_category = as.factor(rate_category)) |>
   mutate(rate_category = forcats::fct_relevel(rate_category, c("on_peak","mid_peak","off_peak"))) 
-#  mutate(rate_category = forcats::fct_recode(On Peak = "on_peak", Mid Peak = "mid_peak", Off Peak = "off_peak" ))
-
 
 ```
 
@@ -68,6 +73,7 @@ df <- readRDS('data/hourly_elec_xcel_combined') |>
 #| tbl-cap: Hourly electricity usage data
 
 df |>
+  head() |>
   DT::datatable(options = list(pageLength = 5), rownames = FALSE)
 
 
@@ -75,30 +81,7 @@ df |>
 
 # Analysis
 
-<!-- ## Daily -->
-
-<!-- @fig-daily-kwh-rate shows total daily electricity use, with the colors indicating the rate category. You can see that there is a fair bit of variability, and the majority of our electricity usage is during the off-peak periods. -->
-
-```{r}
-# #| label: fig-daily-kwh-rate
-# #| fig-cap: Stacked bar chart of daily electricity usage [kWh], colored by rate category.
-# 
-# df_daily <- df |>
-#   group_by(date, rate_category) |>
-#   summarise(kwh = sum(kwh), .groups = 'drop')
-# 
-# 
-# df_daily |>
-#   ggplot(aes(date, kwh)) +
-#   geom_col(aes(fill = rate_category),position = "stack") +
-#   labs(x = "Date",
-#        y = "kWh",
-#        title = "Daily Electricity Use") +
-#   theme(legend.title = element_blank())
-
-```
-
-@fig-kwh-all-ratecolor shows all hourly values, colored by the rate category. This figure shows that nearly all the larger values (greater than \~2 kWh) are during off-peak times. @fig-histogram-rate-category also demonstrates this pattern with boxplots; note the much longer tail for the off-peak period.
+@fig-kwh-all-ratecolor shows all hourly values, colored by the rate category. This figure shows that nearly all the larger values (greater than \~2 kWh) are during off-peak times. Histograms of the data for each rate category (@fig-histogram-rate-category) also demonstrates this pattern; note the much longer tail for the off-peak period. @tbl-rate-comparisons shows a similar pattern quanitified by the mean, median, and max of each rate category.
 
 ```{r}
 #| label: fig-kwh-all-ratecolor
@@ -117,7 +100,7 @@ df |>
 
 ```{r}
 #| label: fig-histogram-rate-category
-#| fig-cap: Histogram of all data
+#| fig-cap: Histograms of hourly electricity usage for each rate category
 
 df |>
   ggplot(aes(x = kwh)) +
@@ -125,7 +108,7 @@ df |>
   geom_rug() +
   facet_grid(~rate_category) +
   labs(x = "kWh",
-       y = '',
+       y = 'Count',
        title = "Histograms of hourly electric usage ")
 
 ```
@@ -147,25 +130,13 @@ df |>
 
 ```
 
-```{r}
-
-# df |> 
-#   filter(is_weekend == 0) |>
-#   group_by(rate_category) |>
-#   summarize(tot_elec_per_rate = sum(kwh)) |>
-#   mutate(total = sum(tot_elec_per_rate)) |>
-#   mutate(pct = tot_elec_per_rate/total*100)
-
-
-```
-
 ### Example electricity usage for a single day
 
-@fig-usage-oneday shows hourly electricity usage for a single weekday. Note the sharp increase at 7pm, largely due to EV charging turning on. There is also a sharp decrease at 3pm (the beginning of peak pricing), where EV was charging and shut off on timer.
+@fig-usage-oneday shows an example of hourly electricity usage for a single weekday. Note the sharp increase at 7pm, largely due to EV charging turning on. There is also a sharp decrease at 3pm (the beginning of peak pricing), where EV was charging and shut off on timer.
 
 ```{r}
 #| label: fig-usage-oneday
-#| fig-cap: Hourly electricity usage for a single weekday. 
+#| fig-cap: Hourly electricity usage for a single weekday. Dashed vertical lines indicate peak pricing times (3-7pm weekdays).
 
 the_date <- '2024-01-26'
 
@@ -178,30 +149,30 @@ df |>
        title = "Hourly Electricity Use For 1 Day",
        subtitle = lubridate::wday(the_date, label = TRUE, abbr = FALSE)) +
   theme(legend.title = element_blank()) +
-  geom_vline(xintercept = c(13,15,19),linetype = 'dashed', color = 'black') 
+  geom_vline(xintercept = c(15,19),linetype = 'dashed', color = 'black') 
 
 ```
 
-### Boxplot of hourly usage, for weekend/weekday separate
+### How does this pattern look for all the days?
 
 ```{r}
-#| label: fig-boxplot-weekday-weekend
-#| fig-cap: Boxplots of hourly electricity usage for weekdays and weekends. Red lines indicate peak hours (weekdays)
-
-df |>
-  mutate(wday_label = if_else(is_weekend == 0, 'Weekdays','Weekends')) |>
-  ggplot(aes(hour,kwh, group = hour)) +
-  geom_boxplot() +
-  facet_grid(~wday_label) +
-  geom_vline(xintercept = c(15,19),linetype = 'dashed', color = 'red') +
-  labs(y = 'kWh',
-       x = 'Hour',
-       title = 'Hourly electric usage',
-       subtitle = "Weekday/Weekend")
+# #| label: fig-boxplot-weekday-weekend
+# #| fig-cap: Boxplots of hourly electricity usage for weekdays and weekends. Red lines indicate peak hours (weekdays)
+# 
+# df |>
+#   mutate(wday_label = if_else(is_weekend == 0, 'Weekdays','Weekends')) |>
+#   ggplot(aes(hour,kwh, group = hour)) +
+#   geom_boxplot() +
+#   facet_grid(~wday_label) +
+#   geom_vline(xintercept = c(15,19),linetype = 'dashed', color = 'red') +
+#   labs(y = 'kWh',
+#        x = 'Hour',
+#        title = 'Hourly electric usage',
+#        subtitle = "Weekday/Weekend")
 
 ```
 
-@fig-avg-usage_weekday-weekend shows the average hourly electricity usage for weekdays and weekends. Dashed vertical lines indicate peak pricing hours (weekdays only).
+We have seen an example of one day where there is a clear influence of the TOU pricing, but how common is this patter? @fig-avg-usage_weekday-weekend shows the average hourly electricity usage for the entire data set. Averages are computed separately for weekdays and weekends as a way of comparing with/without TOU pricing (weekends do not have peak pricing). Dashed vertical lines indicate peak pricing hours (3-7 pm weekdays only).
 
 ```{r}
 #| label: fig-avg-usage_weekday-weekend
@@ -220,7 +191,7 @@ g <- df |>
        title = 'Average Hourly electric usage',
        subtitle = "Weekday/Weekend")
 g
-#plotly::ggplotly(g)
+
 ```
 
 ## Summary
@@ -229,13 +200,16 @@ g
 -   On many days, this shift has created a new spike in demand at the end of peak pricing (7pm weekdays), as well as a sharp decrease in demand at the beginning of the peak pricing period.
 -   This spike in demand could have negative consequences for the local energy infrastructure, as discussed in a recent [blog post from EnergyHub](https://www.energyhub.com/blog/avoiding-gridlock-why-time-of-use-tou-rates-arent-the-long-term-solution-for-managing-local-ev-load){.uri} .
 
-### Questions and further analysis
+### Questions/observations /discussion
 
--   How does the TOU peak period line up with emissions/ renewable energy generation?
+-   You might be wondering what the actual \$ savings of using TOU pricing are and if the financial incentives are worth it? Excel gives an option to opt-out of TOU pricing, in which case the flat rate is currently \$0.13/kWh. I did a quick calculation comparing our total cost with TOU vs using the same amount of electricity at the flat rate, and the savings were about \$2 for a month. Not negligible, but probably not enough to motivate someone to put a ton of effort into changing their patterns.
 
--   What is the effect of this artificial spike when aggregated over many households?
+-   Personally, I am more motivated by the environmental impacts. Reducing usage during peak demand periods could avoid having to fire up 'peaker' plants that usually run on natural gas, although it is difficult to know if that is actually happening. Ideally I would be able to see a real-time feed of the electricity generation fuel mix (for example [Platte River Power Authority in northern Colorado](https://www.prpa.org/energy-production/)), and shift my usage to times when there is more clean/renewable generation. As far as I know, Xcel does not currently provide this information publicly.
 
--   We are using Level 1 charging, this effect would be larger for those with home Level 2 chargers.
+```{=html}
+<!-- -->
+```
+-   I would expect that this artificial spike issue will get worse as more households get EVs and install home chargers. Note that we are using Level 1 charging, this effect would be larger for those with home Level 2 chargers that charge at a faster rate.
 
 # SessionInfo
 
