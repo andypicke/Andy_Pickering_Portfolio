@@ -123,7 +123,7 @@ div.csl-indent {
 <script src="../../site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script><link href="../../site_libs/leaflet-1.3.1/leaflet.css" rel="stylesheet">
 <script src="../../site_libs/leaflet-1.3.1/leaflet.js"></script><link href="../../site_libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet">
 <script src="../../site_libs/proj4-2.6.2/proj4.min.js"></script><script src="../../site_libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script><link href="../../site_libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
-<script src="../../site_libs/leaflet-binding-2.2.0/leaflet.js"></script><link rel="stylesheet" href="../../styles.css">
+<script src="../../site_libs/leaflet-binding-2.2.0/leaflet.js"></script>
 </head>
 <body class="nav-fixed">
 
@@ -228,7 +228,7 @@ div.csl-indent {
       <div>
       <div class="quarto-title-meta-heading">Modified</div>
       <div class="quarto-title-meta-contents">
-        <p class="date-modified">January 7, 2024</p>
+        <p class="date-modified">March 4, 2024</p>
       </div>
     </div>
       
@@ -467,19 +467,19 @@ Figure&nbsp;1: Choropleth map of number of EV charging stations by county, made 
 </ul>
 <div class="cell">
 <details open="" class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># create color palette</span></span>
-<span><span class="va">pal_ev</span> <span class="op">&lt;-</span> <span class="fu">leaflet</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/colorNumeric.html">colorNumeric</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"viridis"</span>,</span>
+<span><span class="va">pal_ev</span> <span class="op">&lt;-</span> <span class="fu">leaflet</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/leaflet/reference/colorNumeric.html">colorNumeric</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"viridis"</span>,</span>
 <span>                                 domain <span class="op">=</span> <span class="va">co_ev_counts</span><span class="op">$</span><span class="va">n</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">co_ev_map</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/leaflet.html">leaflet</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/map-layers.html">addTiles</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="co"># adds OpenStretMap basemap</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/map-layers.html">addPolygons</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">co_ev_counts</span>,</span>
+<span><span class="va">co_ev_map</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rstudio.github.io/leaflet/reference/leaflet.html">leaflet</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rstudio.github.io/leaflet/reference/map-layers.html">addTiles</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="co"># adds OpenStretMap basemap</span></span>
+<span>  <span class="fu"><a href="https://rstudio.github.io/leaflet/reference/map-layers.html">addPolygons</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">co_ev_counts</span>,</span>
 <span>              weight <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>              color <span class="op">=</span> <span class="st">"black"</span>,</span>
 <span>              popup <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">co_ev_counts</span><span class="op">$</span><span class="va">NAME</span>, <span class="st">"&lt;br&gt;"</span>,</span>
 <span>                            <span class="st">" EV Stations: "</span>, <span class="va">co_ev_counts</span><span class="op">$</span><span class="va">n</span>, <span class="st">"&lt;br&gt;"</span><span class="op">)</span>,</span>
 <span>              fillColor <span class="op">=</span> <span class="op">~</span><span class="fu">pal_ev</span><span class="op">(</span><span class="va">n</span><span class="op">)</span>,</span>
 <span>              fillOpacity <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/addLegend.html">addLegend</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">co_ev_counts</span>,</span>
+<span>  <span class="fu"><a href="https://rstudio.github.io/leaflet/reference/addLegend.html">addLegend</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">co_ev_counts</span>,</span>
 <span>            pal <span class="op">=</span> <span class="va">pal_ev</span>,</span>
 <span>            values <span class="op">=</span> <span class="op">~</span><span class="va">n</span>,</span>
 <span>            opacity <span class="op">=</span> <span class="fl">1</span>,</span>
