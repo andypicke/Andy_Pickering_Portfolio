@@ -1,8 +1,9 @@
 ---
 title: "How has time-of-use pricing affected our home electricity use?"
 author: Andy Pickering
-date: today
+date: 2024-02-28
 date-modified: today
+image: image.png
 format: 
   html:
     code-link: true
@@ -20,9 +21,11 @@ freeze: auto
 
 # TL;DR
 
--   Time of Use electricity pricing can shift customer usage patterns and help manage supply-demand imbalances
+-   Time of Use (TOU) electricity pricing can shift customer usage patterns and help manage supply-demand imbalances
 
 -   *But* it may also introduce artificial spikes in demand that could strain the local grid.
+
+-   The financial savings (\~\$2/month for my home) may not be sufficient to motivate most people to make changes requiring much effort.
 
 # Introduction
 
@@ -155,24 +158,7 @@ df |>
 
 ### How does this pattern look for all the days?
 
-```{r}
-# #| label: fig-boxplot-weekday-weekend
-# #| fig-cap: Boxplots of hourly electricity usage for weekdays and weekends. Red lines indicate peak hours (weekdays)
-# 
-# df |>
-#   mutate(wday_label = if_else(is_weekend == 0, 'Weekdays','Weekends')) |>
-#   ggplot(aes(hour,kwh, group = hour)) +
-#   geom_boxplot() +
-#   facet_grid(~wday_label) +
-#   geom_vline(xintercept = c(15,19),linetype = 'dashed', color = 'red') +
-#   labs(y = 'kWh',
-#        x = 'Hour',
-#        title = 'Hourly electric usage',
-#        subtitle = "Weekday/Weekend")
-
-```
-
-We have seen an example of one day where there is a clear influence of the TOU pricing, but how common is this patter? @fig-avg-usage_weekday-weekend shows the average hourly electricity usage for the entire data set. Averages are computed separately for weekdays and weekends as a way of comparing with/without TOU pricing (weekends do not have peak pricing). Dashed vertical lines indicate peak pricing hours (3-7 pm weekdays only).
+We have seen an example of one day where there is a clear influence of the TOU pricing, but how common is this pattern? @fig-avg-usage_weekday-weekend shows the average hourly electricity usage for the entire data set. Averages are computed separately for weekdays and weekends as a way of comparing with/without TOU pricing (weekends do not have peak pricing). Dashed vertical lines indicate peak pricing hours (3-7 pm weekdays only).
 
 ```{r}
 #| label: fig-avg-usage_weekday-weekend
@@ -204,16 +190,13 @@ g
 
 -   You might be wondering what the actual \$ savings of using TOU pricing are and if the financial incentives are worth it? Excel gives an option to opt-out of TOU pricing, in which case the flat rate is currently \$0.13/kWh. I did a quick calculation comparing our total cost with TOU vs using the same amount of electricity at the flat rate, and the savings were about \$2 for a month. Not negligible, but probably not enough to motivate someone to put a ton of effort into changing their patterns.
 
--   Personally, I am more motivated by the environmental impacts. Reducing usage during peak demand periods could avoid having to fire up 'peaker' plants that usually run on natural gas, although it is difficult to know if that is actually happening. Ideally I would be able to see a real-time feed of the electricity generation fuel mix (for example [Platte River Power Authority in northern Colorado](https://www.prpa.org/energy-production/)), and shift my usage to times when there is more clean/renewable generation. As far as I know, Xcel does not currently provide this information publicly.
+-   Personally, I am more motivated by the environmental impacts. Reducing usage during peak demand periods could avoid having to fire up [peaker plants](https://en.wikipedia.org/wiki/Peaking_power_plant) that often run on fossil fuels, although it is difficult to know if that is actually happening. Ideally I would be able to see a real-time feed of the electricity generation fuel mix (for example [Platte River Power Authority in northern Colorado](https://www.prpa.org/energy-production/)), and shift my usage to times when there is more clean/renewable generation. As far as I know, Xcel does not currently provide this information publicly.
 
-```{=html}
-<!-- -->
-```
 -   I would expect that this artificial spike issue will get worse as more households get EVs and install home chargers. Note that we are using Level 1 charging, this effect would be larger for those with home Level 2 chargers that charge at a faster rate.
 
 # SessionInfo
 
-To enhance reproducibility, the R *sessionInfo* is included below. A renv file is also available on the github repo for the site.
+To enhance reproducibility, the R *sessionInfo* is included below.
 
 ```{r}
 
