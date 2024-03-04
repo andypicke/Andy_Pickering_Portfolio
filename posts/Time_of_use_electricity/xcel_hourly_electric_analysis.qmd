@@ -152,7 +152,9 @@ df |>
        title = "Hourly Electricity Use For 1 Day",
        subtitle = lubridate::wday(the_date, label = TRUE, abbr = FALSE)) +
   theme(legend.title = element_blank()) +
-  geom_vline(xintercept = c(15,19),linetype = 'dashed', color = 'black') 
+  geom_vline(xintercept = c(15,19),linetype = 'dashed', color = 'black') +
+    geom_text(aes(17, 3, label = "Peak")) 
+
 
 ```
 
@@ -175,7 +177,10 @@ g <- df |>
   labs(y = 'kWh',
        x = 'Hour',
        title = 'Average Hourly electric usage',
-       subtitle = "Weekday/Weekend")
+       subtitle = "Weekday/Weekend") +
+  geom_text(aes(17, 1.8, label = "Peak")) +
+  geom_text(aes(14, 1.7, label = "Mid-Peak"))
+
 g
 
 ```
