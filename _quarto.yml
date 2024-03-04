@@ -36,8 +36,8 @@ website:
     type: overlay
 format:
   html:
-    theme: cosmo
-    css: styles.css
+    theme: yeti
+    #css: styles.css
     code-link: true
     code-fold: show
     code-tools: true
