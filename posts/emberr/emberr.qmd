@@ -1,0 +1,229 @@
+---
+title: "*emberr*: A R Package to Retrieve Global Energy and Emissions Data from the Ember API"
+author: Andy Pickering
+date: 2024-05-08
+#date-modified: today
+#image: image.png
+format: 
+  html:
+    code-link: true
+    code-fold: show
+    code-tools: true
+    toc: true
+    fig-width: 9
+    fig-height: 7
+    tbl-cap-location: bottom
+editor: visual
+categories: [r, API, energy, package development]
+freeze: true
+draft: false
+bibliography: references.bib
+---
+
+# Introduction
+
+[Ember](https://ember-climate.org/) is "an independent energy think tank that aims to accelerate the clean energy transition with data and policy". I have used some of their data (downloaded as csv files from the website) in a [previous post](https://andypicke.quarto.pub/portfolio/posts/Ember_US_Electric_Total/Ember_US_elec_total.html). They recently introduced a new [API](https://ember-climate.org/data/api/) that makes getting the data even easier, and I decided to develop a R package ([*emberr*](https://github.com/andypicke/emberr)) to query and retrieve data from the API.
+
+-   You can view the [API documentation](https://api.ember-climate.org/docs) for more details on the API structure and options.
+
+::: callout-tip
+If you are interested in learning to develop R packages, I would highly recommend the resource <https://r-pkgs.org/> for learning to develop your own R package. Going through the [first chapter](https://r-pkgs.org/whole-game.html) and following along to create the example package was extremely helpful.
+:::
+
+You can install the development version of [*emberr*](https://github.com/andypicke/emberr) from [GitHub](https://github.com/) with the install_github() function from the devtools [@devtools] package:
+
+```{r}
+#| message: false
+#| eval: false
+#| code-fold: false
+
+# install.packages("devtools")
+# devtools::install_github("andypicke/emberr")
+
+```
+
+::: callout-note
+You will need to sign up for a free API key from Ember on the [API site](https://ember-climate.org/data/api/). By default, the package functions assume you have stored your API key in your .Renviron file as *EMBER_API_KEY*. I find the easiest way to do is is to use the *edit_r_environ()* function from the *usethis* package [@usethis].
+:::
+
+```{r}
+#| message: false
+#| code-fold: true
+#| code-summary: Load libraries
+
+library(emberr)
+library(tidyverse)
+theme_set(theme_gray(base_size = 18))
+library(DT)
+options(DT.options = list(pageLength = 5))
+library(plotly)
+
+```
+
+# Package Structure
+
+The main function is get_ember_data(), which retrieves the data for specified parameters. This function is actually calling two more basic functions:
+
+-   construct_query_url() : Builds the URL for the API query with specfied parameters.
+-   get_api_request() : Sends the GET request to the API and returns the data.
+
+There is also a function get_ember_options() to get the available options for different parameters. For example, if you want to see the options for the "entity" parameter:
+
+```{r}
+#| message: false
+
+entity_opts <- emberr::get_ember_options(dataset = "electricity-generation",
+                                         filter_name = "entity")
+
+head(entity_opts)
+```
+
+::: callout-note
+When choosing what parameters to include in the package functions, I tried to find a balance between covering most common tasks while not having to remember or specify too many options. If you want to use a more specific request, you can pass that URL to get_api_request(). I may add some more options as the package develops. See [API documentation](https://api.ember-climate.org/docs) for available options.
+:::
+
+# Exampes
+
+To illustrate some features of the package and the data, I decided to show how to use it to answer a few interesting questions:
+
+## How has US electricity generation evolved over the past \~20 years?
+
+We can download yearly electricity generation data for the US from 2000.
+
+```{r}
+#| label: tbl-us-gen
+#| tbl-cap: Yearly Electricity Generation data from Ember for the United States
+ 
+gen_us <- emberr::get_ember_data(dataset = "electricity-generation", 
+                                 temporal_resolution = "yearly", 
+                                 min_date = 2000, 
+                                 entity = "United States")  |>
+mutate(year = as.integer(date))
+
+gen_us |>
+  DT::datatable(rownames = FALSE)
+
+```
+
+### Plot Total electricity generation
+
+```{r}
+#| label: fig-us-total-gen
+#| fig-cap: Yearly total electricity generation for the United States. Data from Ember.
+
+gen_us |>
+  filter(series == "Total generation") |>
+  ggplot(aes(year, generation_twh)) +
+  geom_line(linewidth = 1.5) +
+  labs(caption = "Yearly generation data from Ember",
+       x = "Year",
+       y = "Generation [TWh]",
+       title = "Total US Electricity Generation")
+```
+
+### Plot electricity generation from wind and solar
+
+```{r}
+#| label: fig-us-wind-solar
+#| fig-cap: Yearly wind and solar electricity generation for the United States. Data from Ember.
+
+gen_us |>
+  filter(series %in% c("Wind","Solar")) |>
+  ggplot(aes(year, generation_twh)) +
+  geom_line(aes(color = series),linewidth = 1.5) +
+  labs(caption = "Yearly generation data from Ember",
+       x = "Year",
+       y = "Generation [TWh]",
+       title = "US Wind and Solar Generation")
+
+
+```
+
+## Which countries produced the most electricity from wind power in 2022?
+
+-   Note that the defaults arguments for get_ember_data() include dataset = "electricity-generation" and temporal_resolution = "yearly", so don't actually need to specify them here.
+
+-   Some of the "entities" are groups of multiple countries (for example *Africa* or *G7*). These are indicated with the *is_aggregate_entity* field in the data, so we can easily filter to include just individual countries.
+
+```{r}
+#| label: tbl-wind-generation
+#| tbl-cap: Electricity generation from by country for 2022. Data from Ember.
+#| message: false  
+
+gen <- emberr::get_ember_data(dataset = "electricity-generation",
+                              temporal_resolution = "yearly", 
+                              min_date = 2022, 
+                              max_date = 2022)
+
+gen |>
+  filter(series == "Wind") |> # filter to only wind generation
+  filter(is_aggregate_entity == FALSE) |> # only look at individual countries
+  select(entity, date, series, generation_twh, share_of_generation_pct) |>
+  arrange(desc(generation_twh)) |>
+  DT::datatable()
+
+```
+
+## Which countries had the most CO2 emissions (from electricity generation) for the year 2022?
+
+For this question we can download the "power-sector-emissions" dataset.
+
+```{r}
+#| message: false
+#| label: tbl-total-emissions
+#| tbl-cap: Total power sector emissions by country for 2022. Data from Ember.
+
+
+emissions <- emberr::get_ember_data(dataset = "power-sector-emissions", 
+                                    min_date = 2022, 
+                                    max_date = 2022)
+
+emissions |>
+  filter(series == "Total generation") |>
+  filter(is_aggregate_entity == FALSE) |>
+  select(entity, date, emissions_mtco2) |>
+  arrange(desc(emissions_mtco2)) |>
+  DT::datatable()
+
+```
+
+## Which countries had the highest carbon intensity in 2022?
+
+The "carbon-intensity" dataset gives CO2 emissions per unit of generation (rather than total emissions). This can be useful when comparing countries with large size or population differences.
+
+```{r}
+#| label: tbl-co2intensity
+#| tbl-cap: Carbon intensity by country for 2022. Data from Ember.
+#| message: false
+
+
+intens <- emberr::get_ember_data(dataset = "carbon-intensity", 
+                                 min_date = 2022, 
+                                 max_date = 2022)
+
+intens |>
+  filter(is_aggregate_entity == FALSE) |>
+  select(entity, date, emissions_intensity_gco2_per_kwh) |>
+  arrange(desc(emissions_intensity_gco2_per_kwh)) |>
+  DT::datatable(rownames = FALSE)
+
+```
+
+# Summary
+
+-   [Ember](https://ember-climate.org/) introduced an [API](https://ember-climate.org/data/api/) to access their data on global electricity generation and associated CO2 emissions.
+-   The [*emberr*](https://github.com/andypicke/emberr) package (in development) provides a R interface to the API.
+-   The Ember data can be used to better understand electricity generation, associated carbon emissions, and the clean energy transition.
+
+# SessionInfo
+
+::: {.callout-tip collapse="true"}
+## Expand for Session Info
+
+```{r, echo = FALSE}
+
+sessionInfo()
+```
+:::
+
+# References
