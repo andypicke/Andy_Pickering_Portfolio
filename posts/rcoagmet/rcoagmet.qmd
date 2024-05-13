@@ -1,0 +1,280 @@
+---
+title: "rcoagmet: A R package to retrieve CoAgMet weather station data"
+author: Andy Pickering
+date: 2024-05-07
+#date-modified: today
+image: image.png
+format: 
+  html:
+    code-link: true
+    code-fold: show
+    code-tools: true
+    toc: true
+    fig-width: 9
+    fig-height: 7
+    tbl-cap-location: bottom
+editor: visual
+categories: [R, API, weather, package development]
+freeze: true
+draft: false
+bibliography: references.bib
+---
+
+# Introduction
+
+On a recent stormy day in Colorado, I decided to search for what local weather data was available. I came across the [CoAgMet](https://coagmet.colostate.edu/) network of weather stations, and was excited to see that in addition to some nice web tools and graphics for looking at the data, they also have an [data API](https://coagmet.colostate.edu/data/doc.html). I love weather data and working with APIs, so I started writing some R code to access the data. My initial scripts turned into functions, and then I decided to try to develop a package that I could use and share with others: [rcoagmet](https://github.com/andypicke/rcoagmet) .
+
+# Package development
+
+I had made a few primitive R packages in the past for personal or internal use, but had never deployed them to github etc.. There are a lot of good resources on creating R packages, and I highly recommend the resource <https://r-pkgs.org/> for learning to develop your own R package. The [first chapter](https://r-pkgs.org/whole-game.html) goes through (almost) the whole process with an example package and following along with that was extremely helpful. The combination of [Rstudio](https://posit.co/products/open-source/rstudio/) and packages like devtools [@devtools] and usethis [@usethis] make package development so much easier (and fun!).
+
+# Using the package
+
+::: callout-note
+Note that this package is still in active development (I even figured out how to add the nifty Github badge using the *lifecycle* [@lifecycle] package). Please try it out and provide feedback, but know that there could be major changes, so check back often and make sure you have the latest version.
+:::
+
+You can install the development version of rcoagmet from GitHub with:
+
+```{r}
+
+#install.packages("devtools")
+#devtools::install_github("andypicke/rcoagmet")
+
+```
+
+```{r}
+#| label: libraries
+#| code-summary: Load Libraries
+#| code-fold: true
+#| message: false
+
+#library(devtools)
+library(rcoagmet)
+library(DT)
+options(DT.options = list(pageLength = 5))
+library(ggplot2)
+library(plotly)
+
+```
+
+## Getting Station Info
+
+The *get_coagmet_meta()* function retrieves station metadata for CoAgMet stations:
+
+```{r}
+#| label: tbl-coagmet-meta
+#| tbl-cap: Metadata for all CoAgMet weather stations.
+
+meta <- get_coagmet_meta() # get info for all stations
+#meta <- get_coagmet_meta(station_id = 'cht01') # get info for just one station
+
+meta |> DT::datatable(rownames = FALSE)
+
+
+```
+
+You can also get info for stations in the Northern Water network, by specifying the network parameter:
+
+```{r}
+#| label: tbl-nw-meta
+#| tbl-cap: Metadata for all Northern Water weather stations, from CoAgMet API.
+
+meta_nw <- rcoagmet::get_coagmet_meta(network = "nw")
+
+meta_nw |>
+DT::datatable(rownames = FALSE)
+
+```
+
+## Finding the closest station
+
+The function *find_closest_coagmet_station()* provides an easy way to find the closest CoAgMet station to a given point.
+
+```{r}
+#| label: find-closest-station
+
+# coordinates for Denver
+xlat <- 39.74
+xlon <- -104.99
+
+nearest_station <- find_closest_coagmet_station(xlat, xlon)
+
+nearest_station |> DT::datatable(rownames = FALSE)
+
+```
+
+## Getting the data
+
+How do we get the actual weather data? The *get_coagmet_data()* function returns a cleaned data frame of data for specified station(s) and parameters. This function is actually calls several core functions:
+
+-   construct_data_url() : Builds the API URL request for specified parameters
+-   fetch_coagmet_data_csv() : Sends a GET request and returns the raw data frame.
+-   process_coagmet_data_csv() : Does some basic cleaning and processing of the data.
+
+::: callout-note
+When choosing what parameters to include in the package functions, I tried to find a balance between covering most common tasks while not having to remember or specify too many options. If you want to use a more specific request, you can use the [Data API URL builder](https://coagmet.colostate.edu/data/url-builder), and then pass that URL to fetch_coagmet_data_csv().
+:::
+
+### Hourly Data
+
+By default, the *get_coagmet_data()* function retrieves hourly data (time_step = "hourly") for the previous 5 days.
+
+```{r}
+#| label: tbl-hourly-data
+#| tbl-cap: Hourly data from CoAgMet weather stations.
+
+df <- rcoagmet::get_coagmet_data(station_id = "den01")
+
+df |>
+  DT::datatable(rownames = FALSE)
+
+```
+
+### 5 Minute data
+
+We can also get more detailed 5-minute data:
+
+```{r}
+#| label: tbl-5min-data
+#| tbl-cap: Five-minute data from CoAgMet weather station.
+
+df_5min <- rcoagmet::get_coagmet_data(station_id = "den01", time_step = "5min", date_from = "2024-05-04", date_to = "2024-05-05")
+
+df_5min |>
+DT::datatable(rownames = FALSE)
+
+```
+
+### Latest data
+
+-   By default, *get_coagmet_data()* returns data for one station. Using *station_id = "all"* returns data for all stations.
+-   Choosing "latest" as the *time_step* retrieves the most recent data available.
+
+```{r}
+#| label: tbl-latest-data
+#| tbl-cap: Latest data from all CoAgMet stations
+
+latest <- rcoagmet::get_coagmet_data(station_id = "all", time_step = "latest")
+
+latest |>
+DT::datatable(rownames = FALSE)
+
+
+
+```
+
+### Daily Data
+
+Here we get daily data for one station for the month of April:
+
+::: callout-caution
+Note that the daily data has different fields than the hourly, 5min, or latest data.
+:::
+
+```{r}
+#| label: tbl-daily-data
+#| tbl-cap: Daily data from CoAgMet station.
+
+df_daily <- rcoagmet::get_coagmet_data(time_step = "daily", date_from = "2024-04-01", date_to = "2024-04-30")
+
+df_daily |>
+  DT::datatable(rownames = FALSE)
+
+```
+
+# Plotting the data
+
+The package is focused on retrieving the data, but here are a few examples of how you might plot the data.
+
+## Simple ggplot of air temperature
+
+```{r}
+#| label: fig-ggplot-temp
+#| fig-cap: Plot of air temperature from CoAgMet Station.
+
+df |>
+  ggplot(aes(date_and_time, air_temp)) +
+  geom_line(linewidth = 1.2) +
+  labs(x = '',
+       y = "Air Temp [deg F]",
+       title = "Air Temperature at CoAgMet Station",
+caption = "Data from CoAgMet")
+
+
+```
+
+For time-series data, I like to use the *plotly* package [@plotly] for R to make an interactive plot that allows me to zoom in/out etc..
+
+The rcoagmet package also includes a convenience function *plot_coagmet_plotly()* to make an interactive Plotly figure of one variable
+
+```{r}
+#| label: fig-plotly-temp
+#| fig-cap: Interactive Plotly plot of air temperature at CoAgMet Station.
+
+df |> rcoagmet::plot_coagmet_plotly(var_to_plot = "air_temp")
+
+```
+
+Plotly also has a subplot function that makes it easy to plot multiple timeseries and link the x-axes:
+
+```{r}
+#| label: fig-comb-plotly
+#| fig-cap: Interactive plot of CoAgMet weather station data.
+#| fig-height: 10
+
+
+p_t <- df |>
+  plotly::plot_ly(x = ~date_and_time, y = ~air_temp) |>
+  add_lines(name = "Air Temp") |>
+  layout(
+        xaxis = list(title = "Date"),
+        yaxis = list(title = "deg F")
+      )
+
+p_rh <- df |>
+  plotly::plot_ly(x = ~date_and_time, y = ~rh*100) |>
+  add_lines(name = "Rel. Humidity") |>
+   layout(
+        xaxis = list(title = "Date"),
+        yaxis = list(title = "%")
+      )
+
+p_w <- df |>
+  plotly::plot_ly(x = ~date_and_time, y = ~wind) |>
+  add_lines(name = "Wind Speed") |>
+   layout(
+        xaxis = list(title = "Date"),
+        yaxis = list(title = "MPH")
+      )
+
+p_precip <- df |>
+  plotly::plot_ly(x = ~date_and_time, y = ~precip) |>
+  add_bars(name = "Precipitation") |>
+  layout(
+        xaxis = list(title = "Date"),
+        yaxis = list(title = "inches")
+      )
+
+plotly::subplot(p_t, p_rh, p_w , p_precip, nrows = 4, shareX = TRUE, titleY = TRUE) |>
+  layout(title = "CoAgMet Weather Station Data")
+
+```
+
+# Summary
+
+-   The [rcoagmet](https://github.com/andypicke/rcoagmet) package provides functions to retrieve data from [CoAgMet](https://coagmet.colostate.edu/) weather stations in Colorado.
+-   Please try it out and provide feedback, bug reports, feature requests etc.!
+-   I discovered that I really enjoy making packages and I hope they are useful to others.
+-   I plan to continue improving the package and eventually get to a "stable" release version.
+
+# SessionInfo
+
+::: {.callout-tip collapse="true"}
+## Expand for Session Info
+
+```{r, echo = FALSE}
+
+sessionInfo()
+```
+:::
