@@ -1,0 +1,204 @@
+---
+title: "How Did the Solar Eclipse Effect the Electric Grid?"
+author: Andy Pickering
+date: 2024-04-12
+date-modified: today
+image: image.png
+format: 
+  html:
+    code-link: true
+    code-fold: true
+    code-tools: true
+    toc: true
+    fig-width: 9
+    fig-height: 7
+    tbl-cap-location: bottom
+editor: visual
+categories: [R, visualization, energy, API]
+freeze: auto
+bibliography: references.bib
+---
+
+# Introduction
+
+I was interested in looking at the effect of the recent April 8, 2024 solar eclipse on the electrical grid, especially given the large amount of solar generation added to the grid in recent years. [Gridstatus](https://www.gridstatus.io/) had a nice [dashboard](https://www.gridstatus.io/total-solar-eclipse) on their blog tracking the electric grid in real time during the eclipse, and I wanted to look at the data more.
+
+In addition to looking at the effect on solar generation, I was interested to see how the decrease in solar generation was compensated for during the eclipse. In this post I'll look at the [California Independent System Operator (CAISO)](https://www.caiso.com/Pages/default.aspx), which experienced a partial solar eclipse. The [partial eclipse in California](https://www.timeanddate.com/eclipse/in/usa/california?iso=20240408) occurred between 10:03 and 12:31 PDT on April 8, 2024.
+
+I obtained data on [CAISO](https://www.caiso.com/Pages/default.aspx) electricity generation load and from [GridStatus](https://www.gridstatus.io/) using their [API](https://www.gridstatus.io/api). The two data sets I'm using here are:
+
+-   [*caiso_fuel_mix*](https://www.gridstatus.io/datasets/caiso_fuel_mix)
+
+-   [*caiso_load*](https://www.gridstatus.io/datasets/caiso_load)
+
+::: callout-tip
+The plots in this post are interactive; you can hover to get more information and select areas to zoom in on etc.. They were made with the *plotly* (@plotly) interface for R. You can also expand the code sections if you want to see the details.
+:::
+
+```{r }
+#| message: false
+#| code-summary: Data Prep
+
+suppressPackageStartupMessages(library(tidyverse))
+library(DT)
+library(plotly)
+
+
+# load the saved API response
+start_time <- "2024-04-06"
+end_time   <- "2024-04-11"
+
+
+#------------------------------------------------------
+# define a function to load saved API response and prep dataframe
+#------------------------------------------------------
+load_saved_response <- function(wh_dataset, start_time, end_time){
+  
+  fname <- paste(wh_dataset,start_time,end_time, sep = "_")
+  resp <- readRDS(file = paste0('./data/',fname))
+  
+  # parse response
+  dat <- jsonlite::fromJSON(httr::content(resp, as = 'text'))
+  
+  df <- dat$data
+  
+  df$interval_start_utc <- as_datetime(df$interval_start_utc)
+  # display in local timezone
+  df$datetime_local <- lubridate::with_tz(df$interval_start_utc, tzone = "US/Pacific" )
+
+  df <- df |> select(-c(interval_start_utc, interval_end_utc))
+  
+  return(df)
+
+}
+#------------------------------------------------------
+
+wh_iso <- "caiso"
+
+df <- load_saved_response(wh_dataset = paste0(wh_iso,"_fuel_mix"), start_time, end_time)
+
+df_load <- load_saved_response(wh_dataset = paste0(wh_iso,"_load"), start_time, end_time)
+
+# define start/end of partial eclipse in California
+# https://www.timeanddate.com/eclipse/in/usa/california?iso=20240408
+eclipse_start_cali <- as.POSIXct("2024-04-08 10:03:00 PDT") |> lubridate::force_tz(tzone = "US/Pacific")
+eclipse_end_cali <- as.POSIXct("2024-04-08 12:31:00 PDT") |> lubridate::force_tz(tzone = "US/Pacific")
+
+# Combine generation and load into one dataframe
+df_comb <- df |>
+  inner_join(df_load, by = 'datetime_local')
+
+# pivot dataframe to long format for plotting
+df_comb_long <- df_comb |>
+  pivot_longer(cols = -datetime_local, names_to = 'fuel_type') |>
+  mutate(date = lubridate::date(datetime_local)) 
+
+```
+
+@fig-caiso-gen shows electricity generation on April 8, 2024. Solar generation dropped by 3.4 GW, from 12.57 GW near the beginning of the eclipse to a minimum of 9.15 GW). The decrease in solar was largely compensated for by batteries, with small increases in large-hydro and natural-gas as well.
+
+```{r}
+#| label: fig-caiso-gen
+#| fig-cap: Interactive plot of generation by fuel type on April 8, 2025. Dashed vertical lines indicate start and end of partial eclipse in California.
+#| code-summary: Make plot of generation by fuel type
+
+g <- df_comb_long |>
+  filter(date == "2024-04-08") |>
+  filter(fuel_type %in% c('solar','batteries', 'natural_gas', 'large_hydro','nuclear','wind')) |>
+  ggplot(aes(datetime_local,value/1e3)) +
+  geom_line(aes(color = fuel_type), linewidth = 1.2) +
+  geom_vline(xintercept = as.numeric(eclipse_start_cali), linetype = 'dashed') +
+  geom_vline(xintercept = as.numeric(eclipse_end_cali), linetype = 'dashed') +
+  labs(title = "CAISO Generation by Fuel Type on 2024/04/08",
+       x = "",
+       y = "Electriciy Generation [GW]",
+       caption = "Data Source: GridStatus")
+
+plotly::ggplotly(g)
+
+```
+
+@fig-caiso-load-solar shows total load and solar generation on April 8, 2024. It shows that in addition to solar generation decreasing during the eclipse, total load also increased. I'm guessing this is due in large part to decreased small-scale/residential solar generation.
+
+```{r}
+#| label: fig-caiso-load-solar
+#| fig-cap: Interactive plot of CAISO load and solar generation on April 8, 2024. Dashed vertical lines indicate start and end of partial solar eclipse in California.
+#| code-summary: Make plot of solar and load
+
+g <- df_comb_long |>
+  mutate(date = lubridate::date(datetime_local)) |>
+  filter(date == "2024-04-08") |>
+  filter(fuel_type %in% c('load','solar')) |>
+  ggplot(aes(datetime_local, value/1e3)) +
+  geom_line(aes(color = fuel_type), linewidth = 1.2) +
+  geom_vline(xintercept = as.numeric(eclipse_start_cali), linetype = 'dashed') +
+  geom_vline(xintercept = as.numeric(eclipse_end_cali), linetype = 'dashed') +
+  theme(legend.title=element_blank()) +
+  labs(title = "CAISO Load and Solar Generation on 2024/04/08",
+       x = "",
+       y = "GW",
+       caption = "Data Source: GridStatus")
+
+plotly::ggplotly(g)
+
+```
+
+# Emissions Saved by batteries
+
+```{r}
+#| code-summary: Compute CO2 emissions
+
+# subset battery generation during eclipse
+batt_eclipse <- df_comb_long |>
+  filter(fuel_type == 'batteries') |>
+  filter(value > 0) |>
+  filter( datetime_local > eclipse_start_cali & datetime_local < eclipse_end_cali) 
+
+# integrate (sum,multiply by 5 minute interval, convert MW to kW to get kWm)
+batt_kwm <- sum(batt_eclipse$value)*1e3*5
+
+# convert from kWm to kWh
+batt_kwh <- batt_kwm / 60
+
+# convert to gWh
+batt_gwh <- batt_kwh/1e6
+
+# compute CO2 associated with this amount of natural gas generation
+lbs_co2  <- batt_kwh*0.97
+tons_co2 <- round(batt_kwh*0.97/2204.6,2) # 1 metric ton = 2,204.6 lbs
+
+```
+
+Without large-scale battery storage, the drop in solar generation would have to be compensated by an increase in other generation. Assuming that this would be an increase in natural gas, *how much CO2 emissions were saved by using batteries*? The battery production integrated over the eclipse was \~ `r round(batt_gwh,2)` GWh. Assuming an natural gas [emissions intensity](https://www.eia.gov/tools/faqs/faq.php?id=74&t=11) of 0.97 pounds of CO2/kWh, generating this amount of power with natural gas would have produced `r round(lbs_co2/1e6, 2)` million pounds of CO2, or `r  tons_co2` [metric tons of CO2](https://climate.mit.edu/ask-mit/how-much-ton-carbon-dioxidehttps://climate.mit.edu/ask-mit/how-much-ton-carbon-dioxide).
+
+# Summary
+
+-   Even though it only experienced a partial eclipse on April 8, 2024, CAISO utility-scale solar generation dropped significantly (from 12.57GW to 9.15 GW).
+
+-   This drop in solar generation was largely compensated by battery storage. Without battery storage, CAISO would likely have had to increase natural gas production instead, producing more emissions and air pollution.
+
+-   Using batteries instead of natural gas saved an estimated `r round(lbs_co2/1e6,2)` million pounds of CO2, or `r  tons_co2` metric tons.
+
+-   Total load also increased during the eclipse, likely due to decreased small-scale/residential solar PV production.
+
+# Questions and Further Research
+
+-   I'd like to do a similar analysis for other power grids such as ERCOT that experienced a total eclipse.
+
+-   If the eclipse had occurred during a hot summer day when demand was much higher due to cooling, would the battery capacity of the grid be enough to cover the deficit?
+
+-   I'm interested in finding some data on small-scale solar PV capacity, and how/if ISOs like CAISO use that information in their forecasts.
+
+# SessionInfo
+
+::: {.callout-tip collapse="true"}
+## Expand for Session Info
+
+```{r, echo = FALSE}
+# https://themockup.blog/posts/2022-04-18-session-info/
+
+sessionInfo()
+```
+:::
+
+# References
