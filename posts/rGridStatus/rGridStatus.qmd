@@ -1,0 +1,177 @@
+---
+title: "*rgridstatus*: A R Package to Retrieve Energy Data from the GridStatus API"
+author: Andy Pickering
+date: 2024-05-13
+#date-modified: today
+image: image.png
+format: 
+  html:
+    code-link: true
+    code-fold: show
+    code-tools: true
+    toc: true
+    fig-width: 10
+    fig-height: 7
+    tbl-cap-location: bottom
+editor: visual
+categories: [r, API, energy, package development]
+freeze: auto
+draft: false
+bibliography: references.bib
+---
+
+# Introduction
+
+[rgridstatus](https://github.com/andypicke/rgridstatus) is a R API wrapper for the [GridStatus.io](https://www.gridstatus.io/home) [API](https://www.gridstatus.io/api), which provides data on the US electrical grid.
+
+- [API Documentation](https://api.gridstatus.io/docs)
+- If you prefer to work in python, there is an existing [GridStatus.io python client](https://github.com/gridstatus/gridstatusio)
+
+## Installation
+
+You can install the development version of [rgridstatus](https://github.com/andypicke/rgridstatus) from [GitHub](https://github.com/) with the *install_github()* function from the *devtools* package [@devtools]:
+
+```{r}
+#| code-fold: show
+
+# install.packages("devtools")
+#devtools::install_github("andypicke/rgridstatus")
+```
+
+::: callout-note
+You will need to sign up for a free API key from [GridStatus.io](https://www.gridstatus.io/api) . By default, the package functions assume you have stored your API key in your .Renviron file as GRIDSTATUS_API_KEY. I find the easiest way to do is is to use the *edit_r_environ()* function from the *usethis* package [@usethis].
+:::
+
+# Usage
+
+```{r}
+#| label: Load Libraries
+#| message: false
+#| code-fold: true
+#| code-summary: Load Libraries
+
+library(rgridstatus)
+library(DT)
+options(DT.options = list(pageLength = 5))
+library(tidyverse)
+ggplot2::theme_set(theme_gray(base_size = 16))
+
+```
+
+## Get info on datasets available from GridStatus.io :
+
+```{r }
+#| label: tbl-datasets
+#| tbl-cap: Table of available datasets from GridStatus.io
+
+info <- rgridstatus::get_available_datasets()
+
+info |>
+DT::datatable(rownames = FALSE)
+
+```
+
+### Get list of dataset updates
+
+```{r}
+
+# updates for a specific data set
+#updates <- rgridstatus::get_dataset_updates(wh_dataset = "caiso_fuel_mix", limit = 20)
+
+# all datasets
+updates <- rgridstatus::get_dataset_updates(limit = 20)
+
+updates |> DT::datatable(rownames = FALSE)
+
+```
+
+## Download a dataset
+
+-   By default, get_gridstatus_dataset() gets data for the previous 5 days. You can also specify a specific date range with *start_time* and *end_time*.
+
+```{r}
+
+caiso_mix <- rgridstatus::get_gridstatus_dataset(wh_dataset = "caiso_fuel_mix")
+
+caiso_mix |> 
+DT::datatable(rownames = FALSE)
+
+```
+
+# Plotting
+
+The rgridstatus package is focused on retrieving data from the API, but I want to show some examples of plotting the data. I may add some convenience functions for plotting to the pacakge in the future.
+
+## Plot CAISO solar generation timeseries
+
+```{r}
+
+caiso_mix |> 
+ggplot(aes(datetime_local, solar)) +
+geom_line(linewidth = 1.2) +
+labs(title = "CAISO Solar Generation",
+x = "",
+y = "[MW]",
+caption = "Data from GridStatusIO")
+
+
+```
+
+The gridstatus API returns the generation/fuel-mix data in a wide format. When plotting multiple variables, it is easier to pivot the data from wide to long format.
+
+-   rgridstatus has a convenience function pivot_gen_long() to accomplish this:
+
+```{r}
+#| label: tbl-gen-long
+#| tbl-cap: CAISO fuel-mix data from Gridstatus after pivoting to a long format.
+
+# df_long <- df |>
+#   pivot_longer(cols = -c(interval_start_utc, datetime_local), 
+#                names_to = "Fuel Type", 
+#                values_to = "MWh")
+
+df_long <- rgridstatus::pivot_gen_long(caiso_mix)
+
+df_long |>
+DT::datatable(rownames = FALSE)
+```
+
+With the data in long format, we can just specify in the plotting function that we want to color/label the lines by Fuel Type.
+
+-   Here I've filtered by Fuel Type to include just solar and batteries
+-   I'm also using *plotly* [@plotly] to create an interactive plot that allows you to zoom in/out etc..
+
+```{r}
+#| label: fig-solar-batteries
+#| fig-cap: Interactive plot of CAISO solar and battery generation. Data from GridStatus.io
+
+g <- df_long |>
+filter(`Fuel Type` %in% c("solar", "batteries")) |>
+ggplot(aes(datetime_local, MWh)) +
+geom_line(aes(color = `Fuel Type`)) +
+labs(title = "CAISO Fuel Mix",
+x = glue::glue('Local Datetime {tz(df_long$datetime_local[1])}'),
+caption = "Data from GridStatusIO") 
+
+plotly::ggplotly(g)
+
+```
+
+# Summary
+
+-   The [rgridstatus](https://github.com/andypicke/rgridstatus) package provides functions for retrieving data on the US electrical grid from the [GridStatus.io](https://www.gridstatus.io/home) [API](https://www.gridstatus.io/api) in R.
+
+-   You can install the development version of [rgridstatus](https://github.com/andypicke/rgridstatus) and try it out for yourself! The package is still in development; please provide any feedback or issues via the github site. 
+
+# SessionInfo
+
+::: {.callout-tip collapse="true"}
+## Expand for Session Info
+
+```{r, echo = FALSE}
+
+sessionInfo()
+```
+:::
+
+# References
