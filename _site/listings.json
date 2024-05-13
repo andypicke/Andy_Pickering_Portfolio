@@ -2,6 +2,10 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/rGridStatus/rGridStatus.html",
+      "/posts/emberr/emberr.html",
+      "/posts/rcoagmet/rcoagmet.html",
+      "/posts/eclipse_gridstatus/eclipse_gridstatus.html",
       "/posts/Time_of_use_electricity/xcel_hourly_electric_analysis.html",
       "/posts/USPVDB/USPVDB_Analysis.html",
       "/posts/EIA_degree_days/degreedays.html",
