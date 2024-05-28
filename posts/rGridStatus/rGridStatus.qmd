@@ -24,8 +24,8 @@ bibliography: references.bib
 
 [rgridstatus](https://github.com/andypicke/rgridstatus) is a R API wrapper for the [GridStatus.io](https://www.gridstatus.io/home) [API](https://www.gridstatus.io/api), which provides data on the US electrical grid.
 
-- [API Documentation](https://api.gridstatus.io/docs)
-- If you prefer to work in python, there is an existing [GridStatus.io python client](https://github.com/gridstatus/gridstatusio)
+-   [API Documentation](https://api.gridstatus.io/docs)
+-   If you prefer to work in python, there is an existing [GridStatus.io python client](https://github.com/gridstatus/gridstatusio)
 
 ## Installation
 
@@ -39,7 +39,7 @@ You can install the development version of [rgridstatus](https://github.com/andy
 ```
 
 ::: callout-note
-You will need to sign up for a free API key from [GridStatus.io](https://www.gridstatus.io/api) . By default, the package functions assume you have stored your API key in your .Renviron file as GRIDSTATUS_API_KEY. I find the easiest way to do is is to use the *edit_r_environ()* function from the *usethis* package [@usethis].
+You will need to sign up for a free API key from [GridStatus.io](https://www.gridstatus.io/api) . By default, the package functions assume you have stored your API key in your .Renviron file as GRIDSTATUS_API_KEY. I find the easiest way to do this is to use the *edit_r_environ()* function from the *usethis* package [@usethis].
 :::
 
 # Usage
@@ -74,6 +74,8 @@ DT::datatable(rownames = FALSE)
 ### Get list of dataset updates
 
 ```{r}
+#| label: tbl-updates
+#| tbl-cap: Table of recent dataset updates from GridStatus.io API
 
 # updates for a specific data set
 #updates <- rgridstatus::get_dataset_updates(wh_dataset = "caiso_fuel_mix", limit = 20)
@@ -90,6 +92,8 @@ updates |> DT::datatable(rownames = FALSE)
 -   By default, get_gridstatus_dataset() gets data for the previous 5 days. You can also specify a specific date range with *start_time* and *end_time*.
 
 ```{r}
+#| label: tbl-caiso-fuel-mix
+#| tbl-cap: Table of CAISO fuel-mix data from GridStatus.io API
 
 caiso_mix <- rgridstatus::get_gridstatus_dataset(wh_dataset = "caiso_fuel_mix")
 
@@ -105,6 +109,8 @@ The rgridstatus package is focused on retrieving data from the API, but I want t
 ## Plot CAISO solar generation timeseries
 
 ```{r}
+#| label: fig-caiso-solar
+#| fig-cap: Plot of CAISO solar generation. data from GridStatus.io API
 
 caiso_mix |> 
 ggplot(aes(datetime_local, solar)) +
@@ -161,7 +167,7 @@ plotly::ggplotly(g)
 
 -   The [rgridstatus](https://github.com/andypicke/rgridstatus) package provides functions for retrieving data on the US electrical grid from the [GridStatus.io](https://www.gridstatus.io/home) [API](https://www.gridstatus.io/api) in R.
 
--   You can install the development version of [rgridstatus](https://github.com/andypicke/rgridstatus) and try it out for yourself! The package is still in development; please provide any feedback or issues via the github site. 
+-   You can install the development version of [rgridstatus](https://github.com/andypicke/rgridstatus) and try it out for yourself! The package is still in development; please provide any feedback or issues via the github site.
 
 # SessionInfo
 
