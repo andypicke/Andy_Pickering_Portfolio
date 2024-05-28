@@ -17,6 +17,10 @@ about:
       href: twitter.com/andypicke
 ---
 
+Here are some resources and data sources that I have found interesting or useful:
+
+# Software
+
 ## R
 
 -   [R-bloggers](https://www.r-bloggers.com/)
@@ -31,23 +35,37 @@ about:
 
 -   [Markdown basics](https://quarto.org/docs/authoring/markdown-basics.html)
 
-## Data
+# Data
 
-### Energy
+## Weather
+
+-   [CoAgMet](https://coagmet.colostate.edu/)
+
+    -   <https://github.com/andypicke/rcoagmet>
+
+## Energy
 
 -   [Alternative Fuels Data Center](https://afdc.energy.gov/)
 
 -   [U.S. Energy Information Administration (EIA)](https://www.eia.gov/opendata/)
 
+    -   <https://github.com/ropensci/eia>
+
 -   [Our World in Data](https://ourworldindata.org/energy)
 
--   [Ember](https://ember-climate.org/data/)
+-   [Ember](https://ember-climate.org/data/) is "an independent energy think tank that aims to accelerate the clean energy transition with data and policy". Data is available to download or through an API.
 
-### Other
+    -   <https://github.com/andypicke/emberr>
+
+-   [GridStatus](https://www.gridstatus.io/home) provides data on the US electric grid from various sources. You can explore the data on their website, and they also have a API.
+
+    -   <https://github.com/andypicke/rgridstatus>
+
+# Other
 
 -   [Data Is Plural](https://www.data-is-plural.com/)
 -   [Tidy Tuesday](https://github.com/rfordatascience/tidytuesday)
 
-## Miscellaneous
+# Miscellaneous
 
 -   A guide to standard [HTTP Status Codes](https://restfulapi.net/http-status-codes/) that may be returned when requesting data from an API.
