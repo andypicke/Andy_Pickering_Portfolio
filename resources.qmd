@@ -37,11 +37,16 @@ Here are some resources and data sources that I have found interesting or useful
 
 # Data
 
-## Weather
+## Weather/Environment
 
 -   [CoAgMet](https://coagmet.colostate.edu/)
 
     -   <https://github.com/andypicke/rcoagmet>
+    -   <https://andypicke.quarto.pub/portfolio/posts/rcoagmet/rcoagmet.html>
+
+-   <https://doi-usgs.github.io/dataRetrieval/>
+
+-   <https://bluegreen-labs.github.io/snotelr/>
 
 ## Energy
 
@@ -56,10 +61,20 @@ Here are some resources and data sources that I have found interesting or useful
 -   [Ember](https://ember-climate.org/data/) is "an independent energy think tank that aims to accelerate the clean energy transition with data and policy". Data is available to download or through an API.
 
     -   <https://github.com/andypicke/emberr>
+    -   <https://andypicke.quarto.pub/portfolio/posts/emberr/emberr.html>
 
 -   [GridStatus](https://www.gridstatus.io/home) provides data on the US electric grid from various sources. You can explore the data on their website, and they also have a API.
 
     -   <https://github.com/andypicke/rgridstatus>
+    -   <https://andypicke.quarto.pub/portfolio/posts/rGridStatus/rGridStatus.html>
+
+-   <https://globalenergymonitor.org/>
+
+-   <https://eerscmap.usgs.gov/uspvdb/>
+
+    -   <https://andypicke.quarto.pub/portfolio/posts/USPVDB/USPVDB_Analysis.html>
+
+-   <https://eerscmap.usgs.gov/uswtdb/>
 
 # Other
 
