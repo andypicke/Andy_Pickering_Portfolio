@@ -9,3 +9,9 @@ title-block-banner: true
 -   [Predicting Trailhead Parking Fullness at JeffCo Open Space Trailheads](https://github.com/andypicke/JeffCo-OpenSpace-LotSpot-Analysis) : Using a model to predict parking lot usage at [Jefferson County Open Space](https://www.jeffco.us/open-space) trailheads in Colorado.
 
 -   [Journalists Under Fire](https://github.com/andypicke/Journalists-Under-Fire) : An analysis of global threats to journalists and press freedom.
+
+### Shiny Apps
+
+- [coagmet_explorer](https://andypicke.shinyapps.io/coagmet_explorer/) : A Shiny App to visualize weather data from the CoAgMet weather station network in Colorado. Uses the [rcoagmet](https://github.com/andypicke/rcoagmet) package I created to retrieve data from the CoAgMet API.
+
+- [Golden Stream Gauge](https://andypicke.shinyapps.io/GoldenStreamGauge/) : A Shiny App that visualizes streamflow and snowpack conditions along Clear Creek in Golden, CO. 
