@@ -10,8 +10,24 @@ title-block-banner: true
 
 -   [Journalists Under Fire](https://github.com/andypicke/Journalists-Under-Fire) : An analysis of global threats to journalists and press freedom.
 
+### Open Source Software Packages
+
+-   [rcoagmet](https://github.com/andypicke/rcoagmet) : R API Wrapper for CoAgMet Weather Stations
+
+    -   <https://andypicke.quarto.pub/portfolio/posts/rcoagmet/rcoagmet.html>
+
+-   [rgridstatus](https://github.com/andypicke/rgridstatus) : API Wrapper For GridStatus energy data
+
+    -   <https://andypicke.quarto.pub/portfolio/posts/rGridStatus/rGridStatus.html>
+
+-   [emberr](https://github.com/andypicke/emberr) : R API Wrapper For Ember Climate Data
+
+    -   <https://andypicke.quarto.pub/portfolio/posts/emberr/emberr.html>
+
 ### Shiny Apps
 
-- [coagmet_explorer](https://andypicke.shinyapps.io/coagmet_explorer/) : A Shiny App to visualize weather data from the CoAgMet weather station network in Colorado. Uses the [rcoagmet](https://github.com/andypicke/rcoagmet) package I created to retrieve data from the CoAgMet API.
+-   [coagmet_explorer](https://andypicke.shinyapps.io/coagmet_explorer/) : A Shiny App to visualize weather data from the CoAgMet weather station network in Colorado. Uses the [rcoagmet](https://github.com/andypicke/rcoagmet) package I created to retrieve data from the CoAgMet API.
 
-- [Golden Stream Gauge](https://andypicke.shinyapps.io/GoldenStreamGauge/) : A Shiny App that visualizes streamflow and snowpack conditions along Clear Creek in Golden, CO. 
+-   [Golden Stream Gauge](https://andypicke.shinyapps.io/GoldenStreamGauge/) : A Shiny App that visualizes streamflow and snowpack conditions along Clear Creek in Golden, CO.
+
+-   [SevereWeatherMapper](https://andypicke.shinyapps.io/SevereWeatherMapper/) : A Shiny App that displays convective outlooks from the NOAA Storm Prediction Center on an interactive Leaflet map.
