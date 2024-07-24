@@ -14,8 +14,8 @@ format:
     fig-height: 7
     tbl-cap-location: bottom
 editor: visual
-categories: [r, API, energy, package development]
-freeze: auto
+categories: [R, API, energy, package development]
+freeze: true
 draft: false
 bibliography: references.bib
 ---
