@@ -50,6 +50,10 @@ Here are some resources and data sources that I have found interesting or useful
 
 ## Energy
 
+-   [HIFLD](https://hifld-geoplatform.hub.arcgis.com/pages/hifld-open) : *HIFLD curates and provides access to geospatial data on U.S. critical infrastructure*
+
+    -   The Homeland Infrastructure Foundation-Level Data (HIFLD) Open-Data site contains spatial data (ie shapefiles) relevant to energy including including Balancing Authorities (Control Areas) and Transmission Lines.
+
 -   [Alternative Fuels Data Center](https://afdc.energy.gov/)
 
 -   [U.S. Energy Information Administration (EIA)](https://www.eia.gov/opendata/)
