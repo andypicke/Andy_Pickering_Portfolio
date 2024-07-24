@@ -102,14 +102,14 @@
     },
     "Rcpp": {
       "Package": "Rcpp",
-      "Version": "1.0.12",
+      "Version": "1.0.13",
       "Source": "Repository",
-      "Repository": "RSPM",
+      "Repository": "CRAN",
       "Requirements": [
         "methods",
         "utils"
       ],
-      "Hash": "5ea2700d21e038ace58269ecdbeb9ec0"
+      "Hash": "f27411eb6d9c3dada5edd444b8416675"
     },
     "V8": {
       "Package": "V8",
@@ -136,6 +136,23 @@
       ],
       "Hash": "4f57884290cc75ab22f4af9e9d4ca862"
     },
+    "altfuelr": {
+      "Package": "altfuelr",
+      "Version": "0.1.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "dplyr",
+        "httr",
+        "jsonlite",
+        "lubridate",
+        "magrittr",
+        "purrr",
+        "stringr"
+      ],
+      "Hash": "22bed2428e1c2e3ee4e35f3762e70c21"
+    },
     "askpass": {
       "Package": "askpass",
       "Version": "1.2.0",
@@ -145,6 +162,34 @@
         "sys"
       ],
       "Hash": "cad6cf7f1d5f6e906700b9d3e718c796"
+    },
+    "aws.s3": {
+      "Package": "aws.s3",
+      "Version": "0.3.21",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "aws.signature",
+        "base64enc",
+        "curl",
+        "digest",
+        "httr",
+        "tools",
+        "utils",
+        "xml2"
+      ],
+      "Hash": "a0b873f71741bba67e3bc128d8f09fe3"
+    },
+    "aws.signature": {
+      "Package": "aws.signature",
+      "Version": "0.6.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "base64enc",
+        "digest"
+      ],
+      "Hash": "0006bcef272aad12f78dd5a85fc7f4fc"
     },
     "backports": {
       "Package": "backports",
@@ -689,6 +734,31 @@
       ],
       "Hash": "15e9634c0fcd294799e9b2e929ed1b86"
     },
+    "geojsonsf": {
+      "Package": "geojsonsf",
+      "Version": "2.0.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "Rcpp",
+        "geometries",
+        "jsonify",
+        "rapidjsonr",
+        "sfheaders"
+      ],
+      "Hash": "8d077646c6713838233e8710910ef92e"
+    },
+    "geometries": {
+      "Package": "geometries",
+      "Version": "0.2.4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "Rcpp"
+      ],
+      "Hash": "a722b946e99fd7a006ab1239c0d1b2bc"
+    },
     "geosphere": {
       "Package": "geosphere",
       "Version": "1.5-18",
@@ -1037,6 +1107,18 @@
       ],
       "Hash": "5aab57a3bd297eee1c1d862735972182"
     },
+    "jsonify": {
+      "Package": "jsonify",
+      "Version": "1.2.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "Rcpp",
+        "rapidjsonr"
+      ],
+      "Hash": "49a9775e4f8c96c654b6018739067055"
+    },
     "jsonlite": {
       "Package": "jsonlite",
       "Version": "1.8.8",
@@ -1182,6 +1264,18 @@
       ],
       "Hash": "680ad542fbcf801442c83a6ac5a2126c"
     },
+    "magick": {
+      "Package": "magick",
+      "Version": "2.8.4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "Rcpp",
+        "curl",
+        "magrittr"
+      ],
+      "Hash": "63adf42f6fa0fca09999a328e1ae8204"
+    },
     "magrittr": {
       "Package": "magrittr",
       "Version": "2.0.3",
@@ -1191,6 +1285,36 @@
         "R"
       ],
       "Hash": "7ce2733a9826b3aeb1775d56fd305472"
+    },
+    "mapboxapi": {
+      "Package": "mapboxapi",
+      "Version": "0.6",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "aws.s3",
+        "curl",
+        "dplyr",
+        "geojsonsf",
+        "htmltools",
+        "httr",
+        "jpeg",
+        "jsonlite",
+        "leaflet",
+        "magick",
+        "png",
+        "protolite",
+        "purrr",
+        "raster",
+        "rlang",
+        "sf",
+        "slippymath",
+        "stringi",
+        "tidyr",
+        "units"
+      ],
+      "Hash": "ede692ba0c8c4d18053e168f4de7489f"
     },
     "markdown": {
       "Package": "markdown",
@@ -1418,6 +1542,17 @@
       ],
       "Hash": "434cd5388a3979e74be5c219bcd6e77d"
     },
+    "protolite": {
+      "Package": "protolite",
+      "Version": "2.3.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "Rcpp",
+        "jsonlite"
+      ],
+      "Hash": "2bb247d5ab4f9c74c4f28c653c851555"
+    },
     "proxy": {
       "Package": "proxy",
       "Version": "0.4-27",
@@ -1466,6 +1601,13 @@
         "textshaping"
       ],
       "Hash": "e3087db406e079a8a2fd87f413918ed3"
+    },
+    "rapidjsonr": {
+      "Package": "rapidjsonr",
+      "Version": "1.2.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "88b9f48c93d17cdb811b54079a6a414f"
     },
     "rappdirs": {
       "Package": "rappdirs",
@@ -1791,9 +1933,9 @@
     },
     "sf": {
       "Package": "sf",
-      "Version": "1.0-16",
+      "Version": "1.0-17",
       "Source": "Repository",
-      "Repository": "RSPM",
+      "Repository": "CRAN",
       "Requirements": [
         "DBI",
         "R",
@@ -1810,7 +1952,33 @@
         "units",
         "utils"
       ],
-      "Hash": "ad57b543f7c3fca05213ba78ff63df9b"
+      "Hash": "453a7d0263eae87a7831242a74fe9b60"
+    },
+    "sfheaders": {
+      "Package": "sfheaders",
+      "Version": "0.4.4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "Rcpp",
+        "geometries"
+      ],
+      "Hash": "d63e904c63deda45f3f9149c7dcf8703"
+    },
+    "slippymath": {
+      "Package": "slippymath",
+      "Version": "0.3.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "png",
+        "purrr",
+        "raster",
+        "stats"
+      ],
+      "Hash": "abdaf883004a4791545655d79ca3aae0"
     },
     "snakecase": {
       "Package": "snakecase",
@@ -2169,7 +2337,7 @@
     },
     "xfun": {
       "Package": "xfun",
-      "Version": "0.45",
+      "Version": "0.46",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -2177,7 +2345,7 @@
         "stats",
         "tools"
       ],
-      "Hash": "ca59c87fe305b16a9141a5874c3a7889"
+      "Hash": "00ce32f398db0415dde61abfef11300c"
     },
     "xml2": {
       "Package": "xml2",
