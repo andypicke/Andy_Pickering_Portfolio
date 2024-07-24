@@ -1,0 +1,46 @@
+---
+title: Random tips that I will Forget
+author: Andy Pickering
+date: 2024-07-11
+date-modified: today
+#image: image.png
+format: 
+  html:
+    code-link: true
+    code-fold: show
+    code-tools: true
+    toc: true
+    fig-width: 9
+    fig-height: 7
+    tbl-cap-location: bottom
+editor: visual
+categories: [r]
+freeze: true
+draft: true
+#bibliography: references.bib
+---
+
+# Introduction
+
+A list of sort of random things I am writing down becuase they might be useful to other people (and because I will forget them).
+
+# The list:
+
+## Make a list of all the links on a webpage
+
+```{r}
+
+library(rvest)
+
+get_all_links <- function(page_url) {
+  
+  # read the html from the website 
+  html <- rvest::read_html(page_url)
+  
+  # create a list of all the hyperlinks on the website
+  links <- rvest::html_attr(rvest::html_nodes(html, "a"), "href")
+}
+
+links <- get_all_links("https://andypicke.quarto.pub/portfolio/blog.html")
+
+```
