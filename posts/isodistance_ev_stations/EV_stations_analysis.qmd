@@ -1,0 +1,231 @@
+---
+title: "The Effect of Using Isodistance to Find EV Charging Stations Within Range"
+author: Andy Pickering
+date: 2024-07-19
+image: image_map.png
+format: 
+  html:
+    code-link: true
+    code-fold: true
+    code-tools: true
+    toc: true
+    fig-width: 9
+    fig-height: 7
+    tbl-cap-location: bottom
+editor: visual
+categories: [R,geospatial,mapping,EV]
+freeze: auto
+draft: false
+bibliography: references.bib
+---
+
+# Introduction
+
+An important transportation analysis problem is determining the maximum possible geographic area that can be reached from a given point with a limited vehicle range. This applies to all types of vehicles, but is especially relevant currently for electric vehicles (EVs). Drivers are interested in knowing what charging stations or locations they can reach, and this analysis can also inform where to build charging station or other infrastructure and businesses.
+
+-   **The problem statement:** *Given a starting location and a vehicle range, what are the possible locations that can be reached by driving?*
+
+The simplest solution would probably be to draw a circle with the given range and find the area within it. For example there is an [API](https://developer.nrel.gov/docs/transportation/alt-fuel-stations-v1/nearest/) that can be used to find charging stations within a certain distance of a location. However, this is probably an overestimate of the actual geographic range that cna be reached, since you can rarely drive in a straight line from a given location.
+
+A more realistic way to estimate the range is to compute a *isodistance map*, the maximum area that can be reached by driving a fixed distance from a starting point. This is similar to a [isochrone map](https://en.wikipedia.org/wiki/Isochrone_map) that shows the area that can be reached in a certain amount of *time*. Check out this [blog post](https://walker-data.com/posts/accessibility-surface/) for a cool example of using isochrones in R.
+
+In this analysis I will compare the areas from the two methods, and how the method affects the number of EV charging stations located within a certain range.
+
+# Methods
+
+-   I will do the analysis using the center of Denver, CO as a starting point and a distance of 20 miles.
+
+-   I will use the [Mapbox Isochrone API](https://docs.mapbox.com/api/navigation/isochrone/), through the *mapboxapi* R package [@mapboxapi], to compute the isodistance map.
+
+-   I will use the *altfuelr* R package [@altfuelr] to find the EV charging stations within a given radius from the [Alternative Fuels Data Center (AFDC)](https://afdc.energy.gov/)'s [nearest stations API](https://developer.nrel.gov/docs/transportation/alt-fuel-stations-v1/nearest/).
+
+# Results
+
+```{r}
+#| label: load libraries
+#| message: false
+
+library(mapboxapi) # compute isocrhone/isodistance 
+library(leaflet) # mapping
+library(sf) # working with shapefiles
+library(altfuelr) # get EV charging station info from NREL AFDC API
+library(glue)
+library(dplyr)
+
+```
+
+::: callout-note
+You will need to sign up for API keys for both the *mapboxapi* and *altfuelr* packages. I have done this already and saved the API keys to my .Renviron file.
+:::
+
+::: callout-tip
+I was getting an error when using the sf package : *Warning in CPL_crs_from_input(x) : GDAL Error 1: PROJ: proj_create_from_database: Cannot find proj.db*. I solved this [issue](https://github.com/r-spatial/sf/issues/2298) by re-installing *sf* : install.packages('sf', repos = c('https://r-spatial.r-universe.dev'))
+:::
+
+## Compute the circle
+
+First I'll define the starting point and create a simple circle around the given point (@fig-simple-circle)
+
+```{r}
+#| label: fig-simple-circle
+#| fig-cap: Map of starting point and circle with specified radius.
+#| code-summary: Compute circle
+
+# starting point
+starting_point <-  "Denver, CO"
+
+# get long/lat of starting_point
+home <- mb_geocode(starting_point)
+
+# convert to sf point object
+home_df <- data.frame(long = home[1], lat = home[2])
+dat_sf <- st_as_sf(home_df, coords = c("long", "lat"), crs = 4326) 
+
+# set radius
+radius_miles <- 20
+radius_km    <- radius_miles * 1.609344
+radius_m     <- radius_km * 1e3
+
+# create circle around starting point
+my_circle <- st_buffer(dat_sf, dist = radius_m)
+
+leaflet() |>
+  addTiles() |>
+  addPolygons(data = my_circle, fill = FALSE) |>
+  addMarkers(dat = dat_sf, label = "Starting Point")
+
+
+```
+
+## Compute isodistance map
+
+Next I'll compute the isodistance shape and plot it on the map along with the simple circle (@fig-circle-isodistance). You can see that the isodistance boundary is within the circle and varies by direction. It extends further along major roads/highways.
+
+```{r}
+#| label: compute-isodistance
+#| code-summary: Compute isodistance shape
+
+isos_dist <- mapboxapi::mb_isochrone(
+  location = starting_point,
+  profile = "driving",
+  distance = round(radius_m)
+) |> st_transform(4326)#
+
+```
+
+```{r}
+#| label: fig-circle-isodistance
+#| fig-cap: Map of starting point, circle with specified radius, and driving isodistance polygon computed for same radius.
+#| code-summary: Plot map with isodistance
+
+leaflet() |>
+  addTiles() |>
+  addPolygons(data = my_circle, fill = FALSE, color = "red", label = "Simple Circle") |>
+  addPolygons(data = isos_dist, fill = FALSE, label = "Drive Time Isochrone") |>
+  addMarkers(dat = dat_sf, label = "Starting Point")
+
+```
+
+## Find EV charging stations within specified radius
+
+Next I get a list of the EV charging stations within the 20 mile radius of the starting point and add these to the map (@fig-ev-chargers-in-out).
+
+Finally, I calculate how many of the charging stations within the 20 mile radius are actually outside of the driving distance isochrone. This can be done using the *st_within()* or *st_join()* functions from the *sf* package.
+
+We can see that some of the charging stations are actually outside of the isodistance boundary.
+
+```{r}
+#| label: get-ev-charging-stations
+#| code-summary: Find EV charging stations
+
+my_api_key <- Sys.getenv("AFDC_KEY")
+
+params <- altfuelr::nrel_params( fuel_type = "ELEC", limit = "all")
+
+stations <- altfuelr::nearest_stations(api_key = my_api_key,
+                                       longitude = home[1], 
+                                       latitude = home[2],
+                                       params = params,
+                                       radius = radius_miles
+)
+
+df <- stations$content$fuel_stations
+
+#glue('Found {stations$content$total_results} EV charging stations within {radius_miles} miles of location')
+
+```
+
+```{r}
+#| label: calc-in-out
+#| code-summary: Calculate stations outside of isodistance
+
+# convert the dataframe of ev charging stations to a sf point object
+ev_points <- df |> select(station_name,longitude,latitude) |>  st_as_sf(coords = c("longitude", "latitude"), crs = 4326)#4269
+
+# method 1 - use st_within() to find the points (stations) in each polygon
+# this returns an array of true/false
+ev_in_circle <- st_within(ev_points, my_circle,sparse = FALSE)
+ev_in_iso    <- st_within(ev_points, isos_dist,sparse = FALSE)
+
+#not_in_iso <- which(ev_in_iso == FALSE)
+#ev_points[not_in_iso,]
+
+# method 2 - use st_join
+# this returns a dataframe, where the dummy variable is na if there was no match (ie point not in polygon)
+# gives same results, but working with a data frame is a little nicer
+df2 <- st_join(ev_points, my_circle |> mutate(dummy = 1), join = st_within,)
+df3 <- st_join(ev_points, isos_dist |> mutate(dummy = 1), join = st_within)
+
+ev_points_in <- df3  |> filter(!is.na(dummy))
+ev_points_out <- df3 |> filter(is.na(dummy))
+
+#glue('{nrow(ev_points_out)} out of {stations$content$total_results} EV charging stations were within circle radius but outside of isodistance line')
+
+```
+
+```{r}
+#| label: fig-ev-chargers-in-out
+#| fig-cap: Map showing circle and isodistance, with EV charging station locations within radius. Charging station points outside of isodistance are colored red.
+#| code-summary: Plot Map with isodistance and charging stations
+
+leaflet() |>
+  addTiles() |>
+  addCircleMarkers(data = ev_points_in,
+                   fillOpacity = 0.25, 
+                   color = "black",
+                   weight = 1, 
+                   fillColor = "gray",
+                   radius = 8, 
+                   label = "EV Charger in isodistance") |>
+  addCircleMarkers(data = ev_points_out,
+                   fillOpacity = 0.25, 
+                   color = "black",
+                   weight = 1, 
+                   fillColor = "red",
+                   radius = 8, 
+                   label = "EV Charger beyond isodistance") |>
+  addPolygons(data = my_circle, fill = FALSE, color = "red", label = "Simple Circle") |>
+  addPolygons(data = isos_dist, fill = FALSE, label = "Drive Time Isochrone") |>
+  addMarkers(dat = dat_sf, label = "Starting Point")
+
+```
+
+# Summary
+
+-   The (driving) isodistance shape for a given range was computed and compared to a circle with same radius.
+-   The [AFDC API](https://developer.nrel.gov/docs/transportation/alt-fuel-stations-v1/nearest/) was used to find EV charging stations within a `r radius_miles` mile radius from the starting location.
+-   Starting from the center of Denver with a radius of `r radius_miles` miles, `r nrow(ev_points_out)` out of `r stations$content$total_results` charging stations were within the radius but outside of the isodistance boundary.
+-   Using the isodistance gives a more accurate and realistic picture of vehicle range.
+
+# SessionInfo
+
+::: {.callout-tip collapse="true"}
+## Expand for Session Info
+
+```{r, echo = FALSE}
+
+sessionInfo()
+```
+:::
+
+# References
