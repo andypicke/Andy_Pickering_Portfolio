@@ -1,5 +1,5 @@
 ---
-title: "The Effect of Using Isodistance to Find EV Charging Stations Within Range"
+title: "Using Isodistance to Find EV Charging Stations Within Range"
 author: Andy Pickering
 date: 2024-07-19
 image: image_map.png
@@ -13,7 +13,7 @@ format:
     fig-height: 7
     tbl-cap-location: bottom
 editor: visual
-categories: [R,geospatial,mapping,EV]
+categories: [R,geospatial,mapping,EV,leaflet]
 freeze: auto
 draft: false
 bibliography: references.bib
@@ -27,17 +27,19 @@ An important transportation analysis problem is determining the maximum possible
 
 The simplest solution would probably be to draw a circle with the given range and find the area within it. For example there is an [API](https://developer.nrel.gov/docs/transportation/alt-fuel-stations-v1/nearest/) that can be used to find charging stations within a certain distance of a location. However, this is probably an overestimate of the actual geographic range that cna be reached, since you can rarely drive in a straight line from a given location.
 
-A more realistic way to estimate the range is to compute a *isodistance map*, the maximum area that can be reached by driving a fixed distance from a starting point. This is similar to a [isochrone map](https://en.wikipedia.org/wiki/Isochrone_map) that shows the area that can be reached in a certain amount of *time*. Check out this [blog post](https://walker-data.com/posts/accessibility-surface/) for a cool example of using isochrones in R.
+A more realistic way to estimate the range is to compute a *isodistance map*, the maximum area that can be reached by driving a fixed distance from a starting point. This is similar to a [isochrone map](https://en.wikipedia.org/wiki/Isochrone_map) that shows the area that can be reached in a certain amount of *time*. Check out this [blog post](https://walker-data.com/posts/accessibility-surface/) by [Kyle Walker](https://www.linkedin.com/in/walkerke/)for a cool example of using isochrones in R.
 
 In this analysis I will compare the areas from the two methods, and how the method affects the number of EV charging stations located within a certain range.
 
 # Methods
 
--   I will do the analysis using the center of Denver, CO as a starting point and a distance of 20 miles.
+-   I will do the analysis using the center of Denver, CO as a starting point and a range of 20 miles.
 
--   I will use the [Mapbox Isochrone API](https://docs.mapbox.com/api/navigation/isochrone/), through the *mapboxapi* R package [@mapboxapi], to compute the isodistance map.
+-   I will use the [Mapbox Isochrone API](https://docs.mapbox.com/api/navigation/isochrone/), through the {mapboxapi} R package [@mapboxapi], to compute the isodistance map.
 
--   I will use the *altfuelr* R package [@altfuelr] to find the EV charging stations within a given radius from the [Alternative Fuels Data Center (AFDC)](https://afdc.energy.gov/)'s [nearest stations API](https://developer.nrel.gov/docs/transportation/alt-fuel-stations-v1/nearest/).
+-   I will use the {altfuelr} R package [@altfuelr] to find the EV charging stations within a given radius from the [Alternative Fuels Data Center (AFDC)](https://afdc.energy.gov/)'s [nearest stations API](https://developer.nrel.gov/docs/transportation/alt-fuel-stations-v1/nearest/).
+
+-   The maps are made with the {leaflet} package [@leaflet] and are interactive; try zooming in/out and dragging the map around!
 
 # Results
 
