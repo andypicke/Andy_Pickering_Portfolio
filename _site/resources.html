@@ -212,6 +212,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
   </div>
   <div class="about-contents"><main class="content" id="quarto-document-content">
+<p>Here are some resources and data sources that I have found interesting or useful:</p>
+<section id="software" class="level1">
+<h1>Software</h1>
 <section id="r" class="level2">
 <h2 data-anchor-id="r">R</h2>
 <ul>
@@ -229,27 +232,62 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><a href="https://quarto.org/docs/authoring/markdown-basics.html">Markdown basics</a></p></li>
 </ul>
 </section>
-<section id="data" class="level2">
-<h2 data-anchor-id="data">Data</h2>
-<section id="energy" class="level3">
-<h3 data-anchor-id="energy">Energy</h3>
+</section>
+<section id="data" class="level1">
+<h1>Data</h1>
+<section id="weatherenvironment" class="level2">
+<h2 data-anchor-id="weatherenvironment">Weather/Environment</h2>
 <ul>
-<li><p><a href="https://afdc.energy.gov/">Alternative Fuels Data Center</a></p></li>
-<li><p><a href="https://www.eia.gov/opendata/">U.S. Energy Information Administration (EIA)</a></p></li>
-<li><p><a href="https://ourworldindata.org/energy">Our World in Data</a></p></li>
-<li><p><a href="https://ember-climate.org/data/">Ember</a></p></li>
+<li><p><a href="https://coagmet.colostate.edu/">CoAgMet</a></p>
+<ul>
+<li><a href="https://github.com/andypicke/rcoagmet" class="uri">https://github.com/andypicke/rcoagmet</a></li>
+<li><a href="https://andypicke.quarto.pub/portfolio/posts/rcoagmet/rcoagmet.html" class="uri">https://andypicke.quarto.pub/portfolio/posts/rcoagmet/rcoagmet.html</a></li>
+</ul></li>
+<li><p><a href="https://doi-usgs.github.io/dataRetrieval/" class="uri">https://doi-usgs.github.io/dataRetrieval/</a></p></li>
+<li><p><a href="https://bluegreen-labs.github.io/snotelr/" class="uri">https://bluegreen-labs.github.io/snotelr/</a></p></li>
 </ul>
 </section>
-<section id="other" class="level3">
-<h3 data-anchor-id="other">Other</h3>
+<section id="energy" class="level2">
+<h2 data-anchor-id="energy">Energy</h2>
+<ul>
+<li><p><a href="https://hifld-geoplatform.hub.arcgis.com/pages/hifld-open">HIFLD</a> : <em>HIFLD curates and provides access to geospatial data on U.S. critical infrastructure</em></p>
+<ul>
+<li>The Homeland Infrastructure Foundation-Level Data (HIFLD) Open-Data site contains spatial data (ie shapefiles) relevant to energy including including Balancing Authorities (Control Areas) and Transmission Lines.</li>
+</ul></li>
+<li><p><a href="https://afdc.energy.gov/">Alternative Fuels Data Center</a></p></li>
+<li><p><a href="https://www.eia.gov/opendata/">U.S. Energy Information Administration (EIA)</a></p>
+<ul>
+<li><a href="https://github.com/ropensci/eia" class="uri">https://github.com/ropensci/eia</a></li>
+</ul></li>
+<li><p><a href="https://ourworldindata.org/energy">Our World in Data</a></p></li>
+<li><p><a href="https://ember-climate.org/data/">Ember</a> is “an independent energy think tank that aims to accelerate the clean energy transition with data and policy”. Data is available to download or through an API.</p>
+<ul>
+<li><a href="https://github.com/andypicke/emberr" class="uri">https://github.com/andypicke/emberr</a></li>
+<li><a href="https://andypicke.quarto.pub/portfolio/posts/emberr/emberr.html" class="uri">https://andypicke.quarto.pub/portfolio/posts/emberr/emberr.html</a></li>
+</ul></li>
+<li><p><a href="https://www.gridstatus.io/home">GridStatus</a> provides data on the US electric grid from various sources. You can explore the data on their website, and they also have a API.</p>
+<ul>
+<li><a href="https://github.com/andypicke/rgridstatus" class="uri">https://github.com/andypicke/rgridstatus</a></li>
+<li><a href="https://andypicke.quarto.pub/portfolio/posts/rGridStatus/rGridStatus.html" class="uri">https://andypicke.quarto.pub/portfolio/posts/rGridStatus/rGridStatus.html</a></li>
+</ul></li>
+<li><p><a href="https://globalenergymonitor.org/" class="uri">https://globalenergymonitor.org/</a></p></li>
+<li><p><a href="https://eerscmap.usgs.gov/uspvdb/" class="uri">https://eerscmap.usgs.gov/uspvdb/</a></p>
+<ul>
+<li><a href="https://andypicke.quarto.pub/portfolio/posts/USPVDB/USPVDB_Analysis.html" class="uri">https://andypicke.quarto.pub/portfolio/posts/USPVDB/USPVDB_Analysis.html</a></li>
+</ul></li>
+<li><p><a href="https://eerscmap.usgs.gov/uswtdb/" class="uri">https://eerscmap.usgs.gov/uswtdb/</a></p></li>
+</ul>
+</section>
+</section>
+<section id="other" class="level1">
+<h1>Other</h1>
 <ul>
 <li><a href="https://www.data-is-plural.com/">Data Is Plural</a></li>
 <li><a href="https://github.com/rfordatascience/tidytuesday">Tidy Tuesday</a></li>
 </ul>
 </section>
-</section>
-<section id="miscellaneous" class="level2">
-<h2 data-anchor-id="miscellaneous">Miscellaneous</h2>
+<section id="miscellaneous" class="level1">
+<h1>Miscellaneous</h1>
 <ul>
 <li>A guide to standard <a href="https://restfulapi.net/http-status-codes/">HTTP Status Codes</a> that may be returned when requesting data from an API.</li>
 </ul>
@@ -705,40 +743,77 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">      href: twitter.com/andypicke</span></span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">## R</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>Here are some resources and data sources that I have found interesting or useful:</span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">R-bloggers</span><span class="co">](https://www.r-bloggers.com/)</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu"># Software</span></span>
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">## Python</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">## R</span></span>
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="fu">## Quarto</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">R-bloggers</span><span class="co">](https://www.r-bloggers.com/)</span></span>
 <span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="ot">&lt;https://quarto.org/&gt;</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="fu">## Python</span></span>
 <span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Tutorial on Creating a Data Science Portfolio with Quarto</span><span class="co">](https://www.youtube.com/watch?v=xtSFXtDf4cM)</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="fu">## Quarto</span></span>
 <span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Markdown basics</span><span class="co">](https://quarto.org/docs/authoring/markdown-basics.html)</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="ot">&lt;https://quarto.org/&gt;</span></span>
 <span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Tutorial on Creating a Data Science Portfolio with Quarto</span><span class="co">](https://www.youtube.com/watch?v=xtSFXtDf4cM)</span></span>
 <span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="fu">### Energy</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Markdown basics</span><span class="co">](https://quarto.org/docs/authoring/markdown-basics.html)</span></span>
 <span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Alternative Fuels Data Center</span><span class="co">](https://afdc.energy.gov/)</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="fu"># Data</span></span>
 <span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">U.S. Energy Information Administration (EIA)</span><span class="co">](https://www.eia.gov/opendata/)</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="fu">## Weather/Environment</span></span>
 <span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Our World in Data</span><span class="co">](https://ourworldindata.org/energy)</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">CoAgMet</span><span class="co">](https://coagmet.colostate.edu/)</span></span>
 <span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Ember</span><span class="co">](https://ember-climate.org/data/)</span></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="fu">### Other</span></span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Data Is Plural</span><span class="co">](https://www.data-is-plural.com/)</span></span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Tidy Tuesday</span><span class="co">](https://github.com/rfordatascience/tidytuesday)</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span><span class="ot">&lt;https://github.com/andypicke/rcoagmet&gt;</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span><span class="ot">&lt;https://andypicke.quarto.pub/portfolio/posts/rcoagmet/rcoagmet.html&gt;</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="ot">&lt;https://doi-usgs.github.io/dataRetrieval/&gt;</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="ot">&lt;https://bluegreen-labs.github.io/snotelr/&gt;</span></span>
 <span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="fu">## Miscellaneous</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="fu">## Energy</span></span>
 <span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>A guide to standard <span class="co">[</span><span class="ot">HTTP Status Codes</span><span class="co">](https://restfulapi.net/http-status-codes/)</span> that may be returned when requesting data from an API.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">HIFLD</span><span class="co">](https://hifld-geoplatform.hub.arcgis.com/pages/hifld-open)</span> : *HIFLD curates and provides access to geospatial data on U.S. critical infrastructure*</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>The Homeland Infrastructure Foundation-Level Data (HIFLD) Open-Data site contains spatial data (ie shapefiles) relevant to energy including including Balancing Authorities (Control Areas) and Transmission Lines.</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Alternative Fuels Data Center</span><span class="co">](https://afdc.energy.gov/)</span></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">U.S. Energy Information Administration (EIA)</span><span class="co">](https://www.eia.gov/opendata/)</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span><span class="ot">&lt;https://github.com/ropensci/eia&gt;</span></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Our World in Data</span><span class="co">](https://ourworldindata.org/energy)</span></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Ember</span><span class="co">](https://ember-climate.org/data/)</span> is "an independent energy think tank that aims to accelerate the clean energy transition with data and policy". Data is available to download or through an API.</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span><span class="ot">&lt;https://github.com/andypicke/emberr&gt;</span></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span><span class="ot">&lt;https://andypicke.quarto.pub/portfolio/posts/emberr/emberr.html&gt;</span></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">GridStatus</span><span class="co">](https://www.gridstatus.io/home)</span> provides data on the US electric grid from various sources. You can explore the data on their website, and they also have a API.</span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span><span class="ot">&lt;https://github.com/andypicke/rgridstatus&gt;</span></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span><span class="ot">&lt;https://andypicke.quarto.pub/portfolio/posts/rGridStatus/rGridStatus.html&gt;</span></span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="ot">&lt;https://globalenergymonitor.org/&gt;</span></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="ot">&lt;https://eerscmap.usgs.gov/uspvdb/&gt;</span></span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span><span class="ot">&lt;https://andypicke.quarto.pub/portfolio/posts/USPVDB/USPVDB_Analysis.html&gt;</span></span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="ot">&lt;https://eerscmap.usgs.gov/uswtdb/&gt;</span></span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a><span class="fu"># Other</span></span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Data Is Plural</span><span class="co">](https://www.data-is-plural.com/)</span></span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Tidy Tuesday</span><span class="co">](https://github.com/rfordatascience/tidytuesday)</span></span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a><span class="fu"># Miscellaneous</span></span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>A guide to standard <span class="co">[</span><span class="ot">HTTP Status Codes</span><span class="co">](https://restfulapi.net/http-status-codes/)</span> that may be returned when requesting data from an API.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

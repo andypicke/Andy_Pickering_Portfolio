@@ -17,12 +17,16 @@
     <lastmod>2023-12-16T17:01:00.069Z</lastmod>
   </url>
   <url>
+    <loc>https://andypicke.quarto.pub/portfolio/posts/isodistance_ev_stations/EV_stations_analysis.html</loc>
+    <lastmod>2024-07-31T15:05:22.352Z</lastmod>
+  </url>
+  <url>
     <loc>https://andypicke.quarto.pub/portfolio/posts/Storm_Prediction_Center/Severe_Weather_Mapping.html</loc>
     <lastmod>2023-12-18T16:43:47.072Z</lastmod>
   </url>
   <url>
     <loc>https://andypicke.quarto.pub/portfolio/posts/emberr/emberr.html</loc>
-    <lastmod>2024-05-13T15:08:21.746Z</lastmod>
+    <lastmod>2024-07-19T21:13:27.014Z</lastmod>
   </url>
   <url>
     <loc>https://andypicke.quarto.pub/portfolio/posts/USPVDB/USPVDB_Analysis.html</loc>
@@ -33,36 +37,36 @@
     <lastmod>2023-06-14T20:42:09.422Z</lastmod>
   </url>
   <url>
-    <loc>https://andypicke.quarto.pub/portfolio/posts/eclipse_gridstatus/eclipse_gridstatus.html</loc>
-    <lastmod>2024-04-30T15:46:30.860Z</lastmod>
-  </url>
-  <url>
-    <loc>https://andypicke.quarto.pub/portfolio/posts/EV_Stations/index.html</loc>
-    <lastmod>2023-12-21T18:14:29.515Z</lastmod>
-  </url>
-  <url>
-    <loc>https://andypicke.quarto.pub/portfolio/posts/Time_of_use_electricity/xcel_hourly_electric_analysis.html</loc>
-    <lastmod>2024-03-04T22:57:08.692Z</lastmod>
-  </url>
-  <url>
-    <loc>https://andypicke.quarto.pub/portfolio/resume.html</loc>
-    <lastmod>2023-06-13T01:15:29.525Z</lastmod>
+    <loc>https://andypicke.quarto.pub/portfolio/posts/EIA_degree_days/degreedays.html</loc>
+    <lastmod>2023-12-16T16:37:44.768Z</lastmod>
   </url>
   <url>
     <loc>https://andypicke.quarto.pub/portfolio/posts/EV_station_mapping/ev_station_mapping.html</loc>
     <lastmod>2023-12-19T02:01:40.273Z</lastmod>
   </url>
   <url>
-    <loc>https://andypicke.quarto.pub/portfolio/posts/EIA_degree_days/degreedays.html</loc>
-    <lastmod>2023-12-16T16:37:44.768Z</lastmod>
+    <loc>https://andypicke.quarto.pub/portfolio/resume.html</loc>
+    <lastmod>2023-06-13T01:15:29.525Z</lastmod>
+  </url>
+  <url>
+    <loc>https://andypicke.quarto.pub/portfolio/posts/Time_of_use_electricity/xcel_hourly_electric_analysis.html</loc>
+    <lastmod>2024-03-04T22:57:08.692Z</lastmod>
+  </url>
+  <url>
+    <loc>https://andypicke.quarto.pub/portfolio/posts/EV_Stations/index.html</loc>
+    <lastmod>2023-12-21T18:14:29.515Z</lastmod>
+  </url>
+  <url>
+    <loc>https://andypicke.quarto.pub/portfolio/posts/eclipse_gridstatus/eclipse_gridstatus.html</loc>
+    <lastmod>2024-04-30T15:46:30.860Z</lastmod>
   </url>
   <url>
     <loc>https://andypicke.quarto.pub/portfolio/posts/rGridStatus/rGridStatus.html</loc>
-    <lastmod>2024-05-13T20:14:18.741Z</lastmod>
+    <lastmod>2024-07-19T21:14:38.260Z</lastmod>
   </url>
   <url>
     <loc>https://andypicke.quarto.pub/portfolio/posts/rcoagmet/rcoagmet.html</loc>
-    <lastmod>2024-05-07T20:46:43.527Z</lastmod>
+    <lastmod>2024-05-13T20:24:21.277Z</lastmod>
   </url>
   <url>
     <loc>https://andypicke.quarto.pub/portfolio/posts/EIA_Electric_Fuel_Breakdown/index.html</loc>
@@ -73,8 +77,12 @@
     <lastmod>2024-01-07T16:55:05.318Z</lastmod>
   </url>
   <url>
+    <loc>https://andypicke.quarto.pub/portfolio/posts/thunderstorm_shiny_app/convective_outlook_app.html</loc>
+    <lastmod>2024-07-30T15:58:06.281Z</lastmod>
+  </url>
+  <url>
     <loc>https://andypicke.quarto.pub/portfolio/projects.html</loc>
-    <lastmod>2023-06-17T22:04:54.059Z</lastmod>
+    <lastmod>2024-07-11T18:39:58.360Z</lastmod>
   </url>
   <url>
     <loc>https://andypicke.quarto.pub/portfolio/publications.html</loc>
@@ -82,6 +90,6 @@
   </url>
   <url>
     <loc>https://andypicke.quarto.pub/portfolio/resources.html</loc>
-    <lastmod>2023-12-22T20:02:24.301Z</lastmod>
+    <lastmod>2024-07-24T21:18:15.297Z</lastmod>
   </url>
 </urlset>

@@ -2,6 +2,8 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/thunderstorm_shiny_app/convective_outlook_app.html",
+      "/posts/isodistance_ev_stations/EV_stations_analysis.html",
       "/posts/rGridStatus/rGridStatus.html",
       "/posts/emberr/emberr.html",
       "/posts/rcoagmet/rcoagmet.html",
