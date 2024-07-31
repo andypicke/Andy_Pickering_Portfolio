@@ -1,0 +1,81 @@
+---
+title: "A Shiny App to View Severe Thunderstorm Outlooks"
+author: Andy Pickering
+date: today
+#date-modified: today
+image: swm_image.png
+format: 
+  html:
+    code-link: true
+    code-fold: true
+    code-tools: true
+    toc: true
+    fig-width: 9
+    fig-height: 7
+    tbl-cap-location: bottom
+editor: visual
+categories: [R, leaflet, mapping, Shiny]
+freeze: auto
+draft: false
+bibliography: references.bib
+---
+
+# TL;DR
+
+-   [I made a Shiny app to view severe thunderstorm outlooks](https://andypicke.shinyapps.io/SevereWeatherMapper/)
+
+-   If you need to download data in your deployed Shiny app, consider using *tempdir()* and *tempfile()*
+
+# Introduction
+
+In a [previous blog post](https://andypicke.quarto.pub/portfolio/posts/Storm_Prediction_Center/Severe_Weather_Mapping.html) I showed how to download [severe thunderstorm forecasts](https://www.spc.noaa.gov/products/outlook/) and plot them on an interactive map with R and {leaflet} @leaflet .
+
+I had also made a Shiny app to view these maps on my local computer, which I wanted to make available for others to use. However, I ran into issues deploying the app because it downloaded the shapefiles to a local folder, which did not work when deployed to [shinyapps.io](https://www.shinyapps.io/). I forgot about it for a while during the winter, and then got interested again when we got back into thunderstorm season. After a lot of googling, stack overflow, and trial and error, I finally figured out a way to make the [app](https://andypicke.shinyapps.io/SevereWeatherMapper/) work!
+
+In this post I'll give a quick overview of the app and how I solved the issue with downloading files to a deployed app. Please [try out the app](https://andypicke.shinyapps.io/SevereWeatherMapper/) for yourself, and let me know what you think. You can also view the source code on [github](https://github.com/andypicke/SevereWeatherMapper).
+
+# App Overview
+
+-   You can [try out the app](https://andypicke.shinyapps.io/SevereWeatherMapper/) in your browser.
+
+-   The app downloads the most recent convective outlooks at the time it is started, and displays them in interactive leaflet maps.
+
+-   Forecasts for the day 1 (today), day 2 (tomorrow), and day 3 are shown in separate tabs.
+
+-   The maps are interactive: You can zoom in/out or click and drag the map.
+
+    -   Hovering over a region will display the forecast level.
+    -   As you zoom in, the basemap will show more detailed information (roads, cities etc.).
+    -   Clicking the button under the +/- icon will reset the view.
+    -   In the bottom right there is an icon you can click to make it full-screen.
+    -   The date the forecast was issued and is valid for is shown for each map.
+
+-   The about tab gives information and links to the data sources and source code for the app.
+
+# Solution to Issue with downloading data
+
+The main issue I had with deploying the app was that it needed to download the shapefiles (covered in a [previous blog post](https://andypicke.quarto.pub/portfolio/posts/Storm_Prediction_Center/Severe_Weather_Mapping.html)) to a local folder, which worked fine on my local computer but did not work when I tried to deploy the app to a remote server.
+
+One possible solution would be to upload the data with the app, but the app would have to be continuously updated to have the most recent data.
+
+I also considered having a separate recurring job that would download the files and store them on a S3 or similar, which the app could access. But this seemed unncessarily complicated and would require maintaining a second app.
+
+After a lot of searching and trail and error, the solution I found was to use store the files as temporary files using the *tempdir()* and *tempfile()* functions.
+
+# Summary
+
+-   I Hope this helps sometime with similar issues solve their problem or save some time!
+-   [Try out the app](https://andypicke.shinyapps.io/SevereWeatherMapper/) and let me know what you think!
+
+# SessionInfo
+
+::: {.callout-tip collapse="true"}
+## Expand for Session Info
+
+```{r, echo = FALSE}
+
+sessionInfo()
+```
+:::
+
+# References
